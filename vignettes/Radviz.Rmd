@@ -4,7 +4,7 @@ author: "Yann Abraham"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Visualizing Multivariate Data with Radviz}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -184,10 +184,10 @@ Phenotypic data extracted from the `flowFrame` object and transformed using the 
 
 ```{r}
 # loading the data
-load('extdata/refPhenoMat.rda')
-load('extdata/refFuncMat.rda')
-load('extdata/refMat.rda')
-load('extdata/refAnnots.rda')
+data(refPhenoMat)
+data(refFuncMat)
+data(refMat)
+data(refAnnots)
 # normalize the data to min and max of each dimension
 norm <- apply(refMat,2,function(x) {
     cx <- quantile(x,c(0.025,0.975))
@@ -335,9 +335,3 @@ Radviz is an efficient visualization for multivariate datasets that allow for di
 
  * Visualization of SPADE trees in radviz space
  * Implement vectorized radviz as described in [Sharko *et al* 2008](http://www.ncbi.nlm.nih.gov/pubmed/18988995)
-
-# Back-Up
-
-```{r}
-sessionInfo()
-```
