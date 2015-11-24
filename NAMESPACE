@@ -1,0 +1,7 @@
+import(grid)
+import(gridBase)
+import(hexbin)
+import(colorspace)
+import(MASS)
+
+exportPattern("^[[:alpha:]]+")
