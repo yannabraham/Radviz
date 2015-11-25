@@ -67,7 +67,6 @@ in.da(S,sim.mat) # the starting value
 new <- do.optim(S,sim.mat,iter=10,n=100)
 new.S <- make.S(tail(new$best,1)[[1]])
 new.rv <- do.radviz(scaled,new.S)
-x11()
 plot(new.rv,main='Optimized columns',
      point.shape=1,
      point.color=c('red','green','blue')[as.integer(iris$Species)])
