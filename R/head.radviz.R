@@ -1,5 +1,6 @@
+#' @export
 head.radviz <-
-function(x,n=6,...) {
+function(x,n=6) {
 	cat('Data\n')
 	print(head(x$data,n=n))
 	cat('Springs\n')

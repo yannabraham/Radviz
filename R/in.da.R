@@ -1,3 +1,37 @@
+#' Optimization functions for Dimensional Anchors in Radviz
+#' 
+#' Visual efficiency of Radviz plots depends heavily on the correct arrangement of Dimensional Anchors.
+#' These functions implement the optimization strategies described in
+#' \href{http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13}{Di Caro et al 2012}
+#' 
+#' @usage in.da(springs, similarity)
+#' rv.da(springs, similarity)
+#' 
+#' @param springs A matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}
+#' @param similarity A similarity matrix measuring the correlation between Dimensional Anchors
+#' 
+#' @return A measure of the efficiency of the Radviz projection of the similarity matrix
+#'          onto a set of springs
+#' 
+#' @details Following the recommendation of de cario et al. we used a cosine function to calculate
+#'            the similarity between Dimensional Anchors (see \code{\link{cosine}} for details).
+#'            The in.da function implements the independent similarity measure,
+#'            where the value increases as the Radviz projection improves.
+#'            The rv.da function implements the radviz-dependent similarity measure,
+#'            where the value decreases as the Radviz projection improves. 
+#' 
+#' @examples 
+#' data(iris)
+#' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
+#' S <- make.S(das)
+#' scaled <- apply(iris[,das],2,do.L)
+#' sim.mat <- cosine(scaled)
+#' in.da(S,sim.mat) # increases with better projections
+#' rv.da(S,sim.mat) # decreases with better projections
+#' 
+#' @aliases in.da rv.da
+#' @author Yann Abraham
+#' @export
 in.da <-
 function(springs,similarity) {
 	cdist <- function(i,j,n) {

@@ -1,3 +1,4 @@
+#' @export
 rv.da <-
 function(springs,similarity) {
 	proj <- do.radviz(similarity,springs)$projected

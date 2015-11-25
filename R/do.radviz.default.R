@@ -1,5 +1,6 @@
+#' @export
 do.radviz.default <-
-function(x,springs,...) {
+function(x,springs) {
 	radviz <- list()
 	radviz$data <- x
 	radviz$springs <- springs

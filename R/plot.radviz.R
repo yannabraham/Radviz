@@ -1,5 +1,31 @@
+#' A Plotting Functions for the Radviz Object
+#' 
+#' Plots the Dimensional Anchors and projected data points in a 2D space.
+#' 
+#' @param x a radviz object as produced by \code{\link{do.radviz}}
+#' @param main [Optional] a title to the graph, displayed on top
+#' @param label.color The color of the Dimensional Anchors (defaults to orangered4)
+#' @param label.size numeric character expansion factor for Dimensional Anchor labels;
+#' multiplied by \code{par("cex")} yields the final character size. NULL and NA are equivalent to 1.0
+#' @param point.color The point color (defaults to black)
+#' @param point.shape The point shape (defaults to '.')
+#' @param point.size The point size (defaults to 1)
+#' @param add Logical: if add is \code{TRUE} then only the projected points are plotted
+#' 
+#' @details The add allows plotting of additional data such as cluster centers onto an existing plot.
+#' 
+#' @examples
+#' data(iris) 
+#' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
+#' S <- make.S(das)
+#' rv <- do.radviz(iris,S)
+#' plot(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Species)])
+#' 
+#' @author Yann Abraham
+#' @export
 plot.radviz <-
-function(x,main=NULL,label.color='orangered4',label.size=1,point.color='black',point.shape='.',point.size=1,add=F,...) {
+function(x,main=NULL,label.color='orangered4',label.size=1,point.color='black',
+         point.shape='.',point.size=1,add=F) {
 	par(mar = c(0,0,1,0))
 	if (!add) {
 		plot(x$springs, type = "n", main = main, xlab = "", 
