@@ -1,3 +1,4 @@
+#' @method do.radviz default
 #' @export
 do.radviz.default <-
 function(x,springs) {
