@@ -10,7 +10,6 @@ vignette: >
 ---
 
 ```{r,echo=FALSE}
-library(bodenmiller)
 knitr::opts_chunk$set(warning=FALSE,
                       fig.retina=1,
                       fig.keep='high',
@@ -176,13 +175,18 @@ plot(-new$perfs,type='l',
 
 ## Getting the data
 
-Data from the [Bodenmiller *et al* 2012](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) is processed as described in the [bodenmiller](https://github.com/yannabraham/bodenmiller) package.
+We will use data from the [Bodenmiller *et al* 2012](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) publication. The [bodenmiller](https://github.com/yannabraham/bodenmiller) package contains a subset of the data that can be used for testing purpose. The package can be installed by running the following command:
+
+```
+devtools::install_github('yannabraham/bodenmiller')
+```
 
 ## Radviz projection of Phenotypic channels
 
 Phenotypic data extracted from the `flowFrame` object and transformed using the arcsinh function is projected using radviz:
 
 ```{r}
+library(bodenmiller)
 # loading the data
 data(refPhenoMat)
 data(refFuncMat)
@@ -300,7 +304,7 @@ par(mfrow=c(1,2))
 bubbleRadviz(pop.rv,
              bubble.color=pop.cols[dimnames(pop.norm)[[1]]],
              bubble.size=log(pop.size[dimnames(pop.norm)[[1]]]),
-             scale=0.3
+             scale=0.2
 )
 plot.new()
 legend("center",
@@ -323,7 +327,7 @@ bubbleRadviz(pop.rv,
              bubble.color=S6.cols[dimnames(pop.norm)[[1]]],
              bubble.fg='grey',
              bubble.size=log(pop.size[dimnames(pop.norm)[[1]]]),
-             scale=0.3
+             scale=0.2
 )
 ```
 

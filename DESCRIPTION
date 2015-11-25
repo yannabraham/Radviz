@@ -2,12 +2,10 @@ Package: Radviz
 Type: Package
 Title: Project multidimensional data in 2D space
 Version: 0.5.2
-Date: 2015-11-10
 Authors@R: person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre'))
 Depends: R (>= 2.15), grid, gridBase, hexbin, colorspace, MASS
 Imports: KernSmooth
-Suggests: knitr, rmarkdown,
-    bodenmiller
+Suggests: devtools, knitr, rmarkdown
 Description: Provides functions to project and visualize multidimensional data in a 2D space
      see Ankerst et al., 1996 for original implementation
      see di caro et al. 2010 for original idea for dimensional anchor arrangements 
