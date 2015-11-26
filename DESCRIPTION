@@ -11,3 +11,5 @@ Description: Provides functions to project and visualize multidimensional data i
      see di caro et al. 2010 for original idea for dimensional anchor arrangements 
 License: CC BY-NC-SA 4.0
 VignetteBuilder: knitr
+URL: http://github.com/yannabraham/Radviz
+BugReports: http://github.com/yannabraham/Radviz/issues
