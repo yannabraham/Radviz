@@ -16,6 +16,7 @@
 #' @param add Logical: if add is \code{TRUE} then only the contour lines are plotted
 #' @param drawlabels Logical. Contours are labelled if \code{TRUE}
 #' @param drawpoints Logical: if \code{TRUE} then the projected points are plotted
+#' @param ...	further arguments to be passed to or from other methods
 #' 
 #' @details
 #'  The density lines will be calculated before plotting, if the Radviz object does not have
@@ -39,11 +40,10 @@
 #' @author Yann Abraham
 #' @keywords multivariate hplot
 #' @export
-contour.radviz <-
-function(x,main=NULL,label.color='orangered4',label.size=1,
-		contour.color=par("fg"),contour.size=par('lwd'),
-		point.color='lightgrey',point.shape='.',point.size=1,
-		add=F,drawlabels=FALSE,drawpoints=FALSE) {
+contour.radviz <- function(x,...,main=NULL,label.color='orangered4',label.size=1,
+                           contour.color=par("fg"),contour.size=par('lwd'),
+                           point.color='lightgrey',point.shape='.',point.size=1,
+                           add=F,drawlabels=FALSE,drawpoints=FALSE) {
 	par(mar = c(0,0,1,0))
 	if (!add) {
 		plot(x$springs, type = "n", main = main, xlab = "", 

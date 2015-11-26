@@ -4,13 +4,15 @@
 \alias{contour.radviz}
 \title{Creates a contour plot, or add a contour plot to an existing plot for a Radviz Object}
 \usage{
-\method{contour}{radviz}(x, main = NULL, label.color = "orangered4",
+\method{contour}{radviz}(x, ..., main = NULL, label.color = "orangered4",
   label.size = 1, contour.color = par("fg"), contour.size = par("lwd"),
   point.color = "lightgrey", point.shape = ".", point.size = 1, add = F,
   drawlabels = FALSE, drawpoints = FALSE)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
+
+\item{...}{further arguments to be passed to or from other methods}
 
 \item{main}{[Optional] a title to the graph, displayed on top}
 

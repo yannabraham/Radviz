@@ -33,8 +33,7 @@
 #' @seealso \code{\link[hexbin]{grid.hexagons}} and \code{\link[hexbin]{hexbin}}
 #'            for original implementation
 #' @export
-hexplot <-
-function(x,main=NULL,label.color='orangered4',label.size=1,mincnt=0,color=NULL,style='constant.col') {
+hexplot <- function(x,main=NULL,label.color='orangered4',label.size=1,mincnt=0,color=NULL,style='constant.col') {
 	if(!'hex' %in% names(x)) {
 		stop('Hexbin have not been run on radviz projection')
 	}

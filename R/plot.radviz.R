@@ -11,6 +11,7 @@
 #' @param point.shape The point shape (defaults to '.')
 #' @param point.size The point size (defaults to 1)
 #' @param add Logical: if add is \code{TRUE} then only the projected points are plotted
+#' @param ...	further arguments to be passed to or from other methods
 #' 
 #' @details The add allows plotting of additional data such as cluster centers onto an existing plot.
 #' 
@@ -23,17 +24,18 @@
 #' 
 #' @author Yann Abraham
 #' @export
-plot.radviz <-
-function(x,main=NULL,label.color='orangered4',label.size=1,point.color='black',
-         point.shape='.',point.size=1,add=F) {
-	par(mar = c(0,0,1,0))
-	if (!add) {
-		plot(x$springs, type = "n", main = main, xlab = "", 
-				ylab = "", xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), 
-				frame.plot = F, axes = F)
-		text(x$springs, labels = dimnames(x$springs)[[1]], 
-				col = label.color,cex=label.size)
-	}
-	points(x$projected, pch = point.shape, col = point.color, 
-			cex = point.size)
+plot.radviz <- function(x,...,main=NULL,
+                        label.color='orangered4',label.size=1,
+                        point.color='black',point.shape='.',point.size=1,
+                        add=F) {
+  par(mar = c(0,0,1,0))
+  if (!add) {
+    plot(x$springs, type = "n", main = main, xlab = "", 
+         ylab = "", xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), 
+         frame.plot = F, axes = F)
+    text(x$springs, labels = dimnames(x$springs)[[1]], 
+         col = label.color,cex=label.size)
+  }
+  points(x$projected, pch = point.shape, col = point.color, 
+         cex = point.size)
 }

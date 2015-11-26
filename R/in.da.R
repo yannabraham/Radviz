@@ -32,8 +32,7 @@
 #' @aliases in.da rv.da
 #' @author Yann Abraham
 #' @export
-in.da <-
-function(springs,similarity) {
+in.da <- function(springs,similarity) {
 	cdist <- function(i,j,n) {
 		ci <- min(i,j)
 		cj <- max(i,j)
@@ -47,4 +46,15 @@ function(springs,similarity) {
 		}
 	}
 	return(-sum(neighbor*similarity))
+}
+
+#' @export
+rv.da <- function(springs,similarity) {
+  proj <- do.radviz(similarity,springs)$projected
+  proj <- proj[rownames(springs),]
+  d <- rep(0,nrow(springs))
+  for(i in seq(1,nrow(springs))) {
+    d[i] <- sqrt(sum((proj[i,]-springs[i,])^2)) 
+  }
+  return(sum(d))
 }

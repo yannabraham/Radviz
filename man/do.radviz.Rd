@@ -8,8 +8,7 @@
 do.radviz(x, springs)
 }
 \arguments{
-\item{x}{a placeholder for defining the S3 method; currently, expects a data.frame
-or matrix to be projected, with column names matching row names in springs}
+\item{x}{a data.frame or matrix to be projected, with column names matching row names in springs}
 
 \item{springs}{A matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}}
 }

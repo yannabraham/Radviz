@@ -5,7 +5,8 @@
 \title{Computes 2D hexagonal bins from a Radviz projection}
 \usage{
 do.hex(x, n = 30, channels = NULL, colramp = function(n)
-  colorspace::diverge_hcl(n), ncols = 8, use.quantile = F, fixed = NULL)
+  colorRampPalette(c("yellow", "grey", "blue"))(n), ncols = 8,
+  use.quantile = F, fixed = NULL)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}

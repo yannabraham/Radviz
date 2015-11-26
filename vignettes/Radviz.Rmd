@@ -39,7 +39,7 @@ In Radviz, each dimension in the dataset is represented by a dimensional anchor,
 
 The package can be installed using the following command:
 
-```{r,eval=FALSE}
+```
 devtools::install_github('yannabraham/Radviz')
 ```
 
@@ -239,6 +239,7 @@ contour(ct.rv)
 Further insight can be gained from the use of hexagonal binning:
 
 ```{r}
+library(colorspace)
 ct.rv <- do.hex(ct.rv,n=60,
 		colramp=function(x) diverge_hcl(x),
 		channels=dimnames(refFuncMat)[[2]],

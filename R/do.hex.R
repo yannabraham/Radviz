@@ -39,8 +39,9 @@
 #' @author Dan Carr
 #' @seealso \link{hexplot} for plotting, \link[hexbin]{hexbin} for original implementation
 #' @export
-do.hex <-
-function(x, n=30,channels=NULL,colramp=function(n) colorspace::diverge_hcl(n),ncols=8,use.quantile=F,fixed=NULL) {
+do.hex <- function(x,n=30,channels=NULL,
+                   colramp=function(n) colorRampPalette(c('yellow','grey','blue'))(n),
+                   ncols=8,use.quantile=F,fixed=NULL) {
 	cols <- colramp(ncols)
 	do.colCut <- function(ch) {
 		hexCh <- hexbin::hexTapply(

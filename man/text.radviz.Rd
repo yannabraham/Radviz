@@ -4,12 +4,14 @@
 \alias{text.radviz}
 \title{Text annotations for for the Radviz Plots}
 \usage{
-\method{text}{radviz}(x, main = NULL, label.color = "orangered4",
+\method{text}{radviz}(x, ..., main = NULL, label.color = "orangered4",
   label.size = 1, labels = NULL, adj = NULL, pos = NULL, offset = 0.5,
   vfont = NULL, cex = 1, col = NULL, font = NULL, add = TRUE)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
+
+\item{...}{further arguments to be passed to or from other methods}
 
 \item{main}{[Optional] a title to the graph, displayed on top if add is \code{TRUE}}
 

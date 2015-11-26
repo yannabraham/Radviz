@@ -4,11 +4,14 @@
 \alias{plot.radviz}
 \title{A Plotting Functions for the Radviz Object}
 \usage{
-plot.radviz(x, main = NULL, label.color = "orangered4", label.size = 1,
-  point.color = "black", point.shape = ".", point.size = 1, add = F)
+\method{plot}{radviz}(x, ..., main = NULL, label.color = "orangered4",
+  label.size = 1, point.color = "black", point.shape = ".",
+  point.size = 1, add = F)
 }
 \arguments{
 \item{x}{a radviz object as produced by \code{\link{do.radviz}}}
+
+\item{...}{further arguments to be passed to or from other methods}
 
 \item{main}{[Optional] a title to the graph, displayed on top}
 
