@@ -7,3 +7,7 @@ Radviz can be installed using the following command
 ```
 devtools::install_github('yannabraham/Radviz')
 ```
+
+## Travis Build Status
+
+[![Travis-CI Build Status](https://travis-ci.org/yannabraham/Radviz.svg?branch=master)](https://travis-ci.org/yannabraham/Radviz)
