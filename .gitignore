@@ -2,3 +2,5 @@ inst/doc
 .Rhistory
 .RData
 .Rproj.user
+vignettes/*.html
+vignettes/*R
