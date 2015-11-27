@@ -45,7 +45,7 @@ devtools::install_github('yannabraham/Radviz')
 
 Once installed the package can be loaded using the standard `library` command.
 
-```{r,warning=FALSE}
+```{r}
 library(Radviz)
 ```
 
@@ -53,7 +53,7 @@ library(Radviz)
 
 The various functions described in this vignette all have dedicated help pages with code examples, such as
 
-```{r,eval=FALSE}
+```
 ?do.radviz
 ```
 
@@ -61,14 +61,22 @@ The various functions described in this vignette all have dedicated help pages w
 example("do.radviz")
 ```
 
-# Step by step example: the `cars` data set
+# Visualizing High Dimensional Data: the `bodenmiller` dataset
 
-Radviz examples use the Iris dataset, which contains only 4 dimensions. For this vignette we will use the `mtcars` dataset, which contains 11 dimensions
+We will use data from the [Bodenmiller *et al* 2012](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) publication. The [bodenmiller](https://github.com/yannabraham/bodenmiller) package contains a subset of the data that can be used for testing purpose. The package can be installed by running the following command:
+
+```
+devtools::install_github('yannabraham/bodenmiller')
+```
+
+Data has already been cleaned and transformed, and can be used as is.
 
 ```{r}
-data(mtcars)
-head(mtcars)
-dim(mtcars)
+library(bodenmiller)
+data(refPhenoMat)
+data(refFuncMat)
+data(refMat)
+data(refAnnots)
 ```
 
 ## Normalizing the data
@@ -76,55 +84,19 @@ dim(mtcars)
 Radviz requires that all dimensions have the same range. The simplest way to achieve that is to normalize every numerical column to its range, so that all values fall in the `[0,1]` interval. The `do.L` function performs this operation for us:
 
 ```{r}
-norm.cars <- apply(mtcars,2,do.L)
-head(norm.cars)
-summary(norm.cars)
+norm <- apply(refMat,2,do.L,fun=function(x) quantile(x,c(0.025,0.975)))
 ```
 
 ## Defining the anchors
 
-Let's define a Spring object that contains the position of each dimension on the unit circle. The dimensions will be matched by column name to the data, so it is important to make sure that column names are syntactically valid.
-
-```{r}
-colnames(norm.cars) <- make.names(colnames(norm.cars))
-```
+Let's define a Spring object that contains the position of each dimension on the unit circle. The dimensions will be matched by column name to the data, so it is important to make sure that column names are syntactically valid, using the `make.names` function.
 
 The `make.S` function will take a vector of column names and return a matrix of `[x,y]` positions. The order of the column names will dictate the position on the circle, starting at 12:00 and going clockwise. It is not required to use all avaiable columns: it might be worth splitting the dimensions
 depending on what they represent (continuous versus categorical variables, phenotypic versus functional markers, etc.).
 
 ```{r}
-S <- make.S(colnames(norm.cars))
+ct.S <- make.S(dimnames(refPhenoMat)[[2]])
 ```
-
-## Projection
-
-The `do.radviz` function will then use the normalized values and the **S**prings to project each *thing* in a 2D space:
-
-```{r}
-rv <- do.radviz(norm.cars,S)
-```
-
-## Visualizing the results
-
-There is a S3 `plot` function defined for radviz; using the default will give the following result
-
-```{r}
-plot(rv)
-```
-
-One can modify the shape of the points using the `point.shape` argument:
-
-```{r}
-plot(rv,point.shape=1)
-```
-
-Or color each dot using the `point.color` argument
-
-```{r}
-plot(rv,point.shape=1,point.color=mtcars$gear-2)
-```
-
-Even such a simple visualization allows us to identify 3 cars that have 3 gears but cluster together with cars that have 4 gears. Their position in the radviz projection suggests a larger influence of **qsec** over **disp**.
 
 ## Optimizing the position of anchors
 
@@ -137,11 +109,11 @@ The radviz-dependent and independent methods have been implemented in the `Radvi
 
 ```{r}
 ## compute the similarity matrix
-sim.mat <- cosine(norm.cars)
+ct.sim <- cosine(norm)
 ## the current radviz-independent measure of projection efficiency
-in.da(S,sim.mat)
+in.da(ct.S,ct.sim)
 ## the current radviz-independent measure of projection efficiency
-rv.da(S,sim.mat)
+rv.da(ct.S,ct.sim)
 ```
 
 The radviz-independent score should be maximal when the dimensional anchor positions are optimal. The radviz-dependent score should be minimal when the dimensional anchor positions are optimal.
@@ -149,69 +121,48 @@ The radviz-independent score should be maximal when the dimensional anchor posit
 The optimization procedure works as follows:
 
 ```{r}
-new <- do.optim(S,sim.mat,iter=10,n=100)
-new.S <- make.S(tail(new$best,1)[[1]])
-new.rv <- do.radviz(norm.cars,new.S)
-```
-
-The optimized radviz can then be visualized
-
-```{r}
-plot(new.rv,point.shape=1,point.color=mtcars$gear-2)
-```
-
-It becomes clear that there is at least 4, if not 5 distinct groups of cars in the dataset.
-
-The optimization procedure can also be visualized using the data contained in `new`:
-
-```{r}
-plot(-new$perfs,type='l',
-		xlab='# of Iterations',
-		ylab='Performance'
-)
-```
-
-# Application: CyTOF data
-
-## Getting the data
-
-We will use data from the [Bodenmiller *et al* 2012](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) publication. The [bodenmiller](https://github.com/yannabraham/bodenmiller) package contains a subset of the data that can be used for testing purpose. The package can be installed by running the following command:
-
-```
-devtools::install_github('yannabraham/bodenmiller')
-```
-
-## Radviz projection of Phenotypic channels
-
-Phenotypic data extracted from the `flowFrame` object and transformed using the arcsinh function is projected using radviz:
-
-```{r}
-library(bodenmiller)
-# loading the data
-data(refPhenoMat)
-data(refFuncMat)
-data(refMat)
-data(refAnnots)
-# normalize the data to min and max of each dimension
-norm <- apply(refMat,2,function(x) {
-    cx <- quantile(x,c(0.025,0.975))
-    x[x<cx[1]] <- cx[1]
-    x[x>cx[2]] <- cx[2]
-    x <- (x-cx[1])/diff(cx)
-    return(x)
-  }
-)
-# perform radviz on phenotypic markers
-ct.S <- make.S(dimnames(refPhenoMat)[[2]])
-ct.sim <- cosine(norm)
-# optimize the dimensional anchors
 optim.ct <- do.optim(ct.S,ct.sim,iter=100,n=1000)
 ct.S <- make.S(tail(optim.ct$best,1)[[1]])
+```
+
+The original anchor position corresponds to the order of the columns in the matrix:
+
+```{r,echo=FALSE,results='asis'}
+ksink <- lapply(dimnames(refPhenoMat)[[2]],function(x) cat(' *',x,'\n'))
+```
+
+The optimized anchors are:
+
+```{r,echo=FALSE,results='asis'}
+ksink <- lapply(row.names(ct.S),function(x) cat(' *',x,'\n'))
+```
+
+## Projection
+
+The `do.radviz` function will then use the normalized values and the **S**prings to project each *thing* in a 2D space:
+
+```{r}
 ct.rv <- do.radviz(norm,ct.S)
 ```
 
+## Visualizing the results
+
+There is a S3 `plot` function defined for radviz; using the default will give the following result
+
 ```{r}
 plot(ct.rv)
+```
+
+One can modify the shape of the points using the `point.shape` argument:
+
+```{r}
+plot(ct.rv,point.shape=1)
+```
+
+Or color each dot using the `point.color` argument, to highlight the different cell types.
+
+```{r}
+plot(ct.rv,point.shape=1,point.color=refAnnots$Cells)
 ```
 
 This simple plot is already enough to show some of the underlying structure of the dataset.
@@ -234,14 +185,30 @@ Resulting in the following plot:
 contour(ct.rv)
 ```
 
+Plots can be overlayed using the `add` parameters:
+
+```{r}
+smoothRadviz(ct.rv)
+contour(ct.rv,add=T)
+```
+
+This method can be used to highlight specific cell populations, in combination with `subset.radviz`:
+
+```{r}
+cur.pop <- 'igm+'
+sub.rv <- subset(ct.rv,refAnnots$Cells==cur.pop)
+smoothRadviz(ct.rv)
+contour(sub.rv,add=T)
+```
+
+The contour corresponds to `r cur.pop` cells, in the context of the full sample visualized as a smooth scatter.
+
 ## Visualizing Signal Intensity for Functional Channels
 
 Further insight can be gained from the use of hexagonal binning:
 
 ```{r}
-library(colorspace)
 ct.rv <- do.hex(ct.rv,n=60,
-		colramp=function(x) diverge_hcl(x),
 		channels=dimnames(refFuncMat)[[2]],
 		ncols=7,
 		use.quantile=T
@@ -283,15 +250,9 @@ ksink <- lapply(levels(refAnnots$Cells),function(x) cat(' *',x,'\n'))
 To visualize the different populations, we compute a median phenotypic signal intensity by cell population, and project it in radviz:
 
 ```{r}
-pop.norm <- apply(refMat,2,function(x) {
-    cx <- quantile(x,c(0.025,0.975))
-    x[x<cx[1]] <- cx[1]
-    x[x>cx[2]] <- cx[2]
-    x <- (x-cx[1])/diff(cx)
-    x <- tapply(x,refAnnots$Cells,median)
-    return(x)
-  }
-)
+library(colorspace)
+pop.norm <- apply(refMat,2,do.L,fun=function(x) quantile(x,c(0.025,0.975)) )
+pop.norm <- apply(pop.norm,2,function(x) tapply(x,refAnnots$Cells,median) )
 pop.rv <- do.radviz(pop.norm,ct.S)
 pop.size <- table(refAnnots$Cells)
 pop.cols <- setNames(rainbow_hcl(length(levels(refAnnots$Cells))),
@@ -305,7 +266,8 @@ par(mfrow=c(1,2))
 bubbleRadviz(pop.rv,
              bubble.color=pop.cols[dimnames(pop.norm)[[1]]],
              bubble.size=log(pop.size[dimnames(pop.norm)[[1]]]),
-             scale=0.2
+             scale=0.2,
+             decreasing=TRUE
 )
 plot.new()
 legend("center",
@@ -328,11 +290,12 @@ bubbleRadviz(pop.rv,
              bubble.color=S6.cols[dimnames(pop.norm)[[1]]],
              bubble.fg='grey',
              bubble.size=log(pop.size[dimnames(pop.norm)[[1]]]),
-             scale=0.2
+             scale=0.2,
+             decreasing=TRUE
 )
 ```
 
-The population with the highest pS6 signal intensity corresponds to *dendritic cells*.
+The population with the highest pS6 signal intensity corresponds to **`r names(which.max(pop.norm[,'pS6']))` cells**.
 
 # Future directions
 
