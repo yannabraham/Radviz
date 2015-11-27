@@ -17,6 +17,14 @@
 #' scaled <- apply(mat,2,do.L)
 #' summary(scaled) # all values are between [0,1]
 #' 
+#' scaled2 <- apply(mat,2,do.L,fun=function(x) quantile(x,c(0.025,0.975)))
+#' summary(scaled2) # all values are between [0,1]
+#' 
+#' plot(scaled,scaled2,
+#'      col=rep(seq(1,ncol(scaled)),each=nrow(scaled)),
+#'      pch=16)
+#' legend('topleft',legend=dimnames(scaled)[[2]],col=seq(1,ncol(scaled)),pch=16,bty='n')
+#' 
 #' @author Yann Abraham
 #' @export
 do.L <- function(v,fun=range,na.rm=T) {
