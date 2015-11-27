@@ -4,15 +4,15 @@
 \alias{subset.radviz}
 \title{Title}
 \usage{
-\method{subset}{radviz}(x, ..., i)
+\method{subset}{radviz}(x, i, ...)
 }
 \arguments{
 \item{x}{a radviz object}
 
-\item{...}{further arguments to be passed to or from other methods}
-
 \item{i}{A logical or indices vector of the same length as the original data used to
 create the Radviz object, that is used to subset each slots}
+
+\item{...}{further arguments to be passed to or from other methods}
 }
 \value{
 a new Radviz object containing only rows specified in i.

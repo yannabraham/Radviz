@@ -22,7 +22,7 @@
 #' 
 #' @author Yann Abraham
 #' @export
-subset.radviz <- function(x,...,i) {
+subset.radviz <- function(x,i,...) {
 		  y <- x['springs']
 		  y$projected <- x$projected[i,]
 		  y$data <- x$data[i,]
