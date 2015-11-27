@@ -4,10 +4,13 @@
 \alias{do.L}
 \title{Perform L-Normalization on a Vector}
 \usage{
-do.L(v, na.rm = T)
+do.L(v, fun = range, na.rm = T)
 }
 \arguments{
 \item{v}{a vector of values}
+
+\item{fun}{a function that will return the minimum and maximum values to use to scale v;
+defaults to \code{\link[base]{range}}}
 
 \item{na.rm}{Logical: should NA be removed? defaults to \code{TRUE}}
 }
