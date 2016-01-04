@@ -75,8 +75,8 @@ Data has already been cleaned and transformed, and can be used as is.
 library(bodenmiller)
 data(refPhenoMat)
 data(refFuncMat)
-data(refMat)
 data(refAnnots)
+refMat <- cbind(refPhenoMat,refFuncMat)
 ```
 
 ## Normalizing the data
