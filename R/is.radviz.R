@@ -1,6 +1,6 @@
-#' Radviz Object Summary, head, Print, Subset Methods
+#' Test if the object is a Radviz object
 #' 
-#' Provides helper function to deal with Radviz objects
+#' The function will return \code{TRUE} if the object is a Radviz object
 #' 
 #' @usage is.radviz(x)
 #' 
