@@ -16,12 +16,13 @@
 #'          channels will be cut into \code{length(fixed)+1} steps using the values in
 #'          \code{fixed} as breaking points
 #' 
-#' @details The projected points will be binned into an hexagonal grid of size \code{n};
+#' @details The projected points will be binned into an hexagonal grid of size \code{n}.
 #'            if channels is not \code{NULL}, for every channels the median intensity
 #'            will be estimated over the complete grid and a color will be assigned
 #'            from \code{colramp} using \code{ncols}, \code{fixed} and \code{use.quantile};
 #'            by default, channels will be split using a fixed sequence from 0 to 1 over
-#'            \code{ncols+1} levels unless \code{use.quantile} or \code{fixed} are set
+#'            \code{ncols+1} levels unless \code{use.quantile} or \code{fixed} are set. 
+#'            Invalid points (if any) will not be used in computing the bins or the colors.
 #' 
 #' @return the Radviz object with an extra slot \code{hex} containing the hexbin object;
 #'          if \code{channels} is not \code{NULL} an extra \code{hexcols} will be present
@@ -46,7 +47,7 @@ do.hex <- function(x,n=30,channels=NULL,
 	do.colCut <- function(ch) {
 		hexCh <- hexbin::hexTapply(
 				x$hex,
-				x$data[,ch],
+				x$data[x$valid,ch],
 				median
 		)
 		if(is.null(fixed)) {
@@ -66,7 +67,7 @@ do.hex <- function(x,n=30,channels=NULL,
 				include.lowest=T
 		)
 	}
-	x$hex <- hexbin::hexbin(x$projected,xbins=n,IDs=TRUE)
+	x$hex <- hexbin::hexbin(x$projected[x$valid,],xbins=n,IDs=TRUE)
 	if(!is.null(fixed)) {
 		ncols <- length(fixed+1)
 	}

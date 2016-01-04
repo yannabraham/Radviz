@@ -26,6 +26,7 @@ subset.radviz <- function(x,i,...) {
 		  y <- x['springs']
 		  y$projected <- x$projected[i,]
 		  y$data <- x$data[i,]
+		  y$valid <- x$valid[i]
 		  class(y) <- 'radviz'
 	    return(y)
 }

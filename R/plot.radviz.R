@@ -36,6 +36,6 @@ plot.radviz <- function(x,...,main=NULL,
     text(x$springs, labels = dimnames(x$springs)[[1]], 
          col = label.color,cex=label.size)
   }
-  points(x$projected, pch = point.shape, col = point.color, 
+  points(x$projected[x$valid,], pch = point.shape, col = point.color, 
          cex = point.size)
 }

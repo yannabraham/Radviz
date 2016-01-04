@@ -18,6 +18,9 @@
 #' @export
 summary.radviz <- function(object,n=6,...) {
   cat('A Radviz object with',nrow(object$data),'objects and',ncol(object$data),'dimensions\n')
+  if(any(!object$valid)) {
+    cat(sum(!object$valid),'point(s) could not be projected\n')
+  }
   das <- rownames(object$springs)
   if(length(das)>n) {
     das <- das[seq(1,n)]

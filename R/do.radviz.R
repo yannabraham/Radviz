@@ -16,14 +16,29 @@
 #'            \item \code{springs} the original \code{springs}
 #'            \item \code{projected} the projection of \code{x} on \code{springs},
 #'                    a matrix of 2D coordinates for every line in df
+#'            \item \code{valid} a logical vector 
 #'          }
 #' 
 #' @examples
+#' # the first example generates a simple Radviz object
 #' data(iris)
 #' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 #' S <- make.S(das)
 #' rv <- do.radviz(iris,S)
 #' summary(rv)
+#' 
+#' # in case a point cannot be projected, a warning will be raise
+#' iris0 <- rbind(iris,c(rep(0,length(das)),NA))
+#' rv0 <- do.radviz(iris0,S)
+#' 
+#' # to find out how many points could not be projected:
+#' with(rv0,sum(!valid))
+#' 
+#' # to find which points where invalid in the data
+#' with(rv0,which(!valid))
+#' 
+#' # to review the original data points
+#' with(rv0,subset(data,!valid))
 #' 
 #' @aliases do.radviz do.radviz.default
 #' @author Yann Abraham
@@ -37,8 +52,13 @@ do.radviz <- function(x,springs) {
   rx <- colSums(t(weights)*springs[,1])
   ry <- colSums(t(weights)*springs[,2])
   proj <- data.frame(x=rx,y=ry)
+  vald <- apply(proj,1,function(x) any(is.na(x)))
+  if(any(vald)) {
+    warning('at least 1 point could not be projected; check the `valid` slot for details')
+  }
   row.names(proj) <- row.names(mat)
   radviz$projected <- proj
+  radviz$valid <- unname(!vald)
   class(radviz) <- 'radviz'
   return(radviz)
 }

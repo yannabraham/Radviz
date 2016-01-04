@@ -68,6 +68,6 @@ text.radviz <- function (x,..., main=NULL, label.color='orangered4', label.size=
 		text(x$springs, labels = dimnames(x$springs)[[1]],
 		     col = label.color,cex=label.size)
 	}
-	text(x$projected$x, x$projected$y, labels, adj, 
-					pos, offset, vfont, cex, col, font)
+	text(x$projected$x[x$valid], x$projected$y[x$valid], labels[x$valid],
+	     adj, pos, offset, vfont, cex, col, font)
 }

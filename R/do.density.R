@@ -8,7 +8,8 @@
 #' integer vector (see \link[MASS]{kde2d} for details)
 #' 
 #' @details Computes a 2D density estimate of Radviz projected data and stores the results
-#' in a \code{density} slot of the Radviz object
+#'            in a \code{density} slot of the Radviz object. Invalid points, if any, will be
+#'            excluded.
 #' 
 #' @return the Radviz object with and extra slot \code{density} containing the 2D density
 #' estimates for use with \code{\link{contour.radviz}}
@@ -25,7 +26,10 @@
 #' @author Yann Abraham
 #' @export
 do.density <- function(x,n=50) {
-	x$density <- MASS::kde2d(x$projected[,'x'],x$projected[,'y'],
+  if(any(!x$valid)) {
+    warning(sum(!x$valid)," point(s) could not be projected, which will not be used to compute density")
+  }
+	x$density <- MASS::kde2d(x$projected[x$valid,'x'],x$projected[x$valid,'y'],
 			n=n,
 			lims=c(c(-1.1,1.1),c(-1.1,1.1)))
 	return(x)

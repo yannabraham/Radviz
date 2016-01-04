@@ -22,7 +22,8 @@ using the \code{\link[MASS]{kde2d}} function from the \pkg{MASS} package
 }
 \details{
 Computes a 2D density estimate of Radviz projected data and stores the results
-in a \code{density} slot of the Radviz object
+           in a \code{density} slot of the Radviz object. Invalid points, if any, will be
+           excluded.
 }
 \examples{
 data(iris)

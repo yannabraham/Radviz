@@ -38,12 +38,13 @@ Computes 2D density using hexagon binning of projected data for a Radivz object,
 using the \code{\link[hexbin]{hexbin}} function from the \pkg{hexbin} package
 }
 \details{
-The projected points will be binned into an hexagonal grid of size \code{n};
+The projected points will be binned into an hexagonal grid of size \code{n}.
            if channels is not \code{NULL}, for every channels the median intensity
            will be estimated over the complete grid and a color will be assigned
            from \code{colramp} using \code{ncols}, \code{fixed} and \code{use.quantile};
            by default, channels will be split using a fixed sequence from 0 to 1 over
-           \code{ncols+1} levels unless \code{use.quantile} or \code{fixed} are set
+           \code{ncols+1} levels unless \code{use.quantile} or \code{fixed} are set. 
+           Invalid points (if any) will not be used in computing the bins or the colors.
 }
 \examples{
 data(iris)

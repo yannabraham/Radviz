@@ -19,6 +19,7 @@ An object of class radviz with the following slots:
            \item \code{springs} the original \code{springs}
            \item \code{projected} the projection of \code{x} on \code{springs},
                    a matrix of 2D coordinates for every line in df
+           \item \code{valid} a logical vector 
          }
 }
 \description{
@@ -31,11 +32,25 @@ The function expects that at least some of the column names in df will be matche
            by row names in springs
 }
 \examples{
+# the first example generates a simple Radviz object
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
 rv <- do.radviz(iris,S)
 summary(rv)
+
+# in case a point cannot be projected, a warning will be raise
+iris0 <- rbind(iris,c(rep(0,length(das)),NA))
+rv0 <- do.radviz(iris0,S)
+
+# to find out how many points could not be projected:
+with(rv0,sum(!valid))
+
+# to find which points where invalid in the data
+with(rv0,which(!valid))
+
+# to review the original data points
+with(rv0,subset(data,!valid))
 
 }
 \author{
