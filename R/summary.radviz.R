@@ -17,7 +17,7 @@
 #' @author Yann Abraham
 #' @export
 summary.radviz <- function(object,n=6,...) {
-  cat('A Radviz object with',nrow(object$data),'objects and',ncol(object$data),'dimensions\n')
+  cat('A Radviz object with',nrow(object$data),'objects and',nrow(object$springs),'dimensions\n')
   if(any(!object$valid)) {
     cat(sum(!object$valid),'point(s) could not be projected\n')
   }

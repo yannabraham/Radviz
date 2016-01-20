@@ -19,6 +19,6 @@
 #' @importFrom utils head
 #' @export
 print.radviz <- function(x,n=6,...) {
-  cat('A radviz object with',length(x$springs),'dimensions generated using\n')
+  cat('A radviz object with',nrow(x$springs),'dimensions generated using\n')
   print(head(x$data,n))
 }
