@@ -65,7 +65,7 @@ plot(rv,main='Iris Columns',
 sim.mat <- cosine(scaled)
 in.da(S,sim.mat) # the starting value
 new <- do.optim(S,sim.mat,iter=10,n=100)
-new.S <- make.S(tail(new$best,1)[[1]])
+new.S <- make.S(get.optim(new))
 new.rv <- do.radviz(scaled,new.S)
 plot(new.rv,main='Optimized columns',
      point.shape=1,
