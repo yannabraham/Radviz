@@ -4,14 +4,12 @@
 \alias{plot.radviz}
 \title{A Plotting Function for the Radviz Object}
 \usage{
-\method{plot}{radviz}(x, ..., main = NULL, label.color = "orangered4",
+\method{plot}{radviz}(x, main = NULL, label.color = "orangered4",
   label.size = 1, point.color = "black", point.shape = ".",
-  point.size = 1, add = F)
+  point.size = 1, add = FALSE, anchors.only = FALSE, ...)
 }
 \arguments{
 \item{x}{a radviz object as produced by \code{\link{do.radviz}}}
-
-\item{...}{further arguments to be passed to or from other methods}
 
 \item{main}{[Optional] a title to the graph, displayed on top}
 
@@ -27,6 +25,10 @@ multiplied by \code{par("cex")} yields the final character size. NULL and NA are
 \item{point.size}{The point size (defaults to 1)}
 
 \item{add}{Logical: if add is \code{TRUE} then only the projected points are plotted}
+
+\item{anchors.only}{plot only the anchors so that other plots can be freely overlaid}
+
+\item{...}{further arguments to be passed to or from other methods}
 }
 \description{
 Plots the Dimensional Anchors and projected data points in a 2D space.
