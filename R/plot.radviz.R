@@ -1,4 +1,4 @@
-#' A Plotting Functions for the Radviz Object
+#' A Plotting Function for the Radviz Object
 #' 
 #' Plots the Dimensional Anchors and projected data points in a 2D space.
 #' 
@@ -13,7 +13,8 @@
 #' @param add Logical: if add is \code{TRUE} then only the projected points are plotted
 #' @param ...	further arguments to be passed to or from other methods
 #' 
-#' @details The add allows plotting of additional data such as cluster centers onto an existing plot.
+#' @details The \code{add} option allows plotting of additional data
+#' such as cluster centers onto an existing plot.
 #' 
 #' @examples
 #' data(iris) 

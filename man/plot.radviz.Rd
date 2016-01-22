@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.radviz.R
 \name{plot.radviz}
 \alias{plot.radviz}
-\title{A Plotting Functions for the Radviz Object}
+\title{A Plotting Function for the Radviz Object}
 \usage{
 \method{plot}{radviz}(x, ..., main = NULL, label.color = "orangered4",
   label.size = 1, point.color = "black", point.shape = ".",
@@ -32,7 +32,8 @@ multiplied by \code{par("cex")} yields the final character size. NULL and NA are
 Plots the Dimensional Anchors and projected data points in a 2D space.
 }
 \details{
-The add allows plotting of additional data such as cluster centers onto an existing plot.
+The \code{add} option allows plotting of additional data
+such as cluster centers onto an existing plot.
 }
 \examples{
 data(iris) 
