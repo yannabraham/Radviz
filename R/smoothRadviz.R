@@ -57,7 +57,7 @@ smoothRadviz <- function (x, main = NULL, label.color = "orangered4", label.size
 		if (any(bandwidth <= 0)) 
 			stop("'bandwidth' must be positive")
 	}
-	map <- KernSmooth::bkde2D(x$projected,
+	map <- KernSmooth::bkde2D(x$projected[x$valid,],
 			bandwidth = bandwidth,
 			gridsize = nbin,
 			range.x = list(c(-1.1,1.1),c(-1.1,1.1))
