@@ -25,7 +25,8 @@
 #' @author Yann Abraham
 #' @export
 identify.radviz <- function(x,...,n=1) {
-  return(identify(x$projected,
+  return(identify(x=x$projected$x,
+                  y=x$projected$y,
                   labels=rownames(x$data),
                   n=n,
                   ...)
