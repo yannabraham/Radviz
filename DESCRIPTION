@@ -1,7 +1,7 @@
 Package: Radviz
 Type: Package
 Title: Project Multidimensional Data in 2D Space
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre'))
 Depends:
     R (>= 2.15)
@@ -12,12 +12,9 @@ Imports:
     hexbin,
     MASS,
     KernSmooth
-Suggests:
-    devtools,
+Suggests: 
     knitr,
-    rmarkdown,
-    colorspace,
-    bodenmiller
+    rmarkdown
 Description: An implementation of the radviz projection in R. It enables the visualization of
     multidimensional data while maintaining the relation to the original dimensions.
     This package provides functions to create and plot radviz projections, and a number of summary
@@ -25,7 +22,7 @@ Description: An implementation of the radviz projection in R. It enables the vis
     original implementation, see di caro et al. 2010 for the original idea for dimensional
     anchor arrangements.
 License: CC BY-NC-SA 4.0
-VignetteBuilder: knitr
 URL: http://github.com/yannabraham/Radviz
 BugReports: http://github.com/yannabraham/Radviz/issues
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr

@@ -1,7 +1,5 @@
-inst/doc
 .Rhistory
 .RData
 .Rproj.user
-vignettes/*.html
-vignettes/*R
 *.Rproj
+inst/doc
