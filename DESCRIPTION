@@ -14,7 +14,9 @@ Imports:
     KernSmooth
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    bodenmiller,
+    colorspace
 Description: An implementation of the radviz projection in R. It enables the visualization of
     multidimensional data while maintaining the relation to the original dimensions.
     This package provides functions to create and plot radviz projections, and a number of summary
