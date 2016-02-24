@@ -16,7 +16,6 @@ knitr::opts_chunk$set(warning=FALSE,
                       fig.align='center')
 ```
 
-
 # Abstract
 
 The Radviz package implements the concept of dimensional anchors to visualize multivariate datasets in a 2D projection, as originally described in [Hoffman *et al* 1999](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.135.889). Additional work for ordering of dimensional anchor is taken from [Di Caro *et al* 2012](http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13).
@@ -47,18 +46,6 @@ Once installed the package can be loaded using the standard `library` command.
 
 ```{r}
 library(Radviz)
-```
-
-## Getting help
-
-The various functions described in this vignette all have dedicated help pages with code examples, such as
-
-```
-?do.radviz
-```
-
-```{r}
-example("do.radviz")
 ```
 
 # Visualizing High Dimensional Data: the `bodenmiller` dataset
