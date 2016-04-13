@@ -5,6 +5,8 @@
 #' 
 #' @param mat A matrix or data.frame
 #' 
+#' @details implementation by David Ruau (see \url{https://gist.github.com/bobthecat/2903031} for details)
+#' 
 #' @return A symmetrical matrix with as many rows as there are columns in input
 #' 
 #' @examples
@@ -17,25 +19,11 @@
 #' dim(sim.mat)
 #' 
 #' @author Yann Abraham
+#' @author David Ruau
+#' 
 #' @export
-cosine <-
-function(mat) {
-	do.cos <- function(A,B) {
-		return(
-				A%*%B/(sqrt(sum(A^2))*sqrt(sum(B^2)))
-		)
-	}
-	res <- matrix(0,nrow=ncol(mat),ncol=ncol(mat))
-	for(i in seq(1,ncol(mat)-1)) {
-		for(j in seq(i+1,ncol(mat))) {
-			if(i!=j) {
-				
-				res[i,j] <- res[j,i] <- do.cos(mat[,i],mat[,j])
-			}
-		}
-	}
-	diag(res) <- 1
-	# res[lower.tri(res)] <- res[upper.tri(res)]
-	dimnames(res) <- list(dimnames(mat)[[2]],dimnames(mat)[[2]])
-	return(res)
+cosine <- function(mat) {
+  dotmat <- t(mat) %*% mat
+  res <- dotmat / (sqrt(diag(dotmat)) %*% t(sqrt(diag(dotmat))))
+  return(res)
 }

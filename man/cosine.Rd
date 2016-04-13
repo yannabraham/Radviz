@@ -16,6 +16,9 @@ A symmetrical matrix with as many rows as there are columns in input
 Given a dataset, compute the cosine similarity between to columns for use
 in optimization of Dimensional Anchors
 }
+\details{
+implementation by David Ruau (see \url{https://gist.github.com/bobthecat/2903031} for details)
+}
 \examples{
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
@@ -28,5 +31,7 @@ dim(sim.mat)
 }
 \author{
 Yann Abraham
+
+David Ruau
 }
 
