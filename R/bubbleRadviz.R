@@ -72,6 +72,6 @@ function(x, main = NULL, label.color = "orangered4", label.size=1, bubble.color 
 			}
 		}
 	}
-	symbols(x$projected,circles=bubble.size,bg=bubble.color,fg=bubble.fg,inches=scale,add=!add)
+	symbols(x$projected,circles=bubble.size,bg=bubble.color,fg=bubble.fg,inches=scale,add=TRUE)
 	return(invisible(NULL))
 }
