@@ -23,6 +23,7 @@
 #' @seealso \code{\link[graphics]{identify}}
 #' 
 #' @author Yann Abraham
+#' @importFrom graphics identify
 #' @export
 identify.radviz <- function(x,...,n=1) {
   return(identify(x=x$projected$x,

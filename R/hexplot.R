@@ -32,6 +32,7 @@
 #' @author Nicholas Lewin-Koh
 #' @seealso \code{\link[hexbin]{grid.hexagons}} and \code{\link[hexbin]{hexbin}}
 #'            for original implementation
+#' @importFrom graphics par plot text title
 #' @export
 hexplot <- function(x,main=NULL,label.color='orangered4',label.size=1,mincnt=0,color=NULL,style='constant.col') {
 	if(!'hex' %in% names(x)) {

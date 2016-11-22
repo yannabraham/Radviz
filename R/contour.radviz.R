@@ -39,6 +39,7 @@
 #' 
 #' @author Yann Abraham
 #' @keywords multivariate hplot
+#' @importFrom graphics par plot text points contour
 #' @export
 contour.radviz <- function(x,...,main=NULL,label.color='orangered4',label.size=1,
                            contour.color=par("fg"),contour.size=par('lwd'),

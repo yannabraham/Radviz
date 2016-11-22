@@ -37,6 +37,7 @@
 #' 
 #' @author Yann Abraham
 #' @keywords multivariate cluster hplot
+#' @importFrom graphics par plot text symbols
 #' @export
 bubbleRadviz <-
 function(x, main = NULL, label.color = "orangered4", label.size=1, bubble.color = "grey",

@@ -34,6 +34,9 @@
 #' @seealso \code{\link[graphics]{smoothScatter}} for original implementation
 #' @author Yann Abraham
 #' @author Florian Hahne
+#' @importFrom grDevices colorRampPalette blues9
+#' @importFrom stats quantile
+#' @importFrom graphics par image text title 
 #' @export
 #' 
 smoothRadviz <- function (x, main = NULL, label.color = "orangered4", label.size = 1, 

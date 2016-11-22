@@ -25,6 +25,7 @@
 #' plot(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Species)])
 #' 
 #' @author Yann Abraham
+#' @importFrom graphics par plot text points
 #' @export
 plot.radviz <- function(x,main=NULL,
                         label.color='orangered4',label.size=1,

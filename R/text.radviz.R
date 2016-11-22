@@ -51,6 +51,8 @@
 #' text(med.rv,labels=med.iris$Species,col=c('red','green','blue')[as.integer(med.iris$Species)])
 #' 
 #' @author Yann Abraham
+#' @importFrom grDevices as.graphicsAnnot Hershey
+#' @importFrom graphics par plot text
 #' @export
 text.radviz <- function (x,..., main=NULL, label.color='orangered4', label.size=1,
                          labels = NULL, adj = NULL, pos = NULL, offset = 0.5,
