@@ -5,6 +5,10 @@ cache: packages
 warnings_are_errors: true
 sudo: required
 
+env:
+  global:
+    - NOT_CRAN=true
+
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" > ~/.Rprofile
 
@@ -13,7 +17,4 @@ r-packages:
   - rmarkdown
   - bodenmiller
   - colorspace
-
-env:
-  global:
-    - NOT_CRAN=true
+  
