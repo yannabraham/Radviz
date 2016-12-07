@@ -22,8 +22,9 @@ Suggests:
 Description: An implementation of the radviz projection in R. It enables the visualization of
     multidimensional data while maintaining the relation to the original dimensions.
     This package provides functions to create and plot radviz projections, and a number of summary
-    plots that enable comparison and analysis. For reference see Ankerst et al., 1996 for
-    original implementation, see di caro et al. 2010 for the original idea for dimensional
+    plots that enable comparison and analysis. For reference see Ankerst et al. (1996) 
+    <http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.68.1811> for original implementation, 
+    see Di Caro et al. (2010) <DOI:10.1007/978-3-642-13672-6_13> for the original idea for dimensional
     anchor arrangements.
 License: CC BY-NC-SA 4.0
 URL: http://github.com/yannabraham/Radviz
