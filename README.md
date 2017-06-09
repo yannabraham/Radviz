@@ -23,3 +23,7 @@ devtools::install_github('yannabraham/Radviz',build_vignettes = TRUE)
 ## Travis Build Status
 
 [![Travis-CI Build Status](https://travis-ci.org/yannabraham/Radviz.svg?branch=master)](https://travis-ci.org/yannabraham/Radviz)
+
+## CRAN Versionb
+
+[![CRAN version](http://www.r-pkg.org/badges/version/Radviz)](https://cran.r-project.org/package=Radviz)
