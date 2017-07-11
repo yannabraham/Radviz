@@ -4,17 +4,20 @@
 \alias{do.density}
 \title{Computes 2D density for contour plots of Radviz objects}
 \usage{
-do.density(x, n = 50)
+do.density(x, n = 50, method = "MASS", bandwidth)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
 
-\item{n}{Number of grid points in each direction. Can be scalar or a length-2
-integer vector (see \link[MASS]{kde2d} for details)}
+\item{n}{Number of grid points in each direction}
+
+\item{method}{the method to use for KDE estimation}
+
+\item{bandwidth}{the bandwidth to use for \link[KernSmooth]{bkde2D}}
 }
 \value{
 the Radviz object with and extra slot \code{density} containing the 2D density
-estimates for use with \code{\link{contour.radviz}}
+estimates for use with \code{\link{contour.radviz}} or \code{\link{smoothRadviz}}
 }
 \description{
 Computes 2D density estimate of projected data for a Radivz object,
@@ -24,6 +27,8 @@ using the \code{\link[MASS]{kde2d}} function from the \pkg{MASS} package
 Computes a 2D density estimate of Radviz projected data and stores the results
            in a \code{density} slot of the Radviz object. Invalid points, if any, will be
            excluded.
+           2 methods are implemented, \link[MASS]{kde2d} for \code{\link{contour.radviz}} and 
+           \link[KernSmooth]{bkde2D} for \code{\link{smoothRadviz}}
 }
 \examples{
 data(iris)
@@ -31,7 +36,9 @@ das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
 rv <- do.radviz(iris,S)
 rv <- do.density(rv)
+rv <- do.density(rv,n=128,method='KernSmooth')
 contour(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Species)])
+smoothRadviz(rv)
 
 }
 \author{

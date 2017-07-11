@@ -6,8 +6,8 @@
 \usage{
 \method{contour}{radviz}(x, ..., main = NULL, label.color = "orangered4",
   label.size = 1, contour.color = par("fg"), contour.size = par("lwd"),
-  point.color = "lightgrey", point.shape = ".", point.size = 1, add = F,
-  drawlabels = FALSE, drawpoints = FALSE)
+  point.color = "lightgrey", point.shape = ".", point.size = 1, n = 50,
+  add = F, drawlabels = FALSE, drawpoints = FALSE)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
@@ -31,6 +31,8 @@ NULL and NA are equivalent to 1.0}
 \item{point.shape}{The point shape (defaults to '.')}
 
 \item{point.size}{the point size (defaults to 1)}
+
+\item{n}{the size of the grid for \code{\link{do.density}}}
 
 \item{add}{Logical: if add is \code{TRUE} then only the contour lines are plotted}
 

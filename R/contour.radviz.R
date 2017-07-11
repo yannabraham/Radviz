@@ -13,6 +13,7 @@
 #' @param point.color The point color (defaults to black)
 #' @param point.shape The point shape (defaults to '.')
 #' @param point.size the point size (defaults to 1)
+#' @param n the size of the grid for \code{\link{do.density}}
 #' @param add Logical: if add is \code{TRUE} then only the contour lines are plotted
 #' @param drawlabels Logical. Contours are labelled if \code{TRUE}
 #' @param drawpoints Logical: if \code{TRUE} then the projected points are plotted
@@ -44,7 +45,7 @@
 contour.radviz <- function(x,...,main=NULL,label.color='orangered4',label.size=1,
                            contour.color=par("fg"),contour.size=par('lwd'),
                            point.color='lightgrey',point.shape='.',point.size=1,
-                           add=F,drawlabels=FALSE,drawpoints=FALSE) {
+                           n=50,add=F,drawlabels=FALSE,drawpoints=FALSE) {
 	par(mar = c(0,0,1,0))
 	if (!add) {
 		plot(x$springs, type = "n", main = main, xlab = "", 
@@ -53,13 +54,13 @@ contour.radviz <- function(x,...,main=NULL,label.color='orangered4',label.size=1
 		text(x$springs, labels = dimnames(x$springs)[[1]], 
 				col = label.color,cex=label.size)
 	}
-	if(!'density' %in% names(x)) {
-		x <- do.density(x) 
+	if(!'contour' %in% names(x)) {
+		x <- do.density(x,n=n,method='MASS') 
 	}
 	if(drawpoints) {
 		points(x$projected, pch = point.shape, col = point.color, 
 				cex = point.size)
 	}
-	contour(x$density,drawlabels=drawlabels,add=T,axes=F,frame.plot=F,col=contour.color,lwd=contour.size)
+	contour(x$contour,drawlabels=drawlabels,add=T,axes=F,frame.plot=F,col=contour.color,lwd=contour.size)
 	return(invisible(x))
 }

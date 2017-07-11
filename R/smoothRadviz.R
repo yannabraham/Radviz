@@ -11,6 +11,7 @@
 #'          NULL and NA are equivalent to 1.0
 #' @param smooth.color \code{function} accepting an integer n as an argument and returning
 #'          n colors (see \link[graphics]{smoothScatter} for details)
+#' @param max.dens the maximum density to be displayed, so that the color scale can be compared across plots
 #' @param transformation \code{function} mapping the density scale to the color scale
 #' @param nbin numeric vector of length one (for both directions) or two (for x and y separately)
 #'          specifying the number of equally spaced grid points for the density estimation;
@@ -18,6 +19,7 @@
 #'          for details)
 #' @param nrpoints number of points to be superimposed on the density image
 #'          (see \link[graphics]{smoothScatter} for details)
+#' @param ncols the number of colors to display (also used to compute the number of breaks)
 #' @param bandwidth numeric vector (length 1 or 2) of smoothing bandwidth(s).
 #'          If missing, a more or less useful default is used. bandwidth is subsequently
 #'          passed to function \link[KernSmooth]{bkde2D} (see \link[graphics]{smoothScatter} for details)
@@ -38,42 +40,38 @@
 #' @importFrom stats quantile
 #' @importFrom graphics par image text title 
 #' @export
-#' 
 smoothRadviz <- function (x, main = NULL, label.color = "orangered4", label.size = 1, 
-				smooth.color = colorRampPalette(c("white", blues9)),
-				transformation = function(x) x^0.25, nbin=128, nrpoints = 100, bandwidth) 
+                          smooth.color = colorRampPalette(c("white", blues9)),
+                          max.dens, transformation = function(x) x^0.25, nbin=128, nrpoints = 100, ncols=256, bandwidth) 
 {
-	# taken from the original smoothScatter function
-	if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) != 1)) 
-		stop("'nrpoints' should be numeric scalar with value >= 0.")
-	if (length(nbin) == 1) 
-		nbin <- c(nbin, nbin)
-	if (!is.numeric(nbin) || length(nbin) != 2) 
-		stop("'nbin' must be numeric of length 1 or 2")
-	if (missing(bandwidth)) {
-		bandwidth <- diff(apply(x$projected, 2, quantile, probs = c(0.05, 0.95), na.rm = TRUE, names = FALSE))/25
-		bandwidth[bandwidth == 0] <- 1
-	}
-	else {
-		if (!is.numeric(bandwidth)) 
-			stop("'bandwidth' must be numeric")
-		if (any(bandwidth <= 0)) 
-			stop("'bandwidth' must be positive")
-	}
-	map <- KernSmooth::bkde2D(x$projected[x$valid,],
-			bandwidth = bandwidth,
-			gridsize = nbin,
-			range.x = list(c(-1.1,1.1),c(-1.1,1.1))
-	)
-	xm <- map$x1
-	ym <- map$x2
-	dens <- map$fhat
-	dens[] <- transformation(dens)
-	# plot
-	par(mar = c(0, 0, 1, 0), bty = "n")
-	image(xm, ym, z = dens, col = smooth.color(256), xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),axes=F)
-	text(x$springs, labels = dimnames(x$springs)[[1]], cex = label.size, 
-			col = label.color)
-	title(main)
-	return(invisible(NULL))
+  # taken from the original smoothScatter function
+  if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) != 1)) 
+    stop("'nrpoints' should be numeric scalar with value >= 0.")
+  if (!is.numeric(nbin) || length(nbin) != 1) 
+    stop("'nbin' must be numeric of length 1")
+  if(!'smooth' %in% names(x)) {
+    x <- do.density(x,n=nbin,method='KernSmooth',bandwidth=bandwidth) 
+  }
+  dens <- x$smooth$fhat
+  dens[] <- transformation(dens)
+  # compute breaks
+  if(missing(max.dens)) {
+    max.dens <- max(dens)
+  } else {
+    if(max(dens)>max.dens) {
+      warning('Maximum density is larger than the limit provided/n')
+      dens[dens>max.dens] <- max.dens
+    }
+  }
+  breaks <- seq(min(dens),
+                max.dens,
+                length.out=ncols+1)
+  # plot
+  par(mar = c(0, 0, 1, 0), bty = "n")
+  image(x$smooth$x1, x$smooth$x2, z = dens, col = smooth.color(ncols), 
+        breaks=breaks, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),axes=F)
+  text(x$springs, labels = dimnames(x$springs)[[1]], cex = label.size, 
+       col = label.color)
+  title(main)
+  return(invisible(x))
 }

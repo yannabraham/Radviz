@@ -5,9 +5,9 @@
 \title{A smoothScatter function for Radviz objects}
 \usage{
 smoothRadviz(x, main = NULL, label.color = "orangered4", label.size = 1,
-  smooth.color = colorRampPalette(c("white", blues9)),
+  smooth.color = colorRampPalette(c("white", blues9)), max.dens,
   transformation = function(x) x^0.25, nbin = 128, nrpoints = 100,
-  bandwidth)
+  ncols = 256, bandwidth)
 }
 \arguments{
 \item{x}{a radviz object as produced by \code{\link{do.radviz}}}
@@ -23,6 +23,8 @@ NULL and NA are equivalent to 1.0}
 \item{smooth.color}{\code{function} accepting an integer n as an argument and returning
 n colors (see \link[graphics]{smoothScatter} for details)}
 
+\item{max.dens}{the maximum density to be displayed, so that the color scale can be compared across plots}
+
 \item{transformation}{\code{function} mapping the density scale to the color scale}
 
 \item{nbin}{numeric vector of length one (for both directions) or two (for x and y separately)
@@ -32,6 +34,8 @@ for details)}
 
 \item{nrpoints}{number of points to be superimposed on the density image
 (see \link[graphics]{smoothScatter} for details)}
+
+\item{ncols}{the number of colors to display (also used to compute the number of breaks)}
 
 \item{bandwidth}{numeric vector (length 1 or 2) of smoothing bandwidth(s).
 If missing, a more or less useful default is used. bandwidth is subsequently
