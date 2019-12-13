@@ -24,8 +24,8 @@
 #' data(iris)
 #' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 #' S <- make.S(das)
-#' scaled <- apply(iris[,das],2,do.L)
-#' sim.mat <- cosine(scaled)
+#' mat <- iris[,das]
+#' sim.mat <- cosine(mat)
 #' in.da(S,sim.mat) # increases with better projections
 #' rv.da(S,sim.mat) # decreases with better projections
 #' 
@@ -50,7 +50,7 @@ in.da <- function(springs,similarity) {
 
 #' @export
 rv.da <- function(springs,similarity) {
-  proj <- do.radviz(similarity,springs)$projected
+  proj <- do.radviz(similarity,springs)$proj$data[,c('rx','ry')]
   proj <- proj[rownames(springs),]
   d <- rep(0,nrow(springs))
   for(i in seq(1,nrow(springs))) {
