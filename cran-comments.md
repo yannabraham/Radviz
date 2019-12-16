@@ -1,15 +1,15 @@
 ## Test environments
 
-* local windows 10, R 3.3.1
-* ubuntu 12.04 (on travis-ci), R 3.3.1
+* local windows 10, R 3.6.1
+* Ubuntu 16.04.6 LTS (on travis-ci), R 3.6.1
 * win-builder (devel and release)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
+* This is an update.
 
 ## Reverse dependencies
 
-This is a new release, so there are no reverse dependencies.
+This is an update, with no reverse dependencies.
