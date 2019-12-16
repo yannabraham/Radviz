@@ -53,6 +53,7 @@ Additional packages that are useful for Radviz are:
 ```{r}
 library(ggplot2)
 library(dplyr)
+library(tidyr)
 ```
 
 # Visualizing High Dimensional Data: the `bodenmiller` dataset
@@ -293,6 +294,69 @@ Alternatively, bubbles can be colored after signal intensity of a functional cha
 
 ```{r}
 bubbleRadviz(ct.rv,group = 'Cells',color='pS6')
+```
+
+## Visualizing Functional Changes
+
+Radviz can also be used to visualize changes in functional space. We start by adding data from the Bodenmiller package. 
+
+```{r}
+data(untreatedPhenoMat)
+data(untreatedFuncMat)
+data(untreatedAnnots)
+untreated.df <- bind_rows(ref.df %>% mutate(Treatment='unstimulated'),
+                          data.frame(untreatedAnnots,
+                                     untreatedPhenoMat,
+                                     untreatedFuncMat)) %>% 
+  mutate(Treatment=factor(Treatment),
+         Treatment=relevel(Treatment,'unstimulated'))
+```
+
+For this analysis we will focus on CD4+ and CD8+ T cells:
+
+```{r}
+tcells.df <- untreated.df %>% 
+  filter(Cells %in% c('cd4+','cd8+'))
+tcells.df %>% 
+  count(Cells,Treatment)
+```
+
+Next we optimize the channel order, and create the projection:
+
+```{r}
+func.S <- make.S(dimnames(refFuncMat)[[2]])
+func.sim <- cosine(as.matrix(tcells.df[,row.names(func.S)]))
+optim.func <- do.optim(func.S,func.sim,iter=100,n=1000)
+func.S <- make.S(tail(optim.func$best,1)[[1]])
+func.rv <- do.radviz(tcells.df,func.S,trans=trans)
+```
+
+The overall T cell functional landscape is shown below:
+
+```{r,fid.width=9}
+smoothRadviz(subset(func.rv,tcells.df$Treatment=='unstimulated'))+
+  facet_grid(~Cells)
+```
+
+The effect of different stimulations can then be visualized using contour plots:
+
+```{r,fig.width=9}
+plot(func.rv)+
+  geom_density2d(aes(color=Treatment))+
+  facet_grid(~Cells)
+```
+
+Where one can see that *BCR/FcR-XL* has no effect and overlaps with *unstimulated* while *PMA/Ionomycine* increases pS6 and *vanadate* increases pSlp76:
+
+```{r,fig.width=9}
+tcells.df %>% 
+  select(Cells, Treatment, pS6, pSlp76) %>% 
+  gather('Channel','value',one_of('pS6','pSlp76')) %>% 
+  ggplot(aes(x=Treatment,y=value))+
+  geom_boxplot(aes(fill=Treatment))+
+  facet_grid(Channel~Cells)+
+  theme_light()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))
 ```
 
 # Future directions
