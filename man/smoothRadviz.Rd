@@ -4,49 +4,26 @@
 \alias{smoothRadviz}
 \title{A smoothScatter function for Radviz objects}
 \usage{
-smoothRadviz(x, main = NULL, label.color = "orangered4", label.size = 1,
-  smooth.color = colorRampPalette(c("white", blues9)), max.dens,
-  transformation = function(x) x^0.25, nbin = 128, nrpoints = 100,
-  ncols = 256, bandwidth)
+smoothRadviz(x, main = NULL, smooth.color = "dodgerblue4", nbin = 200)
 }
 \arguments{
 \item{x}{a radviz object as produced by \code{\link{do.radviz}}}
 
 \item{main}{[Optional] a title to the graph, displayed on top}
 
-\item{label.color}{The color of the Dimensional Anchors (defaults to orangered4)}
+\item{smooth.color}{the gradient will be generated from \code{white} to \code{smooth.color}}
 
-\item{label.size}{numeric character expansion factor for Dimensional Anchor labels;
-multiplied by \code{par("cex")} yields the final character size.
-NULL and NA are equivalent to 1.0}
-
-\item{smooth.color}{\code{function} accepting an integer n as an argument and returning
-n colors (see \link[graphics]{smoothScatter} for details)}
-
-\item{max.dens}{the maximum density to be displayed, so that the color scale can be compared across plots}
-
-\item{transformation}{\code{function} mapping the density scale to the color scale}
-
-\item{nbin}{numeric vector of length one (for both directions) or two (for x and y separately)
-specifying the number of equally spaced grid points for the density estimation;
-directly used as gridsize in \link[KernSmooth]{bkde2D} (see \link[graphics]{smoothScatter}
+\item{nbin}{the number of equally spaced grid points for the density estimation (see \link[ggplot2]{geom_density_2d}
 for details)}
 
-\item{nrpoints}{number of points to be superimposed on the density image
-(see \link[graphics]{smoothScatter} for details)}
-
-\item{ncols}{the number of colors to display (also used to compute the number of breaks)}
-
-\item{bandwidth}{numeric vector (length 1 or 2) of smoothing bandwidth(s).
-If missing, a more or less useful default is used. bandwidth is subsequently
-passed to function \link[KernSmooth]{bkde2D} (see \link[graphics]{smoothScatter} for details)}
+\item{...}{further arguments to be passed to or from other methods (not implemented)}
+}
+\value{
+the internal ggplot2 object plus added layers, allowing for extra geoms to be added
 }
 \description{
 Plots the Dimensional Anchors and a smoothed color density
 representation of projected data points in a 2D space.
-}
-\details{
-The add allows plotting of additional data such as cluster centers onto an existing plot.
 }
 \examples{
 data(iris)
@@ -58,10 +35,4 @@ smoothRadviz(rv)
 }
 \author{
 Yann Abraham
-
-Florian Hahne
 }
-\seealso{
-\code{\link[graphics]{smoothScatter}} for original implementation
-}
-

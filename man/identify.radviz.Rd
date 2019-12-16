@@ -4,39 +4,30 @@
 \alias{identify.radviz}
 \title{Identify a Point in a Radviz Projection}
 \usage{
-\method{identify}{radviz}(x, ..., n = 1)
+\method{identify}{radviz}(x, ...)
 }
 \arguments{
 \item{x}{a radviz object as produced by \code{\link{do.radviz}}}
 
-\item{...}{further arguments to be passed to or from other methods}
-
-\item{n}{the number of points to identify, defaults to 1}
+\item{...}{further arguments to be passed to or from other methods (not implemented)}
 }
 \value{
-an integer vector containing the indices of the identified points, 
-in the order they were identified.
+the original Radviz object
 }
 \description{
 Use this function to get the index of a point in a Radviz projection
 }
 \details{
-The function will use the row names of the \code{data} variable in the \code{rv} object 
-for labeling the plot
+the do.hex function is not used anymore.
 }
 \examples{
-data(iris) 
+data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
 rv <- do.radviz(iris,S)
-plot(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Species)])
-identify(rv)
+plot(rv,anchors.only=FALSE)
 
 }
 \author{
 Yann Abraham
 }
-\seealso{
-\code{\link[graphics]{identify}}
-}
-

@@ -21,15 +21,10 @@ Once the order of anchors has been optimized using \code{\link{do.optim}}
 this function can be used to recover the optimized anchors or any intermediate step
 }
 \examples{
-#' data(iris)
+data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
-scaled <- apply(iris[,das],2,do.L)
-rv <- do.radviz(scaled,S)
-plot(rv,main='Iris Columns',
-     point.shape=1,
-     point.color=c('red','green','blue')[as.integer(iris$Species)])
-sim.mat <- cosine(scaled)
+sim.mat <- cosine(iris[,das])
 in.da(S,sim.mat) # the starting value
 new <- do.optim(S,sim.mat,iter=10,n=100)
 get.optim(new) # the optimal order
@@ -39,4 +34,3 @@ get.optim(new,2) # the second step of the optimization
 \author{
 Yann Abraham
 }
-

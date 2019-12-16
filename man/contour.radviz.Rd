@@ -2,71 +2,37 @@
 % Please edit documentation in R/contour.radviz.R
 \name{contour.radviz}
 \alias{contour.radviz}
-\title{Creates a contour plot, or add a contour plot to an existing plot for a Radviz Object}
+\title{Plots the Dimensional Anchors and density lines for projected data points in a 2D space.}
 \usage{
-\method{contour}{radviz}(x, ..., main = NULL, label.color = "orangered4",
-  label.size = 1, contour.color = par("fg"), contour.size = par("lwd"),
-  point.color = "lightgrey", point.shape = ".", point.size = 1, n = 50,
-  add = F, drawlabels = FALSE, drawpoints = FALSE)
+\method{contour}{radviz}(x, ..., main = NULL, color = NULL, size = 0.5)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
 
-\item{...}{further arguments to be passed to or from other methods}
+\item{...}{further arguments to be passed to or from other methods (not implemented)}
 
 \item{main}{[Optional] a title to the graph, displayed on top}
 
-\item{label.color}{The color of the Dimensional Anchors (defaults to orangered4)}
+\item{color}{the variable in the Radviz projection used to color the contours}
 
-\item{label.size}{numeric character expansion factor for Dimensional Anchor labels;
-multiplied by \code{par("cex")} yields the final character size.
-NULL and NA are equivalent to 1.0}
-
-\item{contour.color}{The color of contour lines (defaults to \code{par('fg')})}
-
-\item{contour.size}{The thickness of contour lines (defaults to \code{par('lwd')})}
-
-\item{point.color}{The point color (defaults to black)}
-
-\item{point.shape}{The point shape (defaults to '.')}
-
-\item{point.size}{the point size (defaults to 1)}
-
-\item{n}{the size of the grid for \code{\link{do.density}}}
-
-\item{add}{Logical: if add is \code{TRUE} then only the contour lines are plotted}
-
-\item{drawlabels}{Logical. Contours are labelled if \code{TRUE}}
-
-\item{drawpoints}{Logical: if \code{TRUE} then the projected points are plotted}
+\item{size}{The thickness of contour lines}
 }
 \value{
-Invisibly, the Radviz object that has been used as input; useful when
-         \code{\link{do.density}} has not been called before so that results can be recovered
+the internal ggplot2 object plus added layers, allowing for extra geoms to be added
 }
 \description{
 Plots the Dimensional Anchors and density lines for projected data points in a 2D space.
-}
-\details{
-The density lines will be calculated before plotting, if the Radviz object does not have
- one yet. The add allows plotting of contour lines over existing data, 
- either the one used to generate the density or a different one (for context).
 }
 \examples{
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
 rv <- do.radviz(iris,S)
-rv <- do.density(rv)
-contour(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Species)])
+contour(rv,color='Species')
 
 }
 \author{
 Yann Abraham
 }
-\seealso{
-\link{do.density} for details about mapping projection to density
-}
 \keyword{hplot}
 \keyword{multivariate}
-

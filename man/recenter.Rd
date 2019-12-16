@@ -29,4 +29,3 @@ recenter(iris.S,'Petal.Length')
 \author{
 Yann Abraham
 }
-
