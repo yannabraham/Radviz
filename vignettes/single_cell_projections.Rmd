@@ -48,6 +48,13 @@ Once installed the package can be loaded using the standard `library` command.
 library(Radviz)
 ```
 
+Additional packages that are useful for Radviz are:
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
 # Visualizing High Dimensional Data: the `bodenmiller` dataset
 
 We will use data from the [Bodenmiller *et al* 2012](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) publication. The [bodenmiller](https://github.com/yannabraham/bodenmiller) package contains a subset of the data that can be used for testing purpose. The package can be installed by running the following command:
@@ -63,7 +70,9 @@ library(bodenmiller)
 data(refPhenoMat)
 data(refFuncMat)
 data(refAnnots)
-refMat <- cbind(refPhenoMat,refFuncMat)
+ref.df <- data.frame(refAnnots,
+                     refPhenoMat,
+                     refFuncMat)
 ```
 
 ## Normalizing the data
@@ -71,8 +80,17 @@ refMat <- cbind(refPhenoMat,refFuncMat)
 Radviz requires that all dimensions have the same range. The simplest way to achieve that is to normalize every numerical column to its range, so that all values fall in the `[0,1]` interval. The `do.L` function performs this operation for us:
 
 ```{r}
-norm <- apply(refMat,2,do.L,fun=function(x) quantile(x,c(0.025,0.975)))
+trans <- function(coln) do.L(coln,fun=function(x) quantile(x,c(0.005,0.995)))
 ```
+
+The function is wrapped so that it can be applied directly within the `do.radviz` function. The extra argument `fun` is used to remove the top and bottom of each distribution which correspond to outliers:
+
+```{r}
+hist(ref.df$CD3)
+abline(v=quantile(ref.df$CD3,c(0.005,0.995)),
+       col=2,lty=2)
+```
+
 
 ## Defining the anchors
 
@@ -96,7 +114,7 @@ The radviz-dependent and independent methods have been implemented in the `Radvi
 
 ```{r}
 ## compute the similarity matrix
-ct.sim <- cosine(norm)
+ct.sim <- cosine(as.matrix(ref.df[,row.names(ct.S)]))
 ## the current radviz-independent measure of projection efficiency
 in.da(ct.S,ct.sim)
 ## the current radviz-independent measure of projection efficiency
@@ -124,32 +142,69 @@ The optimized anchors are:
 ksink <- lapply(row.names(ct.S),function(x) cat(' *',x,'\n'))
 ```
 
+It is possible to rotate the anchors so that a particular dimension is at the top of the circle, using the function `recenter`:
+
+```{r}
+ct.S <- recenter(ct.S,'CD3')
+```
+
+Leading to :
+
+```{r,echo=FALSE,results='asis'}
+ksink <- lapply(row.names(ct.S),function(x) cat(' *',x,'\n'))
+```
+
 ## Projection
 
 The `do.radviz` function will then use the normalized values and the **S**prings to project each *thing* in a 2D space:
 
 ```{r}
-ct.rv <- do.radviz(norm,ct.S)
+ct.rv <- do.radviz(ref.df,ct.S,trans=trans)
 ```
 
 ## Visualizing the results
 
-There is a S3 `plot` function defined for radviz; using the default will give the following result
+Internally the radviz projection is a `ggplot` object. Details about the data and corresponding projection are available through radviz-specific versions of `S3` generic functions:  
 
 ```{r}
-plot(ct.rv)
+summary(ct.rv)
 ```
 
-One can modify the shape of the points using the `point.shape` argument:
-
 ```{r}
-plot(ct.rv,point.shape=1)
+head(ct.rv)
 ```
 
-Or color each dot using the `point.color` argument, to highlight the different cell types.
+```{r}
+dim(ct.rv)
+```
+
+The `print.radviz` `S3` method shows the dimensional anchors:
 
 ```{r}
-plot(ct.rv,point.shape=1,point.color=refAnnots$Cells)
+ct.rv
+```
+
+To visualize the projected points one should use the `plot.radviz` method:
+
+```{r}
+plot(ct.rv,anchors.only=FALSE)
+```
+
+By default the `plot.radviz` function will only show the anchors and return the `ggplot` object so that other layers can be added:
+
+```{r}
+plot(ct.rv)+
+  geom_point()
+```
+
+From there on all `ggplot2` geoms and options are available:
+
+```{r}
+plot(ct.rv)+
+  geom_point(data=. %>% 
+               arrange(CD4),
+             aes(color=CD4))+
+  scale_color_gradient(low='grey80',high="dodgerblue4")
 ```
 
 This simple plot is already enough to show some of the underlying structure of the dataset.
@@ -160,23 +215,17 @@ Using standard visualizations developed for FACS data analysis, one can further 
 smoothRadviz(ct.rv)
 ```
 
-Another alternative is to generate a contour plot from the data using the do.density function:
+`smoothRadviz` is actually a wrapper around `stat_density2d`, and returns the underlying `ggplot` object so that extra methods can be used:
 
 ```{r}
-ct.rv <- do.density(ct.rv,n=100)
+smoothRadviz(ct.rv)+
+  geom_point(shape='.',alpha=1/5)
 ```
 
-Resulting in the following plot:
+Another alternative is contour plot, provided through the `contour.radviz` function:
 
 ```{r}
 contour(ct.rv)
-```
-
-Plots can be overlayed using the `add` parameters:
-
-```{r}
-smoothRadviz(ct.rv)
-contour(ct.rv,add=T)
 ```
 
 This method can be used to highlight specific cell populations, in combination with `subset.radviz`:
@@ -184,8 +233,10 @@ This method can be used to highlight specific cell populations, in combination w
 ```{r}
 cur.pop <- 'igm+'
 sub.rv <- subset(ct.rv,refAnnots$Cells==cur.pop)
-smoothRadviz(ct.rv)
-contour(sub.rv,add=T)
+smoothRadviz(ct.rv)+
+  geom_density2d(data=sub.rv$proj$data,
+                 aes(x=rx,y=ry),
+                 color='black')
 ```
 
 The contour corresponds to `r cur.pop` cells, in the context of the full sample visualized as a smooth scatter.
@@ -195,35 +246,31 @@ The contour corresponds to `r cur.pop` cells, in the context of the full sample 
 Further insight can be gained from the use of hexagonal binning:
 
 ```{r}
-ct.rv <- do.hex(ct.rv,n=60,
-		channels=dimnames(refFuncMat)[[2]],
-		ncols=7,
-		use.quantile=T
-)
+hexplot(ct.rv)
 ```
 
-Leading to the following plot:
+Each bin can then be colored according to other dimensions in the dataset, such as CD4 signal intensity:
 
 ```{r}
-hexplot(ct.rv,mincnt=5)
+hexplot(ct.rv,color='CD4')
 ```
 
-Each bin can then be colored according to other dimensions in the dataset, such as S6 phosphorylation:
+But also S6 phosphorylation:
 
 ```{r}
-hexplot(ct.rv,mincnt=2,color='pS6')
+hexplot(ct.rv,color='pS6')
 ```
 
 To be compared with phospho-Akt signal:
 
 ```{r}
-hexplot(ct.rv,mincnt=2,color='pAkt')
+hexplot(ct.rv,color='pAkt')
 ```
 
 And phospho-Erk signal:
 
 ```{r}
-hexplot(ct.rv,mincnt=2,color='pErk')
+hexplot(ct.rv,color='pErk')
 ```
 
 ## Visualizing Cell Populations
@@ -234,55 +281,17 @@ Cells have been manually gated, leading to 14 sub-populations:
 ksink <- lapply(levels(refAnnots$Cells),function(x) cat(' *',x,'\n'))
 ```
 
-To visualize the different populations, we compute a median phenotypic signal intensity by cell population, and project it in radviz:
+To visualize the different populations, we compute a a bubble chart: the bubble position corresponds to the median signal intensity of each channel for this specific population, and the bubble size is proportional to the number of cells in this population:
 
 ```{r}
-library(colorspace)
-pop.norm <- apply(refMat,2,do.L,fun=function(x) quantile(x,c(0.025,0.975)) )
-pop.norm <- apply(pop.norm,2,function(x) tapply(x,refAnnots$Cells,median) )
-pop.rv <- do.radviz(pop.norm,ct.S)
-pop.size <- table(refAnnots$Cells)
-pop.cols <- setNames(rainbow_hcl(length(levels(refAnnots$Cells))),
-                     levels(refAnnots$Cells))
-```
-
-Populations are visualized as a bubble chart: the bubble position corresponds to the median signal intensity of each channel for this specific population, and the bubble size is proportional to the number of cells in this population:
-
-```{r,fig.width=6,fig.height=3}
-par(mfrow=c(1,2))
-bubbleRadviz(pop.rv,
-             bubble.color=pop.cols[dimnames(pop.norm)[[1]]],
-             bubble.size=log(pop.size[dimnames(pop.norm)[[1]]]),
-             scale=0.2,
-             decreasing=TRUE
-)
-plot.new()
-legend("center",
-       legend=names(pop.cols),
-       col=pop.cols,
-       cex=0.8,
-       pch=16,
-       bty='n')
+bubbleRadviz(ct.rv,group = 'Cells')
 ```
 
 Alternatively, bubbles can be colored after signal intensity of a functional channel, such as S6:
 
 ```{r}
-S6.cols <- setNames(colorRampPalette(blues9)(8)[cut(pop.norm[,'pS6'],
-                                                    breaks=8,
-                                                    labels=F,
-                                                    include.lowest=TRUE)],
-                    dimnames(pop.norm)[[1]])
-bubbleRadviz(pop.rv,
-             bubble.color=S6.cols[dimnames(pop.norm)[[1]]],
-             bubble.fg='grey',
-             bubble.size=log(pop.size[dimnames(pop.norm)[[1]]]),
-             scale=0.2,
-             decreasing=TRUE
-)
+bubbleRadviz(ct.rv,group = 'Cells',color='pS6')
 ```
-
-The population with the highest pS6 signal intensity corresponds to **`r names(which.max(pop.norm[,'pS6']))` cells**.
 
 # Future directions
 
