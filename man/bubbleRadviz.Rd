@@ -4,7 +4,21 @@
 \alias{bubbleRadviz}
 \title{A Plotting Function for the Radviz Object}
 \usage{
-bubbleRadviz(x, main = NULL, group = NULL, color = NULL, size = c(3, 16))
+bubbleRadviz(
+  x,
+  main = NULL,
+  group = NULL,
+  color = NULL,
+  size = c(3, 16),
+  label.color,
+  label.size,
+  bubble.color,
+  bubble.fg,
+  bubble.size,
+  scale,
+  decreasing,
+  add
+)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
@@ -16,6 +30,22 @@ bubbleRadviz(x, main = NULL, group = NULL, color = NULL, size = c(3, 16))
 \item{color}{[Optional] the name of the variable used to color the points}
 
 \item{size}{the size range for the plot}
+
+\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+
+\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+
+\item{bubble.color}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{bubble.fg}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{bubble.size}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{scale}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{decreasing}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{add}{deprecated, use \code{\link{geom_point}} instead}
 }
 \value{
 the internal ggplot2 object plus added layers, allowing for extra geoms to be added

@@ -4,17 +4,46 @@
 \alias{smoothRadviz}
 \title{A smoothScatter function for Radviz objects}
 \usage{
-smoothRadviz(x, main = NULL, smooth.color = "dodgerblue4", nbin = 200)
+smoothRadviz(
+  x,
+  main = NULL,
+  color = "dodgerblue4",
+  nbin = 200,
+  label.color,
+  label.size,
+  smooth.color,
+  max.dens,
+  transformation,
+  nrpoints,
+  ncols,
+  bandwidth
+)
 }
 \arguments{
 \item{x}{a radviz object as produced by \code{\link{do.radviz}}}
 
 \item{main}{[Optional] a title to the graph, displayed on top}
 
-\item{smooth.color}{the gradient will be generated from \code{white} to \code{smooth.color}}
+\item{color}{the gradient will be generated from \code{white} to \code{color}}
 
 \item{nbin}{the number of equally spaced grid points for the density estimation (see \link[ggplot2]{geom_density_2d}
 for details)}
+
+\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+
+\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+
+\item{smooth.color}{deprecated, see \code{\link{stat_density2d}} instead}
+
+\item{max.dens}{deprecated, see \code{\link{stat_density2d}} instead}
+
+\item{transformation}{deprecated, see \code{\link{stat_density2d}} instead}
+
+\item{nrpoints}{deprecated, see \code{\link{stat_density2d}} instead}
+
+\item{ncols}{deprecated, see \code{\link{stat_density2d}} instead}
+
+\item{bandwidth}{deprecated, see \code{\link{stat_density2d}} instead}
 
 \item{...}{further arguments to be passed to or from other methods (not implemented)}
 }

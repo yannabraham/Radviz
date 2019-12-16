@@ -7,6 +7,14 @@
 #' @param group the name of the grouping variable used to aggregate the data
 #' @param color [Optional] the name of the variable used to color the points
 #' @param size the size range for the plot
+#' @param label.color deprecated, see \code{\link{do.radviz}}
+#' @param label.size deprecated, see \code{\link{do.radviz}}
+#' @param bubble.color deprecated, use \code{\link{geom_point}} instead
+#' @param bubble.fg deprecated, use \code{\link{geom_point}} instead
+#' @param bubble.size deprecated, use \code{\link{geom_point}} instead
+#' @param scale deprecated, use \code{\link{geom_point}} instead
+#' @param decreasing deprecated, use \code{\link{geom_point}} instead
+#' @param add deprecated, use \code{\link{geom_point}} instead
 #' 
 #' @details This function allows for the projection of clusters in Radviz (for example results of
 #'            the SPADE algorithm), where the cluster size is derived from the number of events
@@ -32,8 +40,33 @@ bubbleRadviz <-
            main = NULL, 
            group = NULL,
            color = NULL,
-           size = c(3,16)) {
-    
+           size = c(3,16),
+           label.color,
+           label.size,
+           bubble.color,
+           bubble.fg,
+           bubble.size,
+           scale,
+           decreasing,
+           add) {
+    ## check for deprecated arguments
+    if(!missing(label.color))
+      warning('label.color is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
+    if(!missing(label.size))
+      warning('label.size is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
+    if(!missing(bubble.color))
+      warning('bubble.color is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
+    if(!missing(bubble.fg))
+      warning('bubble.fg is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
+    if(!missing(bubble.size))
+      warning('bubble.size is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
+    if(!missing(scale))
+      warning('scale is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
+    if(!missing(decreasing))
+      warning('decreasing is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
+    if(!missing(add))
+      warning('add is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
+    ## plot
     if(is.null(group)) {
       stop('Group must be set to a grouping column')
     }

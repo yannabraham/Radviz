@@ -4,7 +4,23 @@
 \alias{text.radviz}
 \title{Text annotations for for the Radviz Plots}
 \usage{
-\method{text}{radviz}(x, ..., main = NULL, labels = NULL, size = FALSE)
+\method{text}{radviz}(
+  x,
+  ...,
+  main = NULL,
+  labels = NULL,
+  size = FALSE,
+  label.color,
+  label.size,
+  adj,
+  pos,
+  offset,
+  vfont,
+  cex,
+  col,
+  font,
+  add
+)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
@@ -16,6 +32,26 @@
 \item{labels}{the name of the variable used for labeling (see details)}
 
 \item{size}{[Logical] if \code{TRUE} labels are sized after the number of points they correspond to}
+
+\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+
+\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+
+\item{adj}{deprecated, see \code{\link{geom_text}} instead}
+
+\item{pos}{deprecated, see \code{\link{geom_text}} instead}
+
+\item{offset}{deprecated, see \code{\link{geom_text}} instead}
+
+\item{vfont}{deprecated, see \code{\link{geom_text}} instead}
+
+\item{cex}{deprecated, see \code{\link{geom_text}} instead}
+
+\item{col}{deprecated, see \code{\link{geom_text}} instead}
+
+\item{font}{deprecated, see \code{\link{geom_text}} instead}
+
+\item{add}{deprecated, see \code{\link{geom_text}} instead}
 }
 \description{
 Text draws the strings given in the vector labels at the coordinates given by the radviz projection

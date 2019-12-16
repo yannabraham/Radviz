@@ -4,7 +4,18 @@
 \alias{plot.radviz}
 \title{A Plotting Function for the Radviz Object}
 \usage{
-\method{plot}{radviz}(x, main = NULL, anchors.only = TRUE, ...)
+\method{plot}{radviz}(
+  x,
+  main = NULL,
+  anchors.only = TRUE,
+  label.color,
+  label.size,
+  point.color,
+  point.shape,
+  point.size,
+  add,
+  ...
+)
 }
 \arguments{
 \item{x}{a radviz object as produced by \code{\link{do.radviz}}}
@@ -12,6 +23,18 @@
 \item{main}{[Optional] a title to the graph, displayed on top}
 
 \item{anchors.only}{by default only plot the anchors so that other methods can easily be chained}
+
+\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+
+\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+
+\item{point.color}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{point.shape}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{point.size}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{add}{deprecated, use \code{\link{geom_point}} instead}
 
 \item{...}{further arguments to be passed to or from other methods (not implemented)}
 }

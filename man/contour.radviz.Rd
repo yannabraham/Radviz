@@ -4,7 +4,24 @@
 \alias{contour.radviz}
 \title{Plots the Dimensional Anchors and density lines for projected data points in a 2D space.}
 \usage{
-\method{contour}{radviz}(x, ..., main = NULL, color = NULL, size = 0.5)
+\method{contour}{radviz}(
+  x,
+  ...,
+  main = NULL,
+  color = NULL,
+  size = 0.5,
+  label.color,
+  label.size,
+  contour.color,
+  contour.size,
+  point.color,
+  point.shape,
+  point.size,
+  n,
+  drawlabels,
+  drawpoints,
+  add
+)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
@@ -16,6 +33,28 @@
 \item{color}{the variable in the Radviz projection used to color the contours}
 
 \item{size}{The thickness of contour lines}
+
+\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+
+\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+
+\item{contour.color}{deprecated, see \code{\link{geom_density2d}} instead}
+
+\item{contour.size}{deprecated, see \code{\link{geom_density2d}} instead}
+
+\item{point.color}{deprecated, see \code{\link{geom_density2d}} instead}
+
+\item{point.shape}{deprecated, see \code{\link{geom_density2d}} instead}
+
+\item{point.size}{deprecated, see \code{\link{geom_density2d}} instead}
+
+\item{n}{deprecated, see \code{\link{geom_density2d}} instead}
+
+\item{drawlabels}{deprecated, see \code{\link{geom_density2d}} instead}
+
+\item{drawpoints}{deprecated, see \code{\link{geom_density2d}} instead}
+
+\item{add}{deprecated, see \code{\link{geom_density2d}} instead}
 }
 \value{
 the internal ggplot2 object plus added layers, allowing for extra geoms to be added

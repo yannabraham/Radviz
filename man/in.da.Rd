@@ -36,8 +36,8 @@ das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
 mat <- iris[,das]
 sim.mat <- cosine(mat)
-in.da(S,sim.mat) # increases with better projections
-rv.da(S,sim.mat) # decreases with better projections
+in.da(S,sim.mat)
+rv.da(S,sim.mat)
 
 }
 \author{

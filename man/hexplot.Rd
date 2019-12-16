@@ -4,7 +4,16 @@
 \alias{hexplot}
 \title{A hexplot function for Radviz objects}
 \usage{
-hexplot(x, main = NULL, nbins = 30, color = NULL)
+hexplot(
+  x,
+  main = NULL,
+  nbins = 30,
+  color = NULL,
+  label.color,
+  label.size,
+  mincnt,
+  style
+)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
@@ -17,6 +26,14 @@ for details)}
 \item{color}{if color is not \code{NULL} and corresponds to one of the channels
 in the \code{hexcols} slot of the Radviz object, cells will be colored
 using colors in the \code{hexcols} slot}
+
+\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+
+\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+
+\item{mincnt}{deprecated, see \code{\link{stat_summary_hex}} instead}
+
+\item{style}{deprecated, see \code{\link{stat_summary_hex}} instead}
 }
 \value{
 the internal ggplot2 object plus added layers, allowing for extra geoms to be added

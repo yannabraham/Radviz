@@ -7,6 +7,16 @@
 #' @param labels the name of the variable used for labeling (see details)
 #' @param size [Logical] if \code{TRUE} labels are sized after the number of points they correspond to
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
+#' @param label.color deprecated, see \code{\link{do.radviz}}
+#' @param label.size deprecated, see \code{\link{do.radviz}}
+#' @param adj deprecated, see \code{\link{geom_text}} instead
+#' @param pos deprecated, see \code{\link{geom_text}} instead
+#' @param offset deprecated, see \code{\link{geom_text}} instead
+#' @param vfont deprecated, see \code{\link{geom_text}} instead
+#' @param cex deprecated, see \code{\link{geom_text}} instead
+#' @param col deprecated, see \code{\link{geom_text}} instead
+#' @param font deprecated, see \code{\link{geom_text}} instead
+#' @param add deprecated, see \code{\link{geom_text}} instead
 #' 
 #' @example examples/example-do.radviz.R
 #' @examples
@@ -23,7 +33,39 @@
 text.radviz <- function (x,..., 
                          main=NULL, 
                          labels = NULL,
-                         size = FALSE) {
+                         size = FALSE,
+                         label.color,
+                         label.size,
+                         adj,
+                         pos,
+                         offset,
+                         vfont,
+                         cex,
+                         col,
+                         font,
+                         add) {
+  ## check for deprecated arguments
+  if(!missing(label.color))
+    warning('label.color is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(label.size))
+    warning('label.size is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(adj))
+    warning('adj is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(pos))
+    warning('pos is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(offset))
+    warning('offset is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(vfont))
+    warning('vfont is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(cex))
+    warning('cex is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(col))
+    warning('col is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(font))
+    warning('font is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(add))
+    warning('add is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  ## plot
   if(is.null(labels)) {
     stop('labels must be provided')
   }
