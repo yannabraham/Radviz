@@ -3,3 +3,5 @@
 ^\.travis\.yml$
 ^cran-comments\.md$
 ^examples$
+^doc$
+^Meta$
