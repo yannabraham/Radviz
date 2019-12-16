@@ -4,7 +4,9 @@ Title: Project Multidimensional Data in 2D Space
 Version: 0.8.0
 Authors@R: person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre'))
 Depends:
-    R (>= 2.15)
+    R (>= 3.0)
+    ggplot2 (>= 3.0)
+    dplyr (>= 0.8)
 Imports:
     ggplot2,
     dplyr,
