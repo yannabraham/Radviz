@@ -6,14 +6,11 @@ Authors@R: person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','
 Depends:
     R (>= 2.15)
 Imports:
-    graphics,
+    ggplot2,
+    dplyr,
+    rlang,
     stats,
-    utils,
-    grid,
-    gridBase,
-    hexbin,
-    MASS,
-    KernSmooth
+    utils
 Suggests: 
     knitr,
     rmarkdown,
@@ -29,5 +26,6 @@ Description: An implementation of the radviz projection in R. It enables the vis
 License: CC BY-NC-SA 4.0
 URL: http://github.com/yannabraham/Radviz
 BugReports: http://github.com/yannabraham/Radviz/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 7.0.1
 VignetteBuilder: knitr
+Encoding: UTF-8
