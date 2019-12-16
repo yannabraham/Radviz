@@ -24,7 +24,7 @@ do.optim(
 
 \item{n}{The number of permutations of Dimensional Anchors to be created at each generation}
 
-\item{top}{The number of permuations to keep to create the next generation}
+\item{top}{The number of permutations to keep to create the next generation}
 
 \item{lambda}{The threshold for the optimization process}
 

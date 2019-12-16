@@ -2,7 +2,7 @@
 % Please edit documentation in R/hexplot.R
 \name{hexplot}
 \alias{hexplot}
-\title{A smoothScatter function for Radviz objects}
+\title{A hexplot function for Radviz objects}
 \usage{
 hexplot(x, main = NULL, nbins = 30, color = NULL)
 }
@@ -22,7 +22,7 @@ using colors in the \code{hexcols} slot}
 the internal ggplot2 object plus added layers, allowing for extra geoms to be added
 }
 \description{
-Plots the Dimensional Anchors and a smoothed color density representation
+Plots the Dimensional Anchors and a hexplot-based density representation
 of projected data points in a 2D space.
 }
 \examples{

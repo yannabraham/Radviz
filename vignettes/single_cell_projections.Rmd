@@ -96,7 +96,7 @@ abline(v=quantile(ref.df$CD3,c(0.005,0.995)),
 
 Let's define a Spring object that contains the position of each dimension on the unit circle. The dimensions will be matched by column name to the data, so it is important to make sure that column names are syntactically valid, using the `make.names` function.
 
-The `make.S` function will take a vector of column names and return a matrix of `[x,y]` positions. The order of the column names will dictate the position on the circle, starting at 12:00 and going clockwise. It is not required to use all avaiable columns: it might be worth splitting the dimensions
+The `make.S` function will take a vector of column names and return a matrix of `[x,y]` positions. The order of the column names will dictate the position on the circle, starting at 12:00 and going clockwise. It is not required to use all available columns: it might be worth splitting the dimensions
 depending on what they represent (continuous versus categorical variables, phenotypic versus functional markers, etc.).
 
 ```{r}
@@ -156,11 +156,13 @@ ksink <- lapply(row.names(ct.S),function(x) cat(' *',x,'\n'))
 
 ## Projection
 
-The `do.radviz` function will then use the normalized values and the **S**prings to project each *thing* in a 2D space:
+The `do.radviz` function will then project values in the context of the  **Springs**:
 
 ```{r}
 ct.rv <- do.radviz(ref.df,ct.S,trans=trans)
 ```
+
+`do.radviz` will scale all values to [0,1] using `do.L` by default.
 
 ## Visualizing the results
 

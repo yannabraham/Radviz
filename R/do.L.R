@@ -9,7 +9,7 @@
 #' 
 #' @details This is an alternative to performing a L normalization over the full matrix. 
 #' 
-#' @return A vector of values of the same lenght as x, scaled to the unit vector.
+#' @return A vector of values of the same length as x, scaled to the unit vector.
 #' 
 #' @examples
 #' data(iris)

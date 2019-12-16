@@ -23,7 +23,7 @@ These functions implement the optimization strategies described in
 \href{http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13}{Di Caro et al 2012}
 }
 \details{
-Following the recommendation of de cario et al. we used a cosine function to calculate
+Following the recommendation of Di Caro *et al.* we used a cosine function to calculate
            the similarity between Dimensional Anchors (see \code{\link{cosine}} for details).
            The in.da function implements the independent similarity measure,
            where the value increases as the Radviz projection improves.

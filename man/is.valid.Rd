@@ -2,7 +2,7 @@
 % Please edit documentation in R/is.valid.R
 \name{is.valid}
 \alias{is.valid}
-\title{Identify the valid projections from a Radviz odject}
+\title{Identify the valid projections from a Radviz object}
 \usage{
 is.valid(x)
 }

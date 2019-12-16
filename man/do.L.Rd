@@ -15,7 +15,7 @@ defaults to \code{\link[base]{range}}}
 \item{na.rm}{Logical: should NA be removed? defaults to \code{TRUE}}
 }
 \value{
-A vector of values of the same lenght as x, scaled to the unit vector.
+A vector of values of the same length as x, scaled to the unit vector.
 }
 \description{
 Standardizes all values in a vector to the unit vector ([0,1]) using local min and max

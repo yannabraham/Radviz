@@ -1,6 +1,6 @@
-#' A smoothScatter function for Radviz objects
+#' A hexplot function for Radviz objects
 #' 
-#' Plots the Dimensional Anchors and a smoothed color density representation
+#' Plots the Dimensional Anchors and a hexplot-based density representation
 #' of projected data points in a 2D space.
 #' 
 #' @param x a radviz object as produced by do.radviz

@@ -7,7 +7,7 @@
 #' @param similarity A similarity matrix measuring the correlation between Dimensional Anchors
 #' @param iter The maximum number of iterations (defaults to 100)
 #' @param n The number of permutations of Dimensional Anchors to be created at each generation
-#' @param top The number of permuations to keep to create the next generation
+#' @param top The number of permutations to keep to create the next generation
 #' @param lambda The threshold for the optimization process
 #' @param nlast The number of generations to wait before lambda is applied
 #' @param optim The optimization function (in or rv)

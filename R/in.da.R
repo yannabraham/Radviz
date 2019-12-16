@@ -13,7 +13,7 @@
 #' @return A measure of the efficiency of the Radviz projection of the similarity matrix
 #'          onto a set of springs
 #' 
-#' @details Following the recommendation of de cario et al. we used a cosine function to calculate
+#' @details Following the recommendation of Di Caro *et al.* we used a cosine function to calculate
 #'            the similarity between Dimensional Anchors (see \code{\link{cosine}} for details).
 #'            The in.da function implements the independent similarity measure,
 #'            where the value increases as the Radviz projection improves.

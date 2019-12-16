@@ -1,4 +1,4 @@
-#' Identify the valid projections from a Radviz odject
+#' Identify the valid projections from a Radviz object
 #' 
 #' The function will return a vector as long as the data in x where points that could not be projected are \code{TRUE}
 #' 

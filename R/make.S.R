@@ -1,6 +1,6 @@
 #' Define Dimensional Anchors around the Unit Circle
 #' 
-#' make.S will return xy coordinates for n dimensional anchors equally spaced around the unit circle
+#' make.S will return [x,y] coordinates for n dimensional anchors equally spaced around the unit circle
 #' 
 #' @param x a vector of dimensional anchors, or a list of dimensional anchors for Class Discrimination Layout, 
 #' or the number of anchors to put on the circle
