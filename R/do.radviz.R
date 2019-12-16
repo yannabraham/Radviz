@@ -7,6 +7,8 @@
 #' @param x a data.frame or matrix to be projected, with column names matching row names in springs
 #' @param springs a matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}
 #' @param trans a transformation to be applied to the data before projection
+#' @param label.color the color of springs for visualization
+#' @param label.size the size of labels
 #' 
 #' @details The function expects that at least some of the column names in df will be matched
 #'            by row names in springs
@@ -31,15 +33,19 @@
 #' @export
 do.radviz <- function(x,
                       springs,
-                      trans=do.L) {
+                      trans=do.L,
+                      label.color='orangered4',
+                      label.size=NA) {
   ## check all springs are there
   if(!all(rownames(springs) %in% colnames(x))) {
     stop('The following springs are missing in the input:\n',
          paste(setdiff(rownames(springs),colnames(x)),sep='',collapse=', '))
   }
   ## if x is not a data frame then change it to one
-  if(!class(x)=='data.frame')
+  if(!class(x)=='data.frame') {
     x <- data.frame(x)
+  }
+  
   ## extract the matrix
   mat <- as.matrix(x[,rownames(springs)])
   ## apply the transformation, if any
@@ -62,7 +68,8 @@ do.radviz <- function(x,
                                                Channel=factor(rownames(springs),
                                                               levels=rownames(springs))),
                              aes_string(x='X1',y='X2',label='Channel'),
-                             color='orangered4')+
+                             color=label.color,
+                             size=label.size)+
                    scale_x_continuous(expand = c(0.1,0.05))+
                    coord_equal()+
                    theme_light()+

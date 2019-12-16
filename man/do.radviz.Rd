@@ -5,7 +5,13 @@
 \alias{do.radviz.default}
 \title{Projects a Matrix or a Data Frame to a 2D space defined by Dimensional Anchors}
 \usage{
-do.radviz(x, springs, trans = do.L)
+do.radviz(
+  x,
+  springs,
+  trans = do.L,
+  label.color = "orangered4",
+  label.size = NA
+)
 }
 \arguments{
 \item{x}{a data.frame or matrix to be projected, with column names matching row names in springs}
@@ -13,6 +19,10 @@ do.radviz(x, springs, trans = do.L)
 \item{springs}{a matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}}
 
 \item{trans}{a transformation to be applied to the data before projection}
+
+\item{label.color}{the color of springs for visualization}
+
+\item{label.size}{the size of labels}
 }
 \value{
 a ggplot2 object of class radviz with a single geom_text layer corresponding to springs.
