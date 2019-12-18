@@ -2,7 +2,9 @@
 
 * local windows 10, R 3.6.1
 * Ubuntu 16.04.6 LTS (on travis-ci), R 3.6.1
-* win-builder (devel and release)
+* win-builder (release)
+
+NB win-builder devel returns an error in a part of the code that works fine on other platforms
 
 ## R CMD check results
 
