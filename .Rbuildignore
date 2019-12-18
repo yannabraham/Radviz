@@ -6,6 +6,5 @@
 ^Meta$
 ^cran-comments\.md$
 ^README\.md$
-^NEWS\.md$
 ^inst/WORDLIST$
 ^CRAN-RELEASE$
