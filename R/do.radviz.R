@@ -25,6 +25,7 @@
 #' @examples
 #' summary(rv)
 #' @example examples/example-is.valid.R 
+#' 
 #' @aliases do.radviz do.radviz.default
 #' 
 #' @importFrom ggplot2 ggplot aes_string geom_text scale_x_continuous coord_equal theme_light theme element_blank
@@ -41,9 +42,10 @@ do.radviz <- function(x,
     stop('The following springs are missing in the input:\n',
          paste(setdiff(rownames(springs),colnames(x)),sep='',collapse=', '))
   }
+  
   ## if x is not a data frame then change it to one
-  if(!class(x)=='data.frame') {
-    x <- data.frame(x)
+  if(!is.data.frame(x)) {
+    x <- as.data.frame(x)
   }
   
   ## extract the matrix
