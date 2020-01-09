@@ -54,16 +54,12 @@ plot.radviz <- function(x,
   if(!missing(add))
     warning('add is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
   ## plot
+  p <- x$proj
   if(!is.null(main)) {
-    p <- x$proj+
-      ggtitle(main)
+    p <- p + ggtitle(main)
   } 
-  if(anchors.only) { 
-    p <- x$proj
-  }
-  else {
-    p <- x$proj+
-      geom_point()
+  if(!anchors.only) { 
+    p <- p + geom_point()
   }
   return(p)
 }
