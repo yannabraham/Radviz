@@ -28,7 +28,7 @@
 #' 
 #' @aliases do.radviz do.radviz.default
 #' 
-#' @importFrom ggplot2 ggplot aes_string geom_text scale_x_continuous coord_equal theme_light theme element_blank
+#' @importFrom ggplot2 ggplot aes_string geom_text scale_x_continuous coord_equal
 #' 
 #' @author Yann Abraham
 #' @export
@@ -74,17 +74,7 @@ do.radviz <- function(x,
                              size=label.size)+
                    scale_x_continuous(expand = c(0.1,0.05))+
                    coord_equal()+
-                   theme_light()+
-                   theme(axis.title.x=element_blank(),
-                         axis.text.x=element_blank(),
-                         axis.ticks.x=element_blank(),
-                         axis.title.y=element_blank(),
-                         axis.text.y=element_blank(),
-                         axis.ticks.y=element_blank(),
-                         panel.grid.major.x = element_blank(),
-                         panel.grid.major.y = element_blank(),
-                         panel.grid.minor.x = element_blank(),
-                         panel.grid.minor.y = element_blank()))
+                   theme_radviz())
   class(radviz) <- 'radviz'
   return(radviz)
 }
