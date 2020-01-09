@@ -61,7 +61,7 @@ do.radviz <- function(x,
   x[,'rx'] <- rx
   x[,'ry'] <- ry
   x[,'rvalid'] <- apply(x[,c('rx','ry')],1,function(x) any(is.na(x)))
-  if(any(x[,'rvalid'])) {
+  if(any(x[['rvalid']])) {
     warning('at least 1 point could not be projected; check the `valid` slot for details')
   }
   radviz <- list(proj=ggplot(data=x,
