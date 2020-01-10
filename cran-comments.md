@@ -8,8 +8,10 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 NOTE
 
+* the NOTE (on Fedora, R-devel) corresponds to first names and abbreviations in the DESCRIPTION 
+   being detected as misspelled words.
 * This is an update.
 
 ## Reverse dependencies
