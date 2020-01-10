@@ -7,6 +7,8 @@
 #' @param n the number of lines from each slots in the Radviz object to display (defaults to 6)
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
 #' 
+#' @details \code{dim} returns the number of points and the number of dimensions used for the projection
+#' 
 #' @example examples/example-do.radviz.R
 #' @examples
 #' 
@@ -19,7 +21,7 @@
 #' @importFrom utils head
 #' @export
 summary.radviz <- function(object,...,n=6) {
-  cat('A Radviz object with',nrow(object$proj$data),'objects and',nrow(object$proj$layers[[1]]$data),'dimensions\n')
+  cat('A Radviz object with',nrow(object$proj$data),'objects and',length(springs(object)),'dimensions\n')
   print(head(object$proj$data,n))
   if(any(object$proj$data$rvalid)) {
     cat(sum(object$proj$data$rvalid),'point(s) could not be projected\n')
@@ -41,7 +43,8 @@ head.radviz <- function(x,n=6,...) {
 #' @rdname summary.radviz
 #' @export
 dim.radviz <- function(x) {
-  dim(x$proj$data)
+  return(c(nrow(x$proj$data),
+           length(springs(x))))
 }
 
 #' @rdname summary.radviz
