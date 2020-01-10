@@ -5,7 +5,8 @@
 \alias{head.radviz}
 \alias{dim.radviz}
 \alias{print.radviz}
-\title{Radviz Object Summary, head, print, dim Methods}
+\alias{springs}
+\title{Radviz Object Summary, head, print, dim and spings Methods}
 \usage{
 \method{summary}{radviz}(object, ..., n = 6)
 
@@ -14,6 +15,8 @@
 \method{dim}{radviz}(x)
 
 \method{print}{radviz}(x, ...)
+
+springs(x)
 }
 \arguments{
 \item{object}{an object of class Radviz, as returned by \code{\link{do.radviz}}}

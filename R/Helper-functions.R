@@ -1,4 +1,4 @@
-#' Radviz Object Summary, head, print, dim Methods
+#' Radviz Object Summary, head, print, dim and spings Methods
 #' 
 #' Provides a summary for Radviz objects
 #' 
@@ -24,7 +24,7 @@ summary.radviz <- function(object,...,n=6) {
   if(any(object$proj$data$rvalid)) {
     cat(sum(object$proj$data$rvalid),'point(s) could not be projected\n')
   }
-  das <- levels(object$proj$layers[[1]]$data$Channel)
+  das <- springs(object)
   if(length(das)>n) {
     das <- das[seq(1,n)]
     das <- c(das,'...')
@@ -49,4 +49,10 @@ dim.radviz <- function(x) {
 print.radviz <- function(x,...) {
   print(x$proj)
   return(invisible(x$proj$data))
+}
+
+#' @rdname summary.radviz
+#' @export
+springs <- function(x) {
+  return(levels(x$proj$layers[[1]]$data$Channel))
 }
