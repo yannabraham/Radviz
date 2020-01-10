@@ -11,6 +11,8 @@ vignette: >
 
 ```{r,echo=FALSE}
 knitr::opts_chunk$set(warning=FALSE,
+                      fig.height = 6,
+                      fig.width = 8,
                       fig.retina=1,
                       fig.keep='high',
                       fig.align='center')
@@ -333,14 +335,14 @@ func.rv <- do.radviz(tcells.df,func.S,trans=trans)
 
 The overall T cell functional landscape is shown below:
 
-```{r,fid.width=9}
+```{r,fig.width=12}
 smoothRadviz(subset(func.rv,tcells.df$Treatment=='unstimulated'))+
   facet_grid(~Cells)
 ```
 
 The effect of different stimulations can then be visualized using contour plots:
 
-```{r,fig.width=9}
+```{r,fig.width=12}
 plot(func.rv)+
   geom_density2d(aes(color=Treatment))+
   facet_grid(~Cells)
@@ -348,7 +350,7 @@ plot(func.rv)+
 
 Where one can see that *BCR/FcR-XL* has no effect and overlaps with *unstimulated* while *PMA/Ionomycine* increases pS6 and *vanadate* increases pSlp76:
 
-```{r,fig.width=9}
+```{r}
 tcells.df %>% 
   select(Cells, Treatment, pS6, pSlp76) %>% 
   gather('Channel','value',one_of('pS6','pSlp76')) %>% 
