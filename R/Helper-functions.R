@@ -1,4 +1,4 @@
-#' Radviz Object Summary, head, print, dim and spings Methods
+#' Radviz Object Summary, head, print, dim and springs Methods
 #' 
 #' Provides a summary for Radviz objects
 #' 

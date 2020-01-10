@@ -6,7 +6,7 @@
 \alias{dim.radviz}
 \alias{print.radviz}
 \alias{springs}
-\title{Radviz Object Summary, head, print, dim and spings Methods}
+\title{Radviz Object Summary, head, print, dim and springs Methods}
 \usage{
 \method{summary}{radviz}(object, ..., n = 6)
 
@@ -29,6 +29,9 @@ springs(x)
 }
 \description{
 Provides a summary for Radviz objects
+}
+\details{
+\code{dim} returns the number of points and the number of dimensions used for the projection
 }
 \examples{
 data(iris)

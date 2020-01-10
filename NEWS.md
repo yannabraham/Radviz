@@ -4,7 +4,7 @@ Radviz now uses ggplot2 for plotting, enabling richer options for labeling and s
 
 # 2020-01-10
 
-After some testing the following enhamcements have been made to the code:
+After some testing the following enhancements have been made to the code:
 
  - created a `theme_radviz` function, mostly to enable changing the overall font size
  - label.size and label.color options have been reinstated, enabling each plot function
