@@ -5,9 +5,9 @@
 #' @param x a radviz object as produced by \code{\link{do.radviz}}
 #' @param main [Optional] a title to the graph, displayed on top
 #' @param anchors.only by default only plot the anchors so that other methods can easily be chained
+#' @param label.color the color of springs for visualization
+#' @param label.size the size of labels
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
-#' @param label.color deprecated, see \code{\link{do.radviz}}
-#' @param label.size deprecated, see \code{\link{do.radviz}}
 #' @param point.color deprecated, use \code{\link{geom_point}} instead
 #' @param point.shape deprecated, use \code{\link{geom_point}} instead
 #' @param point.size deprecated, use \code{\link{geom_point}} instead
@@ -33,18 +33,14 @@
 plot.radviz <- function(x,
                         main=NULL,
                         anchors.only=TRUE,
-                        label.color,
-                        label.size,
+                        label.color=NULL,
+                        label.size=NULL,
                         point.color,
                         point.shape,
                         point.size,
                         add,
                         ...) {
   ## check for deprecated arguments
-  if(!missing(label.color))
-    warning('label.color is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
-  if(!missing(label.size))
-    warning('label.size is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
   if(!missing(point.color))
     warning('point.color is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
   if(!missing(point.shape))
@@ -60,6 +56,15 @@ plot.radviz <- function(x,
   } 
   if(!anchors.only) { 
     p <- p + geom_point()
+  }
+  if(!is.null(label.color) | !is.null(label.size)) {
+    if(is.null(label.size)) label.size <- NA
+    if(is.null(label.color)) label.color <- 'orangered4'
+    if(!is.numeric(label.size)) label.size <- as.numeric(label.size)
+    p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
+                               aes_string(x='X1',y='X2',label='Channel'),
+                               color=label.color,
+                               size=label.size)
   }
   return(p)
 }

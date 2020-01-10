@@ -9,8 +9,8 @@ hexplot(
   main = NULL,
   nbins = 30,
   color = NULL,
-  label.color,
-  label.size,
+  label.color = NULL,
+  label.size = NULL,
   mincnt,
   style
 )
@@ -27,9 +27,9 @@ for details)}
 in the \code{hexcols} slot of the Radviz object, cells will be colored
 using colors in the \code{hexcols} slot}
 
-\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+\item{label.color}{the color of springs for visualization}
 
-\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+\item{label.size}{the size of labels}
 
 \item{mincnt}{deprecated, see \code{\link{stat_summary_hex}} instead}
 

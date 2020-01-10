@@ -7,8 +7,8 @@
 #' @param group the name of the grouping variable used to aggregate the data
 #' @param color [Optional] the name of the variable used to color the points
 #' @param size the size range for the plot
-#' @param label.color deprecated, see \code{\link{do.radviz}}
-#' @param label.size deprecated, see \code{\link{do.radviz}}
+#' @param label.color the color of springs for visualization
+#' @param label.size the size of labels
 #' @param bubble.color deprecated, use \code{\link{geom_point}} instead
 #' @param bubble.fg deprecated, use \code{\link{geom_point}} instead
 #' @param bubble.size deprecated, use \code{\link{geom_point}} instead
@@ -41,8 +41,8 @@ bubbleRadviz <-
            group = NULL,
            color = NULL,
            size = c(3,16),
-           label.color,
-           label.size,
+           label.color=NULL,
+           label.size=NULL,
            bubble.color,
            bubble.fg,
            bubble.size,
@@ -50,10 +50,6 @@ bubbleRadviz <-
            decreasing,
            add) {
     ## check for deprecated arguments
-    if(!missing(label.color))
-      warning('label.color is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
-    if(!missing(label.size))
-      warning('label.size is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
     if(!missing(bubble.color))
       warning('bubble.color is a deprecated argument, use plot(x)+geom_point() and custom data and mappings to change plot.',call. = FALSE)
     if(!missing(bubble.fg))
@@ -81,6 +77,16 @@ bubbleRadviz <-
     
     p <- x$proj+
       ggtitle(main)
+    
+    if(!is.null(label.color) | !is.null(label.size)) {
+      if(is.null(label.size)) label.size <- NA
+      if(is.null(label.color)) label.color <- 'orangered4'
+      if(!is.numeric(label.size)) label.size <- as.numeric(label.size)
+      p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
+                                 aes_string(x='X1',y='X2',label='Channel'),
+                                 color=label.color,
+                                 size=label.size)
+    }
     
     dims <- c(color,'rx','ry')
     

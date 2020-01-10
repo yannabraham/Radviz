@@ -10,8 +10,8 @@ bubbleRadviz(
   group = NULL,
   color = NULL,
   size = c(3, 16),
-  label.color,
-  label.size,
+  label.color = NULL,
+  label.size = NULL,
   bubble.color,
   bubble.fg,
   bubble.size,
@@ -31,9 +31,9 @@ bubbleRadviz(
 
 \item{size}{the size range for the plot}
 
-\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+\item{label.color}{the color of springs for visualization}
 
-\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+\item{label.size}{the size of labels}
 
 \item{bubble.color}{deprecated, use \code{\link{geom_point}} instead}
 

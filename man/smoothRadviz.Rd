@@ -9,8 +9,8 @@ smoothRadviz(
   main = NULL,
   color = "dodgerblue4",
   nbin = 200,
-  label.color,
-  label.size,
+  label.color = NULL,
+  label.size = NULL,
   smooth.color,
   max.dens,
   transformation,
@@ -29,9 +29,9 @@ smoothRadviz(
 \item{nbin}{the number of equally spaced grid points for the density estimation (see \link[ggplot2]{geom_density_2d}
 for details)}
 
-\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+\item{label.color}{the color of springs for visualization}
 
-\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+\item{label.size}{the size of labels}
 
 \item{smooth.color}{deprecated, see \code{\link{stat_density2d}} instead}
 

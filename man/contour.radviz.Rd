@@ -10,8 +10,8 @@
   main = NULL,
   color = NULL,
   size = 0.5,
-  label.color,
-  label.size,
+  label.color = NULL,
+  label.size = NULL,
   contour.color,
   contour.size,
   point.color,
@@ -34,9 +34,9 @@
 
 \item{size}{The thickness of contour lines}
 
-\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+\item{label.color}{the color of springs for visualization}
 
-\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+\item{label.size}{the size of labels}
 
 \item{contour.color}{deprecated, see \code{\link{geom_density2d}} instead}
 

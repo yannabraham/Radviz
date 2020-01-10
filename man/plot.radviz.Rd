@@ -8,8 +8,8 @@
   x,
   main = NULL,
   anchors.only = TRUE,
-  label.color,
-  label.size,
+  label.color = NULL,
+  label.size = NULL,
   point.color,
   point.shape,
   point.size,
@@ -24,9 +24,9 @@
 
 \item{anchors.only}{by default only plot the anchors so that other methods can easily be chained}
 
-\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+\item{label.color}{the color of springs for visualization}
 
-\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+\item{label.size}{the size of labels}
 
 \item{point.color}{deprecated, use \code{\link{geom_point}} instead}
 

@@ -5,9 +5,9 @@
 #' @param main [Optional] a title to the graph, displayed on top 
 #' @param color the variable in the Radviz projection used to color the contours
 #' @param size The thickness of contour lines
+#' @param label.color the color of springs for visualization
+#' @param label.size the size of labels
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
-#' @param label.color deprecated, see \code{\link{do.radviz}}
-#' @param label.size deprecated, see \code{\link{do.radviz}}
 #' @param contour.color deprecated, see \code{\link{geom_density2d}} instead
 #' @param contour.size deprecated, see \code{\link{geom_density2d}} instead
 #' @param point.color deprecated, see \code{\link{geom_density2d}} instead
@@ -32,8 +32,8 @@ contour.radviz <- function(x,...,
                            main=NULL,
                            color=NULL,
                            size=0.5,
-                           label.color,
-                           label.size,
+                           label.color=NULL,
+                           label.size=NULL,
                            contour.color,
                            contour.size,
                            point.color,
@@ -44,10 +44,6 @@ contour.radviz <- function(x,...,
                            drawpoints,
                            add) {
   ## check for deprecated arguments
-  if(!missing(label.color))
-    warning('label.color is a deprecated argument, use plot(x)+geom_density2d() and custom aes() to change plot.',call. = FALSE)
-  if(!missing(label.size))
-    warning('label.size is a deprecated argument, use plot(x)+geom_density2d() and custom aes() to change plot.',call. = FALSE)
   if(!missing(contour.color))
     warning('contour.color is a deprecated argument, use plot(x)+geom_density2d() and custom aes() to change plot.',call. = FALSE)
   if(!missing(contour.size))
@@ -69,6 +65,16 @@ contour.radviz <- function(x,...,
   ## plot
   p <- x$proj+
     ggtitle(main)
+  
+  if(!is.null(label.color) | !is.null(label.size)) {
+    if(is.null(label.size)) label.size <- NA
+    if(is.null(label.color)) label.color <- 'orangered4'
+    if(!is.numeric(label.size)) label.size <- as.numeric(label.size)
+    p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
+                               aes_string(x='X1',y='X2',label='Channel'),
+                               color=label.color,
+                               size=label.size)
+  }
   
   slayer <- geom_density2d(aes_string(color=color),
                            size=size)
