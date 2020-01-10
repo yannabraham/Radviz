@@ -30,6 +30,16 @@ A complete Radviz theme based on `ggplot2::theme_light`
 on top of `ggplot2::theme_light` this theme removes axis title, text and ticks, 
 as well as the reference grid. See \link[ggplot2]{theme} for details.
 }
+\examples{
+data(iris)
+das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
+S <- make.S(das)
+rv <- do.radviz(iris,S)
+plot(rv,main='Iris projection')
+plot(rv,main='Iris projection')+
+  theme_radviz(base_size=16)
+
+}
 \author{
 Yann Abraham
 }
