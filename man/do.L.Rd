@@ -21,7 +21,9 @@ A vector of values of the same length as x, scaled to the unit vector.
 Standardizes all values in a vector to the unit vector ([0,1]) using local min and max
 }
 \details{
-This is an alternative to performing a L normalization over the full matrix.
+This is an alternative to performing a L normalization over the full matrix. 
+  if the minimum and the maximum values returned after applying \code{fun} are the same, \code{do.L} 
+  will return 0.
 }
 \examples{
 data(iris)
