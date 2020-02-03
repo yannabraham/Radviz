@@ -10,7 +10,6 @@
 #'          for details)
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of labels
-#' @param ...	further arguments to be passed to or from other methods (not implemented)
 #' @param smooth.color deprecated, see \code{\link{stat_density2d}} instead
 #' @param max.dens deprecated, see \code{\link{stat_density2d}} instead
 #' @param transformation deprecated, see \code{\link{stat_density2d}} instead

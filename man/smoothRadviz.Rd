@@ -44,8 +44,6 @@ for details)}
 \item{ncols}{deprecated, see \code{\link{stat_density2d}} instead}
 
 \item{bandwidth}{deprecated, see \code{\link{stat_density2d}} instead}
-
-\item{...}{further arguments to be passed to or from other methods (not implemented)}
 }
 \value{
 the internal ggplot2 object plus added layers, allowing for extra geoms to be added
