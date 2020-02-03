@@ -50,6 +50,7 @@ do.radviz <- function(x,
   
   ## extract the matrix
   mat <- as.matrix(x[,rownames(springs)])
+  
   ## apply the transformation, if any
   if(!is.null(trans)) {
     mat <- apply(mat, 2, trans)
@@ -57,13 +58,17 @@ do.radviz <- function(x,
   weights <- mat/matrix(rep(rowSums(mat),each=ncol(mat)),nrow=nrow(mat),byrow=T)
   rx <- colSums(t(weights)*springs[,1])
   ry <- colSums(t(weights)*springs[,2])
+  rvd <- apply(cbind(rx,ry),1,function(x) any(is.na(x)))
+  
+  if(any(rvd)) {
+    warning('at least 1 point could not be projected; check the `valid` slot for details')
+  }
+  
   # add the projection back to the data
   x[,'rx'] <- rx
   x[,'ry'] <- ry
-  x[,'rvalid'] <- apply(x[,c('rx','ry')],1,function(x) any(is.na(x)))
-  if(any(x[['rvalid']])) {
-    warning('at least 1 point could not be projected; check the `valid` slot for details')
-  }
+  x[,'rvalid'] <- rvd
+  
   radviz <- list(proj=ggplot(data=x,
                              aes_string(x='rx',y='ry'))+
                    geom_text(data = data.frame(springs,
