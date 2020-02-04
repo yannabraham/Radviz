@@ -21,15 +21,19 @@ do.freeviz(x, classes, attractG = 1, repelG = 1, law = 0,
 \item{steps}{Number of iterations of the algorithm before re-considering convergence criterion}
 
 \item{springs}{Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}}}
+
+\item{print}{Logical, indicating whether information on the iterative procedure should be printed in the R console}
 }
 \value{
 An object of class radviz with the following slots:
          \itemize{
            \item \code{data} the original data (\code{x})
-           \item \code{springs} the original \code{springs}
+           \item \code{springs} the computed \code{springs}
            \item \code{projected} the projection of \code{x} on \code{springs},
                    a matrix of 2D coordinates for every line in df
            \item \code{valid} a logical vector 
+ 		  \item \code{type} character string, indicating method used for computing the projection (in this case "freeviz")
+           \item \code{classes} vector with class labels of the observations
          }
 }
 \description{

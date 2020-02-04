@@ -21,7 +21,8 @@ Suggests:
     rmarkdown,
     bodenmiller,
     colorspace,
-    igraph
+    igraph,
+    clusterSim
 LinkingTo: Rcpp, RcppArmadillo
 Description: An implementation of the radviz projection in R. It enables the visualization of
     multidimensional data while maintaining the relation to the original dimensions.

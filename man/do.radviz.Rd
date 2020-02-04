@@ -5,22 +5,12 @@
 \alias{do.radviz.default}
 \title{Projects a Matrix or a Data Frame to a 2D space defined by Dimensional Anchors}
 \usage{
-do.radviz(x, springs)
+do.radviz(x, springs, type = "radviz", classes = NULL, graph = NULL)
 }
 \arguments{
 \item{x}{a data.frame or matrix to be projected, with column names matching row names in springs}
 
 \item{springs}{A matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}}
-}
-\value{
-An object of class radviz with the following slots:
-         \itemize{
-           \item \code{data} the original data (\code{x})
-           \item \code{springs} the original \code{springs}
-           \item \code{projected} the projection of \code{x} on \code{springs},
-                   a matrix of 2D coordinates for every line in df
-           \item \code{valid} a logical vector 
-         }
 }
 \description{
 do.radviz will return a projection of a multidimensional dataset onto a 2D space
