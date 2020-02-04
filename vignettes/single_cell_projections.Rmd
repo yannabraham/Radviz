@@ -306,12 +306,19 @@ Radviz can also be used to visualize changes in functional space. We start by ad
 data(untreatedPhenoMat)
 data(untreatedFuncMat)
 data(untreatedAnnots)
-untreated.df <- bind_rows(ref.df %>% mutate(Treatment='unstimulated'),
+untreated.df <- bind_rows(ref.df %>% 
+                            mutate(Treatment='unstimulated',
+                                   Source=as.character(Source),
+                                   Cells=as.character(Cells)),
                           data.frame(untreatedAnnots,
                                      untreatedPhenoMat,
-                                     untreatedFuncMat)) %>% 
+                                     untreatedFuncMat) %>% 
+                            mutate(Treatment=as.character(Treatment),
+                                   Source=as.character(Source),
+                                   Cells=as.character(Cells))) %>% 
   mutate(Treatment=factor(Treatment),
-         Treatment=relevel(Treatment,'unstimulated'))
+         Treatment=relevel(Treatment,'unstimulated'),
+         Cells=factor(Cells))
 ```
 
 For this analysis we will focus on CD4+ and CD8+ T cells:
