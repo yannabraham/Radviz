@@ -4,8 +4,8 @@
 \alias{do.optim}
 \title{Optimize the Dimensional Anchors Position using a Genetic Algorithm}
 \usage{
-do.optim(springs, similarity, iter = 100, n = 1000, top = round(n * 0.1),
-  lambda = 0.01, nlast = 5, optim = "in.da")
+do.optim(springs, similarity, iter = 100, n = 1000, top = round(n *
+  0.1), lambda = 0.01, nlast = 5, optim = "in.da")
 }
 \arguments{
 \item{springs}{A matrix of 2D dimensional anchor coordinates, as returned by \link{make.S}}
@@ -75,4 +75,3 @@ plot(new.rv,main='Optimized columns',
 \author{
 Yann Abraham
 }
-

@@ -34,4 +34,3 @@ make.S(list(c('Sepal.Length','Sepal.Width'),c('Petal.Length','Petal.Width')))
 \author{
 Yann Abraham
 }
-

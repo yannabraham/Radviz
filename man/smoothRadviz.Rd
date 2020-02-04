@@ -4,8 +4,8 @@
 \alias{smoothRadviz}
 \title{A smoothScatter function for Radviz objects}
 \usage{
-smoothRadviz(x, main = NULL, label.color = "orangered4", label.size = 1,
-  smooth.color = colorRampPalette(c("white", blues9)),
+smoothRadviz(x, main = NULL, label.color = "orangered4",
+  label.size = 1, smooth.color = colorRampPalette(c("white", blues9)),
   transformation = function(x) x^0.25, nbin = 128, nrpoints = 100,
   bandwidth)
 }
@@ -52,12 +52,11 @@ rv <- do.radviz(iris,S)
 smoothRadviz(rv)
 
 }
+\seealso{
+\code{\link[graphics]{smoothScatter}} for original implementation
+}
 \author{
 Yann Abraham
 
 Florian Hahne
 }
-\seealso{
-\code{\link[graphics]{smoothScatter}} for original implementation
-}
-

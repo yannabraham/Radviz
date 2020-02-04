@@ -4,9 +4,9 @@
 \alias{bubbleRadviz}
 \title{A Plotting Function for the Radviz Object}
 \usage{
-bubbleRadviz(x, main = NULL, label.color = "orangered4", label.size = 1,
-  bubble.color = "grey", bubble.fg = "white", bubble.size = 1,
-  scale = 0.5, decreasing = NA, add = FALSE)
+bubbleRadviz(x, main = NULL, label.color = "orangered4",
+  label.size = 1, bubble.color = "grey", bubble.fg = "white",
+  bubble.size = 1, scale = 0.5, decreasing = NA, add = FALSE)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
@@ -62,4 +62,3 @@ Yann Abraham
 \keyword{cluster}
 \keyword{hplot}
 \keyword{multivariate}
-

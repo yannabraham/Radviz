@@ -55,12 +55,11 @@ rv <- do.hex(rv,channels='Sepal.Length',ncols=4,use.quantile=TRUE)
 summary(rv$hex)
 
 }
+\seealso{
+\link{hexplot} for plotting, \link[hexbin]{hexbin} for original implementation
+}
 \author{
 Yann Abraham
 
 Dan Carr
 }
-\seealso{
-\link{hexplot} for plotting, \link[hexbin]{hexbin} for original implementation
-}
-

@@ -4,10 +4,11 @@
 \alias{contour.radviz}
 \title{Creates a contour plot, or add a contour plot to an existing plot for a Radviz Object}
 \usage{
-\method{contour}{radviz}(x, ..., main = NULL, label.color = "orangered4",
-  label.size = 1, contour.color = par("fg"), contour.size = par("lwd"),
-  point.color = "lightgrey", point.shape = ".", point.size = 1, add = F,
-  drawlabels = FALSE, drawpoints = FALSE)
+\method{contour}{radviz}(x, ..., main = NULL,
+  label.color = "orangered4", label.size = 1,
+  contour.color = par("fg"), contour.size = par("lwd"),
+  point.color = "lightgrey", point.shape = ".", point.size = 1,
+  add = F, drawlabels = FALSE, drawpoints = FALSE)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
@@ -59,12 +60,11 @@ rv <- do.density(rv)
 contour(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Species)])
 
 }
-\author{
-Yann Abraham
-}
 \seealso{
 \link{do.density} for details about mapping projection to density
 }
+\author{
+Yann Abraham
+}
 \keyword{hplot}
 \keyword{multivariate}
-

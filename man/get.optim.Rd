@@ -39,4 +39,3 @@ get.optim(new,2) # the second step of the optimization
 \author{
 Yann Abraham
 }
-

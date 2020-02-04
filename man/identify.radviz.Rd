@@ -33,10 +33,9 @@ plot(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Specie
 identify(rv)
 
 }
-\author{
-Yann Abraham
-}
 \seealso{
 \code{\link[graphics]{identify}}
 }
-
+\author{
+Yann Abraham
+}

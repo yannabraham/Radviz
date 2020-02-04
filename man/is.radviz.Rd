@@ -24,4 +24,3 @@ is.radviz(rv) # should be true
 \author{
 Yann Abraham
 }
-

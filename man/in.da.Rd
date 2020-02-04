@@ -43,4 +43,3 @@ rv.da(S,sim.mat) # decreases with better projections
 \author{
 Yann Abraham
 }
-

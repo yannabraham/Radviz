@@ -56,4 +56,3 @@ with(rv0,subset(data,!valid))
 \author{
 Yann Abraham
 }
-

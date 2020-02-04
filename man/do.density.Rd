@@ -34,10 +34,9 @@ rv <- do.density(rv)
 contour(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Species)])
 
 }
-\author{
-Yann Abraham
-}
 \seealso{
 \link{contour.radviz} for plotting
 }
-
+\author{
+Yann Abraham
+}

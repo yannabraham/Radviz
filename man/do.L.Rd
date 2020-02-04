@@ -41,4 +41,3 @@ legend('topleft',legend=dimnames(scaled)[[2]],col=seq(1,ncol(scaled)),pch=16,bty
 \author{
 Yann Abraham
 }
-

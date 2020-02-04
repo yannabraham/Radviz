@@ -28,4 +28,3 @@ summary(rv)
 \author{
 Yann Abraham
 }
-

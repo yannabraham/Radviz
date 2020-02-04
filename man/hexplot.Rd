@@ -44,6 +44,10 @@ rv <- do.hex(rv,channels='Sepal.Length',ncols=4,use.quantile=TRUE)
 hexplot(rv,color='Sepal.Length')
 
 }
+\seealso{
+\code{\link[hexbin]{grid.hexagons}} and \code{\link[hexbin]{hexbin}}
+           for original implementation
+}
 \author{
 Yann Abraham
 
@@ -51,8 +55,3 @@ Dan Carr
 
 Nicholas Lewin-Koh
 }
-\seealso{
-\code{\link[hexbin]{grid.hexagons}} and \code{\link[hexbin]{hexbin}}
-           for original implementation
-}
-

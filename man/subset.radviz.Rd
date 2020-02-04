@@ -37,4 +37,3 @@ sum(iris$Species=='setosa') # 50 objects in srv corresponding to setosa values
 \author{
 Yann Abraham
 }
-

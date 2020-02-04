@@ -28,4 +28,3 @@ print(rv)
 \author{
 Yann Abraham
 }
-

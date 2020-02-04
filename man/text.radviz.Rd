@@ -5,8 +5,9 @@
 \title{Text annotations for for the Radviz Plots}
 \usage{
 \method{text}{radviz}(x, ..., main = NULL, label.color = "orangered4",
-  label.size = 1, labels = NULL, adj = NULL, pos = NULL, offset = 0.5,
-  vfont = NULL, cex = 1, col = NULL, font = NULL, add = TRUE)
+  label.size = 1, labels = NULL, adj = NULL, pos = NULL,
+  offset = 0.5, vfont = NULL, cex = 1, col = NULL, font = NULL,
+  add = TRUE)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
@@ -76,4 +77,3 @@ text(med.rv,labels=med.iris$Species,col=c('red','green','blue')[as.integer(med.i
 \author{
 Yann Abraham
 }
-

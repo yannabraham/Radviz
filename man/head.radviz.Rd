@@ -31,4 +31,3 @@ head(rv)
 \author{
 Yann Abraham
 }
-
