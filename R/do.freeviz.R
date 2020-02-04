@@ -7,12 +7,13 @@
 #' @param repelG  Number specifying the weight of the repulsive forces
 #' @param law Integer, specifying how forces change with distance: 0 = (inverse) linear, 1 = (inverse) square
 #' @param steps Number of iterations of the algorithm before re-considering convergence criterion
-#' @param springs Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}} 
+#' @param springs Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}}
+#' @param print Logical, indicating whether information on the iterative procedure should be printed in the R console
 #' 
 #' @return An object of class radviz with the following slots:
 #'          \itemize{
 #'            \item \code{data} the original data (\code{x})
-#'            \item \code{springs} the original \code{springs}
+#'            \item \code{springs} the computed \code{springs}
 #'            \item \code{projected} the projection of \code{x} on \code{springs},
 #'                    a matrix of 2D coordinates for every line in df
 #'            \item \code{valid} a logical vector 
@@ -35,11 +36,11 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 	
 	# Sort data according to their classes
 	classes_orig <- classes
+	x_orig <- x
 	classes <- as.integer(as.factor(classes))
 	classesOrdered <- sort.int(classes, index.return = T)
 	classes <- classesOrdered$x
 	x <- x[classesOrdered$ix,]
-	classes_orig <- classes_orig[classesOrdered$ix]
 	
 	if(is.null(springs)) springs <-  make.S(colnames(x))
 #	springs <- springs[c(2,1,4,3),] # Temporary, to compare results with Python
@@ -84,9 +85,9 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 	if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
 	
 	# Create Radviz object
-	freeVizObject <- do.radviz(as.data.frame(x), freeVizSprings, type = "freeviz", classes = classes_orig)
+	radvizObject <- do.radviz(as.data.frame(x_orig), freeVizSprings, type = "freeviz", classes = classes_orig)
 	
-	return(freeVizObject)
+	return(radvizObject)
 }
 
 

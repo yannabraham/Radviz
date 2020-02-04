@@ -18,7 +18,8 @@
 #'                    a matrix of 2D coordinates for every line in df
 #'            \item \code{valid} a logical vector 
 #' 			  \item \code{type} character string, indicating method used for computing the projection (either "radviz", "freeviz", or "graphviz")
-#' 		      \item \code{classes} vector with class labels of the observations (only used when \code{type) is "freeviz")       
+#' 		      \item \code{classes} vector with class labels of the observations (only used when \code{type) is "freeviz")  
+#' 			  \item \code{graph} the original graph \code{igraph} object (only used when \code{type) is "graphviz")    
 #'  		}
 #' 
 #' @examples
@@ -45,7 +46,7 @@
 #' @aliases do.radviz do.radviz.default
 #' @author Yann Abraham
 #' @export
-do.radviz <- function(x,springs, type = "radviz", classes = NULL) {
+do.radviz <- function(x,springs, type = "radviz", classes = NULL, graph = NULL) {
   radviz <- list()
   radviz$data <- x
   radviz$springs <- springs
@@ -63,6 +64,7 @@ do.radviz <- function(x,springs, type = "radviz", classes = NULL) {
   radviz$valid <- unname(!vald)
   radviz$type <- type
   radviz$classes <- classes
+  radviz$graph <- graph
   class(radviz) <- 'radviz'
   return(radviz)
 }
