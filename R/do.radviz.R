@@ -17,7 +17,9 @@
 #'            \item \code{projected} the projection of \code{x} on \code{springs},
 #'                    a matrix of 2D coordinates for every line in df
 #'            \item \code{valid} a logical vector 
-#'          }
+#' 			  \item \code{type} character string, indicating method used for computing the projection (either "radviz", "freeviz", or "graphviz")
+#' 		      \item \code{classes} vector with class labels of the observations (only used when \code{type) is "freeviz")       
+#'  		}
 #' 
 #' @examples
 #' # the first example generates a simple Radviz object
@@ -43,7 +45,7 @@
 #' @aliases do.radviz do.radviz.default
 #' @author Yann Abraham
 #' @export
-do.radviz <- function(x,springs) {
+do.radviz <- function(x,springs, type = "radviz", classes = NULL) {
   radviz <- list()
   radviz$data <- x
   radviz$springs <- springs
@@ -59,6 +61,8 @@ do.radviz <- function(x,springs) {
   row.names(proj) <- row.names(mat)
   radviz$projected <- proj
   radviz$valid <- unname(!vald)
+  radviz$type <- type
+  radviz$classes <- classes
   class(radviz) <- 'radviz'
   return(radviz)
 }

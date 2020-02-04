@@ -16,6 +16,8 @@
 #'            \item \code{projected} the projection of \code{x} on \code{springs},
 #'                    a matrix of 2D coordinates for every line in df
 #'            \item \code{valid} a logical vector 
+#'  		  \item \code{type} character string, indicating method used for computing the projection (in this case "freeviz")
+#'            \item \code{classes} vector with class labels of the observations
 #'          }
 #' @examples
 #' # the first example generates a simple Radviz object
@@ -32,10 +34,12 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 	if(class(x) ==  "data.frame") x <- as.matrix(x)
 	
 	# Sort data according to their classes
+	classes_orig <- classes
 	classes <- as.integer(as.factor(classes))
 	classesOrdered <- sort.int(classes, index.return = T)
 	classes <- classesOrdered$x
 	x <- x[classesOrdered$ix,]
+	classes_orig <- classes_orig[classesOrdered$ix]
 	
 	if(is.null(springs)) springs <-  make.S(colnames(x))
 #	springs <- springs[c(2,1,4,3),] # Temporary, to compare results with Python
@@ -80,7 +84,7 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 	if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
 	
 	# Create Radviz object
-	freeVizObject <- Radviz::do.radviz(as.data.frame(x), freeVizSprings)
+	freeVizObject <- do.radviz(as.data.frame(x), freeVizSprings, type = "freeviz", classes = classes_orig)
 	
 	return(freeVizObject)
 }
