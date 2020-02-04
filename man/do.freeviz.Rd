@@ -5,7 +5,8 @@
 \title{Projects a Matrix or a Data Frame to a 2D space using Freeviz algorithm}
 \usage{
 do.freeviz(x, classes, attractG = 1, repelG = 1, law = 0,
-  steps = 10, springs = NULL, print = TRUE)
+  steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000,
+  minTreeLevels = 3, print = TRUE)
 }
 \arguments{
 \item{x}{Dataframe or matrix, with observations as rows and attributes as columns}
@@ -21,6 +22,12 @@ do.freeviz(x, classes, attractG = 1, repelG = 1, law = 0,
 \item{steps}{Number of iterations of the algorithm before re-considering convergence criterion}
 
 \item{springs}{Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}}}
+
+\item{multilevel}{Logical, indicating whether multi-level computation should be used. Setting it to TRUE can speed up computations}
+
+\item{nClusters}{Number of clusters to be used at coarsest level of hierarchical tree (only used when \code{multilevel} is set to TRUE)}
+
+\item{minTreeLevels}{Minimum number of clustering levels to consider (only used when \code{multilevel} is set to TRUE). This parameter might over-rule \code{nClusters} .}
 
 \item{print}{Logical, indicating whether information on the iterative procedure should be printed in the R console}
 }

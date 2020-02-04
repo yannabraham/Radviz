@@ -8,6 +8,9 @@
 #' @param law Integer, specifying how forces change with distance: 0 = (inverse) linear, 1 = (inverse) square
 #' @param steps Number of iterations of the algorithm before re-considering convergence criterion
 #' @param springs Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}}
+#' @param multilevel Logical, indicating whether multi-level computation should be used. Setting it to TRUE can speed up computations
+#' @param nClusters Number of clusters to be used at coarsest level of hierarchical tree (only used when \code{multilevel} is set to TRUE)
+#' @param minTreeLevels Minimum number of clustering levels to consider (only used when \code{multilevel} is set to TRUE). This parameter might over-rule \code{nClusters} .
 #' @param print Logical, indicating whether information on the iterative procedure should be printed in the R console
 #' 
 #' @return An object of class radviz with the following slots:
@@ -28,7 +31,7 @@
 #' 
 #' @author Nicolas Sauwen
 #' @export
-do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, print = TRUE){
+do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000, minTreeLevels = 3, print = TRUE){
 	
 #	tStart <- Sys.time()
 	
@@ -37,6 +40,160 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 	# Sort data according to their classes
 	classes_orig <- classes
 	x_orig <- x
+	classes <- as.integer(as.factor(classes))
+	classesOrdered <- sort.int(classes, index.return = T)
+	classes <- classesOrdered$x
+	x <- x[classesOrdered$ix,]
+	
+	
+	if(multilevel == FALSE){
+		if(is.null(springs)) springs <-  make.S(colnames(x))
+		#	springs <- springs[c(2,1,4,3),] # Temporary, to compare results with Python
+		
+		# Get indices where class changes
+		classInds <- getClassIndices(classes)
+		
+		dataNormalized <- apply(x,2, do.L) 
+		dataNormalized <- t(dataNormalized) # C++ code currently assumes observations as columns and attributes as rows
+		freeVizSprings <- springs
+		
+		maxIters <- 1e5
+		iter <- 1
+		converged <- FALSE
+		convTol <- 1e-3
+		
+		while(!converged & iter < maxIters){
+			
+			oldSprings <- freeVizSprings
+			freeVizSprings <- optimizeAnchors(dataNormalized, classInds, freeVizSprings, attractG, repelG, law, steps, normalizeExamples = 0)
+			
+			# Avoid axes being suppressed in the first convergence steps:
+			if(iter < 5){
+				axesLengths <- sqrt(apply(freeVizSprings^2, 1, sum))
+				suppressedInds <- which(axesLengths < 1e-2)
+				if(length(suppressedInds) > 0){
+					freeVizSprings <-  pracma::flipdim(springs, 1)
+				}
+			}
+			
+			springsDiff <- sqrt(apply((oldSprings - freeVizSprings)^2, 1, sum))
+			if(max(springsDiff) < convTol) converged <- TRUE
+			iter <- iter + 1
+		}
+		
+		rownames(freeVizSprings) <- rownames(springs)
+		#	colnames(freeVizSprings) <- c("x","y")
+		
+		if(print) print(paste0("# iters: ", iter))
+		#	timeDiff <- Sys.time() - tStart
+		#	print(paste0("Computation time: ", timeDiff)) # Temporary, for comparison with Python code
+		if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
+		
+		# Create Radviz object
+		radvizObject <- do.radviz(as.data.frame(x_orig), freeVizSprings, type = "freeviz", classes = classes_orig)
+		
+	} else if(multilevel == TRUE){
+		
+		hclustList <- getHierarchicalClustList(x, classes)
+		labels <- unique(classes)
+		
+		# Define parameters for the multi-level approach
+		nDatapoints <- nrow(x)
+		if(nClusters > nDatapoints/(2^(minTreeLevels-1))) nClusters <-  round(nDatapoints/(2^(minTreeLevels-1)))
+		nClustersTemp <- nClusters
+		treeLevelCount <- 1
+		clusterLabelVect <- rep(0, nDatapoints)
+		
+		springs <-  make.S(colnames(x))
+		classInds <- getClassIndices(classes)
+		
+#		For monitoring clustering quality:
+#		DBIdxVect <- c()
+#		DBIdxVect[1] <- DB_weightedIdx(x, springs, classes)
+		
+		while(nClustersTemp < nDatapoints*0.6 | treeLevelCount <= minTreeLevels-1){
+			
+			clusterRatio <- nDatapoints/nClustersTemp
+			clusterLabelVect <- rep(0, nDatapoints)
+			classesClustered <- c()
+			clusterWeights <- c()
+			clusterClassInd <- 1
+			
+			for(i in 1:length(hclustList)){
+				nOneClassDataPoints <- length(hclustList[[i]]$order)
+				nOneClassClusters <- round(nOneClassDataPoints/clusterRatio)
+				treeCutOneClass <- cutree(hclustList[[i]], k = nOneClassClusters)
+				clusterLabelVect[(classInds[i]+1):classInds[i+1]] <- treeCutOneClass + max(clusterLabelVect)
+				classesClustered[clusterClassInd:(clusterClassInd+nOneClassClusters-1)] <- labels[i]
+				clusterWeights[clusterClassInd:(clusterClassInd+nOneClassClusters-1)] <- table(treeCutOneClass)
+				clusterClassInd <- clusterClassInd + nOneClassClusters
+			}
+			rownames(x) <- clusterLabelVect
+			dataClustered <- rowsum(x, row.names(x), reorder = FALSE)
+			dataClustered <- dataClustered/replicate(ncol(dataClustered), table(clusterLabelVect))		
+			
+			# Apply FreeViz on current level hierarchical tree:
+#		print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(dataClustered), " clusters"))
+
+	        springs <- freeViz2(dataClustered, classesClustered, clusterWeights, attractG, repelG, law, steps, springs, print = FALSE) 
+			
+#		DBIdxVect[treeLevelCount+1] <- DB_weightedIdx(data, springs, classes)
+			
+			# Updating step
+			nClustersTemp <- nClustersTemp*2
+			treeLevelCount <- treeLevelCount+1
+		}
+		
+		# Final iteration on original dataset:
+#	print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(data), " data points"))
+		radvizObject <- do.freeviz(x_orig, classes_orig, attractG, repelG, law, steps, springs, multilevel = FALSE, print = print) 		
+	}
+	
+	return(radvizObject)
+}
+
+
+
+getClassIndices <- function(classes){
+	
+	classInds <- which(diff(classes) != 0)
+	classInds <- c(0, classInds, length(classes))
+	
+	return(classInds)
+}
+
+
+
+# Obtain list with hierarchical clustering tree per class
+# 
+# @param data Dataframe or matrix, with observations as rows and attributes as columns
+# @param classes Vector with class labels of the observations
+# @return List with hierarchical clustering tree per class
+# 
+# @author Nicolas Sauwen
+getHierarchicalClustList <- function(data, classes){
+	
+	dataNormalized <- apply(data,2,Radviz::do.L) 
+	labels <- sort(unique(classes))
+	hclustList <- vector("list", length(labels))
+	
+	for(i in 1:length(labels)){
+		oneClassMat <- dataNormalized[which(classes == labels[i]),]
+		oneClassDistMat <- dist(oneClassMat)
+		hclustList[[i]] <- hclust(oneClassDistMat, method = "average")
+	}
+	
+	return(hclustList)
+}
+
+# Internal Freeviz function for multilevel approach
+freeViz2 <- function(x, classes, clustWeights, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, print = TRUE){
+	
+#	tStart <- Sys.time()
+	
+	if(class(x) ==  "data.frame") x <- as.matrix(x)
+	
+	# Sort data according to their classes
 	classes <- as.integer(as.factor(classes))
 	classesOrdered <- sort.int(classes, index.return = T)
 	classes <- classesOrdered$x
@@ -60,7 +217,7 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 	while(!converged & iter < maxIters){
 		
 		oldSprings <- freeVizSprings
-		freeVizSprings <- optimizeAnchors(dataNormalized, classInds, freeVizSprings, attractG, repelG, law, steps, normalizeExamples = 0)
+		freeVizSprings <- optimizeAnchors2(dataNormalized, classInds, freeVizSprings, clustWeights, attractG, repelG, law, steps, normalizeExamples = 0)
 		
 		# Avoid axes being suppressed in the first convergence steps:
 		if(iter < 5){
@@ -80,22 +237,8 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 #	colnames(freeVizSprings) <- c("x","y")
 	
 	if(print) print(paste0("# iters: ", iter))
-#	timeDiff <- Sys.time() - tStart
-#	print(paste0("Computation time: ", timeDiff)) # Temporary, for comparison with Python code
+
 	if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
 	
-	# Create Radviz object
-	radvizObject <- do.radviz(as.data.frame(x_orig), freeVizSprings, type = "freeviz", classes = classes_orig)
-	
-	return(radvizObject)
-}
-
-
-
-getClassIndices <- function(classes){
-	
-	classInds <- which(diff(classes) != 0)
-	classInds <- c(0, classInds, length(classes))
-	
-	return(classInds)
+	return(freeVizSprings)
 }
