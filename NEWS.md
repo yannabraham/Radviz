@@ -13,3 +13,8 @@ After some testing the following enhancements have been made to the code:
  - fixed a bug where `do.radviz` would fail on a `tbl_df` or `tibble` object when some
      points could not be projected
 
+# 2020-02-03
+
+ - Fixed a bug related to arguments in smoothRadviz
+ - Fixed a bug in do.L where NA is returned if the column contains a single value after transformation
+ - Fixed a bug in do.radviz where creating Radviz objects from tbl_df could throw an error
