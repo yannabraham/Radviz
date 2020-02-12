@@ -4,8 +4,16 @@
 \alias{do.optim}
 \title{Optimize the Dimensional Anchors Position using a Genetic Algorithm}
 \usage{
-do.optim(springs, similarity, iter = 100, n = 1000, top = round(n *
-  0.1), lambda = 0.01, nlast = 5, optim = "in.da")
+do.optim(
+  springs,
+  similarity,
+  iter = 100,
+  n = 1000,
+  top = round(n * 0.1),
+  lambda = 0.01,
+  nlast = 5,
+  optim = "in.da"
+)
 }
 \arguments{
 \item{springs}{A matrix of 2D dimensional anchor coordinates, as returned by \link{make.S}}
@@ -16,7 +24,7 @@ do.optim(springs, similarity, iter = 100, n = 1000, top = round(n *
 
 \item{n}{The number of permutations of Dimensional Anchors to be created at each generation}
 
-\item{top}{The number of permuations to keep to create the next generation}
+\item{top}{The number of permutations to keep to create the next generation}
 
 \item{lambda}{The threshold for the optimization process}
 
@@ -57,19 +65,14 @@ The first generation is a random sampling of all Dimensional Anchors.
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
-scaled <- apply(iris[,das],2,do.L)
-rv <- do.radviz(scaled,S)
-plot(rv,main='Iris Columns',
-     point.shape=1,
-     point.color=c('red','green','blue')[as.integer(iris$Species)])
-sim.mat <- cosine(scaled)
+rv <- do.radviz(iris,S)
+plot(rv,anchors.only=FALSE)
+sim.mat <- cosine(iris[,das])
 in.da(S,sim.mat) # the starting value
 new <- do.optim(S,sim.mat,iter=10,n=100)
 new.S <- make.S(get.optim(new))
-new.rv <- do.radviz(scaled,new.S)
-plot(new.rv,main='Optimized columns',
-     point.shape=1,
-     point.color=c('red','green','blue')[as.integer(iris$Species)])
+new.rv <- do.radviz(iris,new.S)
+plot(new.rv,anchors.only=FALSE)
 
 }
 \author{

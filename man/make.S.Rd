@@ -18,7 +18,7 @@ A matrix with 2 columns (x and y coordinates of dimensional anchors) and 1 line
          expect to match column names of data to row names of the spring matrix.
 }
 \description{
-make.S will return xy coordinates for n dimensional anchors equally spaced around the unit circle
+make.S will return [x,y] coordinates for n dimensional anchors equally spaced around the unit circle
 }
 \details{
 If x is a vector or a list, values will be used to set the row names of the matrix.

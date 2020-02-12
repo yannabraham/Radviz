@@ -13,7 +13,7 @@
 #' @return A measure of the efficiency of the Radviz projection of the similarity matrix
 #'          onto a set of springs
 #' 
-#' @details Following the recommendation of de cario et al. we used a cosine function to calculate
+#' @details Following the recommendation of Di Caro *et al.* we used a cosine function to calculate
 #'            the similarity between Dimensional Anchors (see \code{\link{cosine}} for details).
 #'            The in.da function implements the independent similarity measure,
 #'            where the value increases as the Radviz projection improves.
@@ -24,10 +24,10 @@
 #' data(iris)
 #' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 #' S <- make.S(das)
-#' scaled <- apply(iris[,das],2,do.L)
-#' sim.mat <- cosine(scaled)
-#' in.da(S,sim.mat) # increases with better projections
-#' rv.da(S,sim.mat) # decreases with better projections
+#' mat <- iris[,das]
+#' sim.mat <- cosine(mat)
+#' in.da(S,sim.mat)
+#' rv.da(S,sim.mat)
 #' 
 #' @aliases in.da rv.da
 #' @author Yann Abraham
@@ -50,7 +50,7 @@ in.da <- function(springs,similarity) {
 
 #' @export
 rv.da <- function(springs,similarity) {
-  proj <- do.radviz(similarity,springs)$projected
+  proj <- do.radviz(similarity,springs)$proj$data[,c('rx','ry')]
   proj <- proj[rownames(springs),]
   d <- rep(0,nrow(springs))
   for(i in seq(1,nrow(springs))) {

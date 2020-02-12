@@ -4,72 +4,132 @@
 #' 
 #' @param x a radviz object as produced by do.radviz
 #' @param main [Optional] a title to the graph, displayed on top if add is \code{TRUE}
-#' @param label.color [Optional] The color of the Dimensional Anchors if add is
-#'          \code{TRUE} (defaults to orangered4)
-#' @param label.size [Optional] numeric character expansion factor for Dimensional Anchor
-#'          labels if add is \code{TRUE}; multiplied by \code{par("cex")} yields the final
-#'          character size. NULL and NA are equivalent to 1.0
-#' @param labels a character vector specifying the text to be written. An attempt is made
-#'          to coerce other language objects (names and calls) to characters using
-#'            \code{\link[grDevices]{as.graphicsAnnot}}. If labels is longer than x and y,
-#'            the coordinates are recycled to the length of labels.
-#' @param adj one or two values in [0, 1] which specify the x (and optionally y) adjustment
-#'          of the labels. On most devices values outside that interval will also work.
-#' @param pos a position specifier for the text. If specified this overrides any adj value given.
-#'          Values of 1, 2, 3 and 4, respectively indicate positions below, to the left of, above
-#'          and to the right of the specified coordinates.
-#' @param offset when \code{pos} is specified, this value gives the offset of the label from the
-#'          specified coordinate in fractions of a character width.
-#' @param vfont \code{NULL} for the current font family, or a character vector of length 2 for
-#'          Hershey vector fonts. The first element of the vector selects a typeface and the second
-#'          element selects a style. Ignored if labels is an expression.
-#' @param cex numeric character expansion factor; multiplied by \code{\link{par}("cex")} yields
-#'          the final character size. NULL and NA are equivalent to 1.0.
-#' @param col,font the color and (if vfont = NULL) font to be used, possibly vectors.
-#'          These default to the values of the global \link{graphical parameters} in \link{par}().
-#' @param add Logical: if add is \code{TRUE} then only the projected points are plotted
-#' @param ...	further arguments to be passed to or from other methods
+#' @param labels the name of the variable used for labeling (see details)
+#' @param size [Logical] if \code{TRUE} labels are sized after the number of points they correspond to
+#' @param ...	further arguments to be passed to or from other methods (not implemented)
+#' @param label.color deprecated, see \code{\link{do.radviz}}
+#' @param label.size deprecated, see \code{\link{do.radviz}}
+#' @param adj deprecated, see \code{\link{geom_text}} instead
+#' @param pos deprecated, see \code{\link{geom_text}} instead
+#' @param offset deprecated, see \code{\link{geom_text}} instead
+#' @param vfont deprecated, see \code{\link{geom_text}} instead
+#' @param cex deprecated, see \code{\link{geom_text}} instead
+#' @param col deprecated, see \code{\link{geom_text}} instead
+#' @param font deprecated, see \code{\link{geom_text}} instead
+#' @param add deprecated, see \code{\link{geom_text}} instead
 #' 
+#' @example examples/example-do.radviz.R
 #' @examples
-#' data(iris)
-#' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-#' S <- make.S(das)
-#' rv <- do.radviz(iris,S)
-#' plot(rv,point.shape=1,point.color='grey')
-#' med.iris <- split(iris,iris$Species)
-#' med.iris <- lapply(med.iris,function(df) {
-#'    spc <- unique(df$Species)
-#'    df <-df[,names(df)!='Species']
-#'    df <- apply(df,2,median)
-#'    df <- data.frame(t(df))
-#'    df$Species <- spc
-#'    return(df)
-#'  }
-#' )
-#' med.iris <- do.call('rbind',med.iris)
-#' med.rv <- do.radviz(med.iris,S)
-#' text(med.rv,labels=med.iris$Species,col=c('red','green','blue')[as.integer(med.iris$Species)])
+#' text(rv,labels='Species')
 #' 
 #' @author Yann Abraham
-#' @importFrom grDevices as.graphicsAnnot Hershey
-#' @importFrom graphics par plot text
+#' 
+#' @importFrom stats median reorder
+#' @importFrom dplyr `%>%` filter select mutate group_by summarise_at count left_join .data sym
+#' @importFrom rlang `:=` 
+#' @importFrom ggplot2 ggtitle aes_string geom_text scale_radius
+#' 
 #' @export
-text.radviz <- function (x,..., main=NULL, label.color='orangered4', label.size=1,
-                         labels = NULL, adj = NULL, pos = NULL, offset = 0.5,
-                         vfont = NULL, cex = 1, col = NULL, font = NULL, add=TRUE) {
-	
-	labels <- as.graphicsAnnot(labels)
-	if (!is.null(vfont)) 
-		vfont <- c(typeface = pmatch(vfont[1L], Hershey$typeface),
-		           fontindex = pmatch(vfont[2L], Hershey$fontindex))
-	if (!add) {
-		par(mar = c(0,0,1,0))
-		plot(x$springs, type = "n", main = main, xlab = "",
-		     ylab = "", xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), 
-		     frame.plot = F, axes = F)
-		text(x$springs, labels = dimnames(x$springs)[[1]],
-		     col = label.color,cex=label.size)
-	}
-	text(x$projected$x[x$valid], x$projected$y[x$valid], labels[x$valid],
-	     adj, pos, offset, vfont, cex, col, font)
+text.radviz <- function (x,..., 
+                         main=NULL, 
+                         labels = NULL,
+                         size = FALSE,
+                         label.color,
+                         label.size,
+                         adj,
+                         pos,
+                         offset,
+                         vfont,
+                         cex,
+                         col,
+                         font,
+                         add) {
+  ## check for deprecated arguments
+  if(!missing(label.color))
+    warning('label.color is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(label.size))
+    warning('label.size is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(adj))
+    warning('adj is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(pos))
+    warning('pos is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(offset))
+    warning('offset is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(vfont))
+    warning('vfont is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(cex))
+    warning('cex is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(col))
+    warning('col is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(font))
+    warning('font is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  if(!missing(add))
+    warning('add is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
+  ## plot
+  if(is.null(labels)) {
+    stop('labels must be provided')
+  }
+  
+  if(!labels %in% colnames(x$proj$data)) {
+    stop(labels,' is not a valid column')
+  }
+  
+  if(is.numeric(x$proj$data[,labels])) {
+    stop('labels must be a valid grouping column')
+  }
+  
+  p <- x$proj+
+    ggtitle(main)
+  
+  dims <- c('rx','ry')
+  
+  df <- left_join(x$proj$data %>% 
+                    filter(!.data$rvalid) %>% 
+                    select(c(dims,labels)) %>% 
+                    group_by(!!sym(labels)) %>% 
+                    summarise_at(.vars=dims,.funs=median),
+                  x$proj$data %>% 
+                    count(!!sym(labels)),
+                  by=labels) %>%
+    mutate(!!labels:=factor(!!sym(labels)),
+           !!labels:=reorder(!!sym(labels),.data$n,max))
+  
+  if(is.logical(size)) {
+    if(size) {
+      slayer <- geom_text(data=df,
+                          aes_string(x='rx',y='ry',
+                                     label=labels,
+                                     size='n'))
+    } else {
+      slayer <- geom_text(data=df,
+                          aes_string(x='rx',y='ry',
+                                     label=labels))
+    }
+  } else {
+    if(is.numeric(size)) {
+      if(length(size)==1) {
+        slayer <- geom_text(data=df,
+                            aes_string(x='rx',y='ry',
+                                       label=labels),
+                            size=size)
+      } else if(length(size)==2) {
+        slayer <- geom_text(data=df,
+                            aes_string(x='rx',y='ry',
+                                       label=labels,
+                                       size='n'))
+      } else {
+        stop('size must be a numeric vector of length 1 or 2')
+      }
+    } else {
+      stop('size must be either logical or a numeric vector')
+    }
+  }
+  
+  p$layers <- c(slayer,p$layers)
+  
+  if(is.numeric(size) & length(size)==2) {
+    p <- p + scale_radius(range=size)
+  }
+  
+  return(p)
 }

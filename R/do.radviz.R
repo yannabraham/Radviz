@@ -5,63 +5,85 @@
 #' \code{\link{make.S}}
 #' 
 #' @param x a data.frame or matrix to be projected, with column names matching row names in springs
-#' @param springs A matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}
+#' @param springs a matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}
+#' @param trans a transformation to be applied to the data before projection
+#' @param label.color the color of springs for visualization
+#' @param label.size the size of labels
 #' 
 #' @details The function expects that at least some of the column names in df will be matched
 #'            by row names in springs
 #' 
-#' @return An object of class radviz with the following slots:
+#' @return a ggplot2 object of class radviz with a single geom_text layer corresponding to springs.
+#'            the \code{data} slot of the ggplot2 corresponds to the input parameter \code{x}
+#'            with the following extra columns
 #'          \itemize{
-#'            \item \code{data} the original data (\code{x})
-#'            \item \code{springs} the original \code{springs}
-#'            \item \code{projected} the projection of \code{x} on \code{springs},
-#'                    a matrix of 2D coordinates for every line in df
-#'            \item \code{valid} a logical vector 
+#'            \item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
+#'            \item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
 #' 			  \item \code{type} character string, indicating method used for computing the projection (either "radviz", "freeviz", or "graphviz")
 #' 		      \item \code{classes} vector with class labels of the observations (only used when \code{type) is "freeviz")  
 #' 			  \item \code{graph} the original graph \code{igraph} object (only used when \code{type) is "graphviz")    
 #'  		}
 #' 
+#' @example examples/example-do.radviz.R
 #' @examples
-#' # the first example generates a simple Radviz object
-#' data(iris)
-#' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-#' S <- make.S(das)
-#' rv <- do.radviz(iris,S)
 #' summary(rv)
+#' @example examples/example-is.valid.R 
 #' 
-#' # in case a point cannot be projected, a warning will be raise
-#' iris0 <- rbind(iris,c(rep(0,length(das)),NA))
-#' rv0 <- do.radviz(iris0,S)
+#' @aliases do.radviz do.radviz.default
 #' 
-#' # to find out how many points could not be projected:
-#' with(rv0,sum(!valid))
-#' 
-#' # to find which points where invalid in the data
-#' with(rv0,which(!valid))
-#' 
-#' # to review the original data points
-#' with(rv0,subset(data,!valid))
+#' @importFrom ggplot2 ggplot aes_string geom_text scale_x_continuous coord_equal
 #' 
 #' @aliases do.radviz do.radviz.default
 #' @author Yann Abraham
 #' @export
-do.radviz <- function(x,springs, type = "radviz", classes = NULL, graph = NULL) {
-  radviz <- list()
-  radviz$data <- x
-  radviz$springs <- springs
+do.radviz <- function(x,
+                      springs,
+                      trans=do.L,
+                      label.color='orangered4',
+                      label.size=NA) {
+  ## check all springs are there
+  if(!all(rownames(springs) %in% colnames(x))) {
+    stop('The following springs are missing in the input:\n',
+         paste(setdiff(rownames(springs),colnames(x)),sep='',collapse=', '))
+  }
+  
+  ## if x is not a data frame then change it to one
+  if(!is.data.frame(x)) {
+    x <- as.data.frame(x)
+  }
+  
+  ## extract the matrix
   mat <- as.matrix(x[,rownames(springs)])
+  
+  ## apply the transformation, if any
+  if(!is.null(trans)) {
+    mat <- apply(mat, 2, trans)
+  }
   weights <- mat/matrix(rep(rowSums(mat),each=ncol(mat)),nrow=nrow(mat),byrow=T)
   rx <- colSums(t(weights)*springs[,1])
   ry <- colSums(t(weights)*springs[,2])
-  proj <- data.frame(x=rx,y=ry)
-  vald <- apply(proj,1,function(x) any(is.na(x)))
-  if(any(vald)) {
+  rvd <- apply(cbind(rx,ry),1,function(x) any(is.na(x)))
+  
+  if(any(rvd)) {
     warning('at least 1 point could not be projected; check the `valid` slot for details')
   }
-  row.names(proj) <- row.names(mat)
-  radviz$projected <- proj
-  radviz$valid <- unname(!vald)
+  
+  # add the projection back to the data
+  x[,'rx'] <- rx
+  x[,'ry'] <- ry
+  x[,'rvalid'] <- rvd
+  
+  radviz <- list(proj=ggplot(data=x,
+                             aes_string(x='rx',y='ry'))+
+                   geom_text(data = data.frame(springs,
+                                               Channel=factor(rownames(springs),
+                                                              levels=rownames(springs))),
+                             aes_string(x='X1',y='X2',label='Channel'),
+                             color=label.color,
+                             size=label.size)+
+                   scale_x_continuous(expand = c(0.1,0.05))+
+                   coord_equal()+
+                   theme_radviz())
   radviz$type <- type
   radviz$classes <- classes
   radviz$graph <- graph

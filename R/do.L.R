@@ -8,8 +8,9 @@
 #' @param na.rm Logical: should NA be removed? defaults to \code{TRUE}
 #' 
 #' @details This is an alternative to performing a L normalization over the full matrix. 
-#' 
-#' @return A vector of values of the same lenght as x, scaled to the unit vector.
+#'   if the minimum and the maximum values returned after applying \code{fun} are the same, \code{do.L} 
+#'   will return 0.
+#' @return A vector of values of the same length as x, scaled to the unit vector.
 #' 
 #' @examples
 #' data(iris)
@@ -38,10 +39,14 @@ do.L <- function(v,fun=range,na.rm=T) {
   range_v <- match.fun(fun)(clean_v)
 	min_v <- min(range_v)
 	max_v <- max(range_v)
-	# scale v
-	scaled_v <- (v-min_v)/(max_v-min_v)
-	# remove values above and below 1 and 0
-	scaled_v[scaled_v<0] <- 0
-	scaled_v[scaled_v>1] <- 1
+	if(min_v==max_v) {
+	  scaled_v <- rep(0,length(clean_v))
+	} else {
+	  # scale v
+	  scaled_v <- (v-min_v)/(max_v-min_v)
+	  # remove values above and below 1 and 0
+	  scaled_v[scaled_v<0] <- 0
+	  scaled_v[scaled_v>1] <- 1
+	}
 	return(scaled_v)
 }

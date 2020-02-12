@@ -4,35 +4,51 @@
 \alias{bubbleRadviz}
 \title{A Plotting Function for the Radviz Object}
 \usage{
-bubbleRadviz(x, main = NULL, label.color = "orangered4",
-  label.size = 1, bubble.color = "grey", bubble.fg = "white",
-  bubble.size = 1, scale = 0.5, decreasing = NA, add = FALSE)
+bubbleRadviz(
+  x,
+  main = NULL,
+  group = NULL,
+  color = NULL,
+  size = c(3, 16),
+  label.color = NULL,
+  label.size = NULL,
+  bubble.color,
+  bubble.fg,
+  bubble.size,
+  scale,
+  decreasing,
+  add
+)
 }
 \arguments{
 \item{x}{a radviz object as produced by do.radviz}
 
-\item{main}{*Optional* a title to the graph, displayed on top}
+\item{main}{[Optional] a title to the graph, displayed on top}
 
-\item{label.color}{The color of the Dimensional Anchors (defaults to orangered4)}
+\item{group}{the name of the grouping variable used to aggregate the data}
 
-\item{label.size}{numeric character expansion factor for Dimensional Anchor labels;
-multiplied by \code{par("cex")} yields the final character size. NULL and NA are equivalent to 1.0}
+\item{color}{[Optional] the name of the variable used to color the points}
 
-\item{bubble.color}{The color of the bubble, either a single color or a vector of colors (defaults to grey)}
+\item{size}{the size range for the plot}
 
-\item{bubble.fg}{The foreground color of the bubble, either a single color or a vector of colors (defaults to white)}
+\item{label.color}{the color of springs for visualization}
 
-\item{bubble.size}{the bubble size, either a single number of a vector of values (defaults to 1)}
+\item{label.size}{the size of labels}
 
-\item{scale}{A scaling factor that will be applied to bubble.size (see \code{\link{symbols}}
-for details)}
+\item{bubble.color}{deprecated, use \code{\link{geom_point}} instead}
 
-\item{decreasing}{How the bubbles should be sorted: either \code{NA} for no sorting,
-\code{TRUE} or \code{FALSE} for sorting by decreasing or increasing 
-bubble.size respecitvely, or a vector specifying the bubble order
-(see \code{\link{symbols}} for details)}
+\item{bubble.fg}{deprecated, use \code{\link{geom_point}} instead}
 
-\item{add}{Logical: if add is \code{TRUE} than only the projected points are plotted}
+\item{bubble.size}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{scale}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{decreasing}{deprecated, use \code{\link{geom_point}} instead}
+
+\item{add}{deprecated, use \code{\link{geom_point}} instead}
+}
+\value{
+the internal ggplot2 object plus added layers, allowing for extra geoms to be added
 }
 \description{
 Plots the Dimensional Anchors and projected data points in a 2D space.
@@ -40,25 +56,18 @@ Plots the Dimensional Anchors and projected data points in a 2D space.
 \details{
 This function allows for the projection of clusters in Radviz (for example results of
            the SPADE algorithm), where the cluster size is derived from the number of events
-           that fall into a specific cluster
+           that fall into a specific cluster.
+         If color is not specified the grouping variable is used.
 }
 \examples{
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
-species <- apply(iris[,c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')],
-                 2,
-                 tapply,iris$Species,median)
-rv <- do.radviz(species,S)
-bubbleRadviz(rv,
-             bubble.color=c('red','green','blue')[seq(1,length(levels(iris$Species)))],
-             bubble.size=table(iris$Species),
-             decreasing=TRUE)
+rv <- do.radviz(iris,S)
+bubbleRadviz(rv, group='Species')
 
 }
 \author{
 Yann Abraham
 }
-\keyword{cluster}
-\keyword{hplot}
-\keyword{multivariate}
+

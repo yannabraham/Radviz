@@ -5,75 +5,74 @@
 #' 
 #' @param x a radviz object as produced by \code{\link{do.radviz}}
 #' @param main [Optional] a title to the graph, displayed on top
-#' @param label.color The color of the Dimensional Anchors (defaults to orangered4)
-#' @param label.size numeric character expansion factor for Dimensional Anchor labels;
-#'          multiplied by \code{par("cex")} yields the final character size.
-#'          NULL and NA are equivalent to 1.0
-#' @param smooth.color \code{function} accepting an integer n as an argument and returning
-#'          n colors (see \link[graphics]{smoothScatter} for details)
-#' @param transformation \code{function} mapping the density scale to the color scale
-#' @param nbin numeric vector of length one (for both directions) or two (for x and y separately)
-#'          specifying the number of equally spaced grid points for the density estimation;
-#'          directly used as gridsize in \link[KernSmooth]{bkde2D} (see \link[graphics]{smoothScatter}
+#' @param color the gradient will be generated from \code{white} to \code{color}
+#' @param nbin the number of equally spaced grid points for the density estimation (see \link[ggplot2]{geom_density_2d}
 #'          for details)
-#' @param nrpoints number of points to be superimposed on the density image
-#'          (see \link[graphics]{smoothScatter} for details)
-#' @param bandwidth numeric vector (length 1 or 2) of smoothing bandwidth(s).
-#'          If missing, a more or less useful default is used. bandwidth is subsequently
-#'          passed to function \link[KernSmooth]{bkde2D} (see \link[graphics]{smoothScatter} for details)
+#' @param label.color the color of springs for visualization
+#' @param label.size the size of labels
+#' @param smooth.color deprecated, see \code{\link{stat_density2d}} instead
+#' @param max.dens deprecated, see \code{\link{stat_density2d}} instead
+#' @param transformation deprecated, see \code{\link{stat_density2d}} instead
+#' @param nrpoints deprecated, see \code{\link{stat_density2d}} instead
+#' @param ncols deprecated, see \code{\link{stat_density2d}} instead
+#' @param bandwidth deprecated, see \code{\link{stat_density2d}} instead
 #' 
-#' @details The add allows plotting of additional data such as cluster centers onto an existing plot.
+#' @return the internal ggplot2 object plus added layers, allowing for extra geoms to be added
 #' 
+#' @example examples/example-do.radviz.R
 #' @examples
-#' data(iris)
-#' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-#' S <- make.S(das)
-#' rv <- do.radviz(iris,S)
 #' smoothRadviz(rv)
 #' 
-#' @seealso \code{\link[graphics]{smoothScatter}} for original implementation
 #' @author Yann Abraham
-#' @author Florian Hahne
-#' @importFrom grDevices colorRampPalette blues9
-#' @importFrom stats quantile
-#' @importFrom graphics par image text title 
+#' @importFrom ggplot2 ggtitle stat_density2d aes_string scale_fill_continuous guides
 #' @export
-#' 
-smoothRadviz <- function (x, main = NULL, label.color = "orangered4", label.size = 1, 
-				smooth.color = colorRampPalette(c("white", blues9)),
-				transformation = function(x) x^0.25, nbin=128, nrpoints = 100, bandwidth) 
-{
-	# taken from the original smoothScatter function
-	if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) != 1)) 
-		stop("'nrpoints' should be numeric scalar with value >= 0.")
-	if (length(nbin) == 1) 
-		nbin <- c(nbin, nbin)
-	if (!is.numeric(nbin) || length(nbin) != 2) 
-		stop("'nbin' must be numeric of length 1 or 2")
-	if (missing(bandwidth)) {
-		bandwidth <- diff(apply(x$projected, 2, quantile, probs = c(0.05, 0.95), na.rm = TRUE, names = FALSE))/25
-		bandwidth[bandwidth == 0] <- 1
-	}
-	else {
-		if (!is.numeric(bandwidth)) 
-			stop("'bandwidth' must be numeric")
-		if (any(bandwidth <= 0)) 
-			stop("'bandwidth' must be positive")
-	}
-	map <- KernSmooth::bkde2D(x$projected[x$valid,],
-			bandwidth = bandwidth,
-			gridsize = nbin,
-			range.x = list(c(-1.1,1.1),c(-1.1,1.1))
-	)
-	xm <- map$x1
-	ym <- map$x2
-	dens <- map$fhat
-	dens[] <- transformation(dens)
-	# plot
-	par(mar = c(0, 0, 1, 0), bty = "n")
-	image(xm, ym, z = dens, col = smooth.color(256), xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1),axes=F)
-	text(x$springs, labels = dimnames(x$springs)[[1]], cex = label.size, 
-			col = label.color)
-	title(main)
-	return(invisible(NULL))
+smoothRadviz <- function (x, 
+                          main = NULL,
+                          color = "dodgerblue4",
+                          nbin=200,
+                          label.color=NULL,
+                          label.size=NULL,
+                          smooth.color,
+                          max.dens,
+                          transformation,
+                          nrpoints,
+                          ncols,
+                          bandwidth) {
+  ## check for deprecated arguments
+  if(!missing(smooth.color))
+    warning("smooth.color is a deprecated argument, use plot(x)+stat_density2d(geom='tile') and custom aes() to change plot.",call. = FALSE)
+  if(!missing(max.dens))
+    warning("max.dens is a deprecated argument, use plot(x)+stat_density2d(geom='tile') and custom aes() to change plot.",call. = FALSE)
+  if(!missing(transformation))
+    warning("transformation is a deprecated argument, use plot(x)+stat_density2d(geom='tile') and custom aes() to change plot.",call. = FALSE)
+  if(!missing(nrpoints))
+    warning("nrpoints is a deprecated argument, use plot(x)+stat_density2d(geom='tile') and custom aes() to change plot.",call. = FALSE)
+  if(!missing(ncols))
+    warning("ncols is a deprecated argument, use plot(x)+stat_density2d(geom='tile') and custom aes() to change plot.",call. = FALSE)
+  if(!missing(bandwidth))
+    warning("bandwidth is a deprecated argument, use plot(x)+stat_density2d(geom='tile') and custom aes() to change plot.",call. = FALSE)
+  ## plot
+  p <- x$proj+
+    ggtitle(main)+
+    scale_fill_continuous(low = "white", high = color)+
+    guides(fill=FALSE)
+  
+  if(!is.null(label.color) | !is.null(label.size)) {
+    if(is.null(label.size)) label.size <- NA
+    if(is.null(label.color)) label.color <- 'orangered4'
+    if(!is.numeric(label.size)) label.size <- as.numeric(label.size)
+    p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
+                               aes_string(x='X1',y='X2',label='Channel'),
+                               color=label.color,
+                               size=label.size)
+  }
+  
+  slayer <- stat_density2d(aes_string(fill = "..density..^0.25"),
+                           geom = "tile",
+                           contour = FALSE,
+                           n = nbin)
+  
+  p$layers <- c(slayer,p$layers)
+  
+  return(p)
 }

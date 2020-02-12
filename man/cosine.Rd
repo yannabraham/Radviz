@@ -23,8 +23,7 @@ implementation by David Ruau (see \url{https://gist.github.com/bobthecat/2903031
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 mat <- iris[,das]
-scaled <- apply(mat,2,do.L)
-sim.mat <- cosine(scaled)
+sim.mat <- cosine(mat)
 ncol(mat)
 dim(sim.mat)
 

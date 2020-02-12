@@ -13,8 +13,7 @@
 #' data(iris)
 #' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 #' mat <- iris[,das]
-#' scaled <- apply(mat,2,do.L)
-#' sim.mat <- cosine(scaled)
+#' sim.mat <- cosine(mat)
 #' ncol(mat)
 #' dim(sim.mat)
 #' 
@@ -23,6 +22,9 @@
 #' 
 #' @export
 cosine <- function(mat) {
+  if(!is.matrix(mat)) {
+    mat <- as.matrix(mat)
+  }
   dotmat <- t(mat) %*% mat
   res <- dotmat / (sqrt(diag(dotmat)) %*% t(sqrt(diag(dotmat))))
   return(res)

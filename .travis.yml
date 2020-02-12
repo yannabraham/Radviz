@@ -5,6 +5,10 @@ cache: packages
 warnings_are_errors: true
 sudo: required
 
+branches:
+  only:
+    - master
+
 env:
   global:
     - NOT_CRAN=true

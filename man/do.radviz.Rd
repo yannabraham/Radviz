@@ -5,12 +5,33 @@
 \alias{do.radviz.default}
 \title{Projects a Matrix or a Data Frame to a 2D space defined by Dimensional Anchors}
 \usage{
-do.radviz(x, springs, type = "radviz", classes = NULL, graph = NULL)
+do.radviz(
+  x,
+  springs,
+  trans = do.L,
+  label.color = "orangered4",
+  label.size = NA
+)
 }
 \arguments{
 \item{x}{a data.frame or matrix to be projected, with column names matching row names in springs}
 
-\item{springs}{A matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}}
+\item{springs}{a matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}}
+
+\item{trans}{a transformation to be applied to the data before projection}
+
+\item{label.color}{the color of springs for visualization}
+
+\item{label.size}{the size of labels}
+}
+\value{
+a ggplot2 object of class radviz with a single geom_text layer corresponding to springs.
+           the \code{data} slot of the ggplot2 corresponds to the input parameter \code{x}
+           with the following extra columns
+         \itemize{
+           \item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
+           \item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
+         }
 }
 \description{
 do.radviz will return a projection of a multidimensional dataset onto a 2D space
@@ -22,26 +43,26 @@ The function expects that at least some of the column names in df will be matche
            by row names in springs
 }
 \examples{
-# the first example generates a simple Radviz object
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
 rv <- do.radviz(iris,S)
 summary(rv)
-
-# in case a point cannot be projected, a warning will be raise
+data(iris)
+das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 iris0 <- rbind(iris,c(rep(0,length(das)),NA))
+S <- make.S(das)
 rv0 <- do.radviz(iris0,S)
 
-# to find out how many points could not be projected:
-with(rv0,sum(!valid))
+sum(!is.valid(rv0)) # should be 1
 
 # to find which points where invalid in the data
-with(rv0,which(!valid))
+which(!is.valid(rv0))
 
 # to review the original data points
-with(rv0,subset(data,!valid))
+rv1 <- subset(rv0,is.valid(rv0))
 
+summary(rv1)
 }
 \author{
 Yann Abraham

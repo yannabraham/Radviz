@@ -4,46 +4,67 @@
 #' 
 #' @param x a radviz object as produced by \code{\link{do.radviz}}
 #' @param main [Optional] a title to the graph, displayed on top
-#' @param label.color The color of the Dimensional Anchors (defaults to orangered4)
-#' @param label.size numeric character expansion factor for Dimensional Anchor labels;
-#' multiplied by \code{par("cex")} yields the final character size. NULL and NA are equivalent to 1.0
-#' @param point.color The point color (defaults to black)
-#' @param point.shape The point shape (defaults to '.')
-#' @param point.size The point size (defaults to 1)
-#' @param add Logical: if add is \code{TRUE} then only the projected points are plotted
-#' @param anchors.only plot only the anchors so that other plots can be freely overlaid
-#' @param ...	further arguments to be passed to or from other methods
+#' @param anchors.only by default only plot the anchors so that other methods can easily be chained
+#' @param label.color the color of springs for visualization
+#' @param label.size the size of labels
+#' @param ...	further arguments to be passed to or from other methods (not implemented)
+#' @param point.color deprecated, use \code{\link{geom_point}} instead
+#' @param point.shape deprecated, use \code{\link{geom_point}} instead
+#' @param point.size deprecated, use \code{\link{geom_point}} instead
+#' @param add deprecated, use \code{\link{geom_point}} instead
 #' 
-#' @details The \code{add} option allows plotting of additional data
-#' such as cluster centers onto an existing plot.
+#' @details by default the plot function only shows the anchors. Extra geoms are required to display the data
 #' 
+#' @return the internal ggplot2 object, allowing for extra geoms to be added
+#' 
+#' @example examples/example-do.radviz.R
 #' @examples
-#' data(iris) 
-#' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-#' S <- make.S(das)
-#' rv <- do.radviz(iris,S)
-#' plot(rv,point.shape=1,point.color=c('red','green','blue')[as.integer(iris$Species)])
+#' plot(rv)
+#' plot(rv,anchors.only=FALSE)
+#' 
+#' library(ggplot2)
+#' ## should look the same as before
+#' plot(rv)+geom_point()
+#' plot(rv)+geom_point(aes(color=Species))
 #' 
 #' @author Yann Abraham
-#' @importFrom graphics par plot text points
+#' @importFrom ggplot2 ggtitle geom_point
 #' @export
-plot.radviz <- function(x,main=NULL,
-                        label.color='orangered4',label.size=1,
-                        point.color='black',point.shape='.',point.size=1,
-                        add=FALSE,anchors.only=FALSE,...) {
-  par(mar = c(0,0,1,0))
-  if (!add) {
-    plot(x$springs, type = "n", main = main, xlab = "", 
-         ylab = "", xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), 
-         frame.plot = F, axes = F)
-    text(x$springs, labels = dimnames(x$springs)[[1]], 
-         col = label.color,cex=label.size)
+plot.radviz <- function(x,
+                        main=NULL,
+                        anchors.only=TRUE,
+                        label.color=NULL,
+                        label.size=NULL,
+                        point.color,
+                        point.shape,
+                        point.size,
+                        add,
+                        ...) {
+  ## check for deprecated arguments
+  if(!missing(point.color))
+    warning('point.color is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
+  if(!missing(point.shape))
+    warning('point.shape is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
+  if(!missing(point.size))
+    warning('point.size is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
+  if(!missing(add))
+    warning('add is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
+  ## plot
+  p <- x$proj
+  if(!is.null(main)) {
+    p <- p + ggtitle(main)
+  } 
+  if(!anchors.only) { 
+    p <- p + geom_point()
   }
-  if(!anchors.only) {
-    points(x$projected[x$valid,], pch = point.shape, col = point.color,
-           cex = point.size)
+  if(!is.null(label.color) | !is.null(label.size)) {
+    if(is.null(label.size)) label.size <- NA
+    if(is.null(label.color)) label.color <- 'orangered4'
+    if(!is.numeric(label.size)) label.size <- as.numeric(label.size)
+    p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
+                               aes_string(x='X1',y='X2',label='Channel'),
+                               color=label.color,
+                               size=label.size)
   }
-  if (add & anchors.only) {
-    warning('add and anchors.only are both TRUE, so nothing will be plotted')
-  }
+  return(p)
 }
