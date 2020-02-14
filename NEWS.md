@@ -18,3 +18,7 @@ After some testing the following enhancements have been made to the code:
  - Fixed a bug related to arguments in smoothRadviz
  - Fixed a bug in do.L where NA is returned if the column contains a single value after transformation
  - Fixed a bug in do.radviz where creating Radviz objects from tbl_df could throw an error
+
+# next release
+
+ - subset now can be used directly on column names from the Radviz object

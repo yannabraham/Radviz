@@ -4,19 +4,17 @@
 \alias{subset.radviz}
 \title{Subsetting a Radviz projection}
 \usage{
-\method{subset}{radviz}(x, i, ...)
+\method{subset}{radviz}(x, i = TRUE, ...)
 }
 \arguments{
 \item{x}{a radviz object}
 
-\item{i}{A logical or indices vector of the same length as the original data used to 
-create the Radviz object, that is used to subset each slots}
+\item{i}{A logical vector or expression evaluated on the Radviz object}
 
 \item{...}{further arguments to be passed to or from other methods (not implemented)}
 }
 \value{
-a new Radviz object containing only rows specified in i.
-         Any density or hexbin analysis is dropped
+a new Radviz object containing only rows specified in i
 }
 \description{
 Subsetting a Radviz projection

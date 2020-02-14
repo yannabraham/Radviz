@@ -1,12 +1,10 @@
 #' Subsetting a Radviz projection
 #'
 #' @param x a radviz object 
-#' @param i A logical or indices vector of the same length as the original data used to 
-#'          create the Radviz object, that is used to subset each slots
+#' @param i A logical vector or expression evaluated on the Radviz object
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
 #'
-#' @return a new Radviz object containing only rows specified in i.
-#'          Any density or hexbin analysis is dropped
+#' @return a new Radviz object containing only rows specified in i
 #' 
 #' @example examples/example-do.radviz.R
 #' @examples
@@ -19,7 +17,8 @@
 #' 
 #' @importFrom ggplot2 `%+%`
 #' @export
-subset.radviz <- function(x,i,...) {
-		  x$proj <- x$proj %+% subset(x$proj$data,i)
-	    return(x)
+subset.radviz <- function(x,i=TRUE,...) {
+  i <- eval(substitute(i),x$proj$data,parent.frame())
+  x$proj <- x$proj %+% subset(x$proj$data,i)
+  return(x)
 }
