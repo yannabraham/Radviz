@@ -1,8 +1,9 @@
 Package: Radviz
 Type: Package
 Title: Project Multidimensional Data in 2D Space
-Version: 0.8.2.9000
+Version: 0.8.2.9100
 Authors@R: person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre'))
+           person('Nicolas','Sauwen',email='nicolas.sauwen@openanalytics.eu',role=c('aut'))
 Depends:
     R (>= 3.0)
 Imports:
@@ -22,10 +23,11 @@ LinkingTo: Rcpp, RcppArmadillo
 Description: An implementation of the radviz projection in R. It enables the visualization of
     multidimensional data while maintaining the relation to the original dimensions.
     This package provides functions to create and plot radviz projections, and a number of summary
-    plots that enable comparison and analysis. For reference see 
-    Ankerst *et al.* (1996) (<http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.68.1811>) for original implementation, 
-    see Di Caro *et al* 2012 (<http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13>) for the original method for dimensional
-    anchor arrangements.
+    plots that enable comparison and analysis. For reference see Ankerst *et al.* (1996) 
+    (<http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.68.1811>) for original implementation, 
+    see Di Caro *et al* (2012) (<http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13>) 
+    for the original method for dimensional anchor arrangements, see Demsar *et al.* (2007) 
+    (<http://dx.doi.org/10.1016/j.jbi.2007.03.010>) for the original freeViz implementation.
 License: CC BY-NC-SA 4.0
 URL: http://github.com/yannabraham/Radviz
 BugReports: http://github.com/yannabraham/Radviz/issues
