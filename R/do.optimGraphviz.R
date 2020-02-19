@@ -1,6 +1,8 @@
-
-
-#' Projects an attributes Matrix or a Data Frame with corresponding graph to a 2D space using Graphviz algorithm
+#' Optimize the Dimensional Anchors Position using the Graphviz algorithm
+#' 
+#' Allows to compute the best arrangement of Dimensional Anchors so that
+#' visualization efficiency (i.e. maintaining graph structure) is optimized.
+#' The Graphviz algorithm is implemented in C++ for optimal computational efficiency.
 #' 
 #' @param x a data.frame or matrix to be projected, with column names matching row names in springs
 #' @param graph \code{igraph} object
@@ -10,20 +12,17 @@
 #' @param steps Number of iterations of the algorithm before re-considering convergence criterion
 #' @param springs Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}} 
 #' 
-#' @return An object of class radviz with the following slots:
-#'          \itemize{
-#'            \item \code{data} the original data (\code{x})
-#'            \item \code{springs} the computed \code{springs}
-#'            \item \code{projected} the projection of \code{x} on \code{springs},
-#'                    a matrix of 2D coordinates for every line in df
-#'            \item \code{valid} a logical vector 
-#'  		  \item \code{type} character string, indicating method used for computing the projection (in this case "graphviz")
-#'            \item \code{graph} the original graph \code{igraph} object
-#'          }
+#' Graphviz is a variant of Freeviz (\code{\link{do.optimFreeviz}}, applicable to a dataset for which a graph structure (i.e. \code{igraph} object) is available.
+#' Attractive forces are defined between connected nodes in the graph, and repulsive forces between all non-connected nodes.
+#' To better maintain the original graph structure after projection, spring constants between connected nodes are proportional to their edge weights.
+#' Graphviz can be used as an alternative to Freeviz when class labels are not available.
+#' 
+#' @return A matrix with 2 columns (x and y coordinates of dimensional anchors) and 1 line
+#'          per dimensional anchor (so called springs).
 #' 
 #' @author Nicolas Sauwen
 #' @export
-do.graphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL){
+do.optimGraphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL){
 	
 	if(class(x) ==  "x.frame") x <- as.matrix(x)
 	if(!requireNamespace("igraph", quietly = FALSE)) install.packages("igraph")	
@@ -79,15 +78,16 @@ do.graphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps = 10,
 #	colnames(graphVizSprings) <- c("x","y")
 	
 	print(paste0("# iters: ", iter))
-
+	
 	if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
 	
-# Create Radviz object
-	radvizObject <- do.radviz(as.data.frame(x), graphVizSprings, type = "graphviz", graph = graph)
-	
-	return(radvizObject)
+	return(graphVizSprings)
 	
 }
+
+
+
+
 
 
 

@@ -2,6 +2,7 @@
 #' 
 #' Allows to compute the best arrangement of Dimensional Anchors so that
 #' visualization efficiency (i.e. separation between classes) is maximized.
+#' The Freeviz algorithm is implemented in C++ for optimal computational efficiency.
 #' 
 #' @param x Dataframe or matrix, with observations as rows and attributes as columns
 #' @param classes Vector with class labels of the observations
