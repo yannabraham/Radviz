@@ -83,7 +83,7 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 		rownames(freeVizSprings) <- rownames(springs)
 		#	colnames(freeVizSprings) <- c("x","y")
 		
-		if(print) print(paste0("# iters: ", iter))
+		print(paste0("# iters: ", iter))
 
 		if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
 		
@@ -128,9 +128,9 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 			dataClustered <- dataClustered/replicate(ncol(dataClustered), table(clusterLabelVect))		
 			
 			# Apply FreeViz on current level hierarchical tree:
-#		print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(dataClustered), " clusters"))
+			if(print) print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(dataClustered), " clusters"))
 			
-			springs <- freeViz2(dataClustered, classesClustered, clusterWeights, attractG, repelG, law, steps, springs, print = FALSE) 
+			springs <- freeViz2(dataClustered, classesClustered, clusterWeights, attractG, repelG, law, steps, springs, print = print) 
 			
 #		DBIdxVect[treeLevelCount+1] <- DB_weightedIdx(data, springs, classes)
 			
@@ -140,8 +140,8 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 		}
 		
 		# Final iteration on original dataset:
-#	print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(data), " data points"))
-		freeVizSprings <- do.optimFreeviz(x_orig, classes_orig, attractG, repelG, law, steps, springs, multilevel = FALSE, print = print) 		
+		if(print) print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(x), " data points"))
+		freeVizSprings <- do.optimFreeviz(x_orig, classes_orig, attractG, repelG, law, steps, springs, multilevel = FALSE) 		
 	}
 	
 	return(freeVizSprings)
