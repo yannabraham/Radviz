@@ -1,5 +1,7 @@
-
-#' Projects a Matrix or a Data Frame to a 2D space using Freeviz algorithm
+#' Optimize the Dimensional Anchors Position using the Freeviz algorithm
+#' 
+#' Allows to compute the best arrangement of Dimensional Anchors so that
+#' visualization efficiency (i.e. separation between classes) is maximized.
 #' 
 #' @param x Dataframe or matrix, with observations as rows and attributes as columns
 #' @param classes Vector with class labels of the observations
@@ -13,28 +15,24 @@
 #' @param minTreeLevels Minimum number of clustering levels to consider (only used when \code{multilevel} is set to TRUE). This parameter might over-rule \code{nClusters} .
 #' @param print Logical, indicating whether information on the iterative procedure should be printed in the R console
 #' 
-#' @return An object of class radviz with the following slots:
-#'          \itemize{
-#'            \item \code{data} the original data (\code{x})
-#'            \item \code{springs} the computed \code{springs}
-#'            \item \code{projected} the projection of \code{x} on \code{springs},
-#'                    a matrix of 2D coordinates for every line in df
-#'            \item \code{valid} a logical vector 
-#'  		  \item \code{type} character string, indicating method used for computing the projection (in this case "freeviz")
-#'            \item \code{classes} vector with class labels of the observations
-#'          }
+#' @details Freeviz is an optimization method that finds the linear projection that
+#' best separates instances of different classes, based on a physical metaphor. Observations are considered as physical particles,
+#' that exert forces onto each other. Attractive forces occur between observations of the same class, and repulsive forces between
+#' observations of different classes, with the force strength depending on the distance between observations. The goal of Freeviz
+#' is to find the projection with minimal potential energy. For more details, see the original Freeviz paper: \url{http://dx.doi.org/10.1016/j.jbi.2007.03.010}
+#' 
+#' @return A matrix with 2 columns (x and y coordinates of dimensional anchors) and 1 line
+#'          per dimensional anchor (so called springs).
+#'          
 #' @examples
-#' # the first example generates a simple Radviz object
 #' data(iris)
-#' fv <- do.freeviz(x = iris[,1:4], classes = iris$Species)
-#' summary(fv)
+#' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
+#' S <- do.optimFreeviz(x = iris[,das], classes = iris$Species)
 #' 
 #' @author Nicolas Sauwen
 #' @export
-do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000, minTreeLevels = 3, print = TRUE){
-	
-#	tStart <- Sys.time()
-	
+do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000, minTreeLevels = 3, print = TRUE){
+		
 	if(class(x) ==  "data.frame") x <- as.matrix(x)
 	
 	# Sort data according to their classes
@@ -85,12 +83,8 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 		#	colnames(freeVizSprings) <- c("x","y")
 		
 		if(print) print(paste0("# iters: ", iter))
-		#	timeDiff <- Sys.time() - tStart
-		#	print(paste0("Computation time: ", timeDiff)) # Temporary, for comparison with Python code
+
 		if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
-		
-		# Create Radviz object
-		radvizObject <- do.radviz(as.data.frame(x_orig), freeVizSprings, type = "freeviz", classes = classes_orig)
 		
 	} else if(multilevel == TRUE){
 		
@@ -134,8 +128,8 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 			
 			# Apply FreeViz on current level hierarchical tree:
 #		print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(dataClustered), " clusters"))
-
-	        springs <- freeViz2(dataClustered, classesClustered, clusterWeights, attractG, repelG, law, steps, springs, print = FALSE) 
+			
+			springs <- freeViz2(dataClustered, classesClustered, clusterWeights, attractG, repelG, law, steps, springs, print = FALSE) 
 			
 #		DBIdxVect[treeLevelCount+1] <- DB_weightedIdx(data, springs, classes)
 			
@@ -146,10 +140,10 @@ do.freeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10
 		
 		# Final iteration on original dataset:
 #	print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(data), " data points"))
-		radvizObject <- do.freeviz(x_orig, classes_orig, attractG, repelG, law, steps, springs, multilevel = FALSE, print = print) 		
+		freeVizSprings <- do.optimFreeviz(x_orig, classes_orig, attractG, repelG, law, steps, springs, multilevel = FALSE, print = print) 		
 	}
 	
-	return(radvizObject)
+	return(freeVizSprings)
 }
 
 
@@ -188,9 +182,7 @@ getHierarchicalClustList <- function(data, classes){
 
 # Internal Freeviz function for multilevel approach
 freeViz2 <- function(x, classes, clustWeights, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, print = TRUE){
-	
-#	tStart <- Sys.time()
-	
+		
 	if(class(x) ==  "data.frame") x <- as.matrix(x)
 	
 	# Sort data according to their classes
@@ -237,8 +229,11 @@ freeViz2 <- function(x, classes, clustWeights, attractG = 1, repelG = 1, law = 0
 #	colnames(freeVizSprings) <- c("x","y")
 	
 	if(print) print(paste0("# iters: ", iter))
-
+	
 	if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
 	
 	return(freeVizSprings)
 }
+
+
+

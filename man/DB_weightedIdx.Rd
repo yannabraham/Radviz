@@ -7,7 +7,7 @@
 DB_weightedIdx(x)
 }
 \arguments{
-\item{x}{an object of class Radviz, as returned by \code{\link{do.freeviz}}. Note that the DB weighted index can only be computed for Radviz objects with slot \code{type} = "freeviz"}
+\item{x}{an object of class Radviz, as returned by \code{\link{do.radviz}}.}
 }
 \value{
 weighted DB index value

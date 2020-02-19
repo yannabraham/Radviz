@@ -1,7 +1,7 @@
 
 #' Computation of weighted version of the Davies-Bouldin index. This index serves as a measure of clustering quality of a 2D projection result with known class labels
 #' 
-#' @param x an object of class Radviz, as returned by \code{\link{do.freeviz}}. Note that the DB weighted index can only be computed for Radviz objects with slot \code{type} = "freeviz"
+#' @param x an object of class Radviz, as returned by \code{\link{do.radviz}}.
 #' @return weighted DB index value
 #' 
 #' @author Nicolas Sauwen

@@ -19,9 +19,6 @@
 #'          \itemize{
 #'            \item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
 #'            \item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
-#' 			  \item \code{type} character string, indicating method used for computing the projection (either "radviz", "freeviz", or "graphviz")
-#' 		      \item \code{classes} vector with class labels of the observations (only used when \code{type) is "freeviz")  
-#' 			  \item \code{graph} the original graph \code{igraph} object (only used when \code{type) is "graphviz")    
 #'  		}
 #' 
 #' @example examples/example-do.radviz.R
@@ -84,9 +81,7 @@ do.radviz <- function(x,
                    scale_x_continuous(expand = c(0.1,0.05))+
                    coord_equal()+
                    theme_radviz())
-  radviz$type <- type
-  radviz$classes <- classes
-  radviz$graph <- graph
+
   class(radviz) <- 'radviz'
   return(radviz)
 }
