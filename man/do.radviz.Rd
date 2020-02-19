@@ -10,7 +10,9 @@ do.radviz(
   springs,
   trans = do.L,
   label.color = "orangered4",
-  label.size = NA
+  label.size = NA,
+  type = NULL,
+  graph = NULL
 )
 }
 \arguments{
@@ -25,13 +27,21 @@ do.radviz(
 \item{label.size}{the size of labels}
 }
 \value{
-a ggplot2 object of class radviz with a single geom_text layer corresponding to springs.
-           the \code{data} slot of the ggplot2 corresponds to the input parameter \code{x}
-           with the following extra columns
-         \itemize{
-           \item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
-           \item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
-         }
+an object of class radviz with the following slots:
+		\itemize{
+				\item \code{proj}: a ggplot2 object with a single geom_text layer corresponding to springs.
+           	the \code{data} slot of the ggplot2 corresponds to the input parameter \code{x}
+           	with the following extra columns:
+         		\itemize{
+           			\item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
+           			\item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
+					}
+				\item \code{type}: character string specifying the method used for obtaining the springs. 
+				Current methods are: Radviz, Freeviz and Graphviz. When not provided, the \code{type} is 
+				derived from the other inputs
+				\item \code{graphEdges}: when the input \code{graph} is provided (for a graphviz analysis), this slot will contain a 
+				dataframe with the graph edges
+}
 }
 \description{
 do.radviz will return a projection of a multidimensional dataset onto a 2D space
