@@ -129,7 +129,7 @@ The radviz-independent score should be maximal when the dimensional anchor posit
 The optimization procedure works as follows:
 
 ```{r}
-optim.ct <- do.optim(ct.S,ct.sim,iter=100,n=1000)
+optim.ct <- do.optimRadviz(ct.S,ct.sim,iter=100,n=1000)
 ct.S <- make.S(tail(optim.ct$best,1)[[1]])
 ```
 
@@ -335,7 +335,7 @@ Next we optimize the channel order, and create the projection:
 ```{r}
 func.S <- make.S(dimnames(refFuncMat)[[2]])
 func.sim <- cosine(as.matrix(tcells.df[,row.names(func.S)]))
-optim.func <- do.optim(func.S,func.sim,iter=100,n=1000)
+optim.func <- do.optimRadviz(func.S,func.sim,iter=100,n=1000)
 func.S <- make.S(tail(optim.func$best,1)[[1]])
 func.rv <- do.radviz(tcells.df,func.S,trans=trans)
 ```

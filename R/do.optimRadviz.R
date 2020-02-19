@@ -1,4 +1,4 @@
-#' Optimize the Dimensional Anchors Position using a Genetic Algorithm
+#' Optimize the Dimensional Anchors Position for Radviz projection using a Genetic Algorithm
 #' 
 #' Allows to compute the best arrangement of Dimensional Anchors so that
 #' visualization efficiency is maximized.
@@ -40,14 +40,14 @@
 #' plot(rv,anchors.only=FALSE)
 #' sim.mat <- cosine(iris[,das])
 #' in.da(S,sim.mat) # the starting value
-#' new <- do.optim(S,sim.mat,iter=10,n=100)
+#' new <- do.optimRadviz(S,sim.mat,iter=10,n=100)
 #' new.S <- make.S(get.optim(new))
 #' new.rv <- do.radviz(iris,new.S)
 #' plot(new.rv,anchors.only=FALSE)
 #' 
 #' @author Yann Abraham
 #' @export
-do.optim <- function (springs, similarity, iter = 100, n = 1000, top = round(n * 
+do.optimRadviz <- function (springs, similarity, iter = 100, n = 1000, top = round(n * 
 						0.1), lambda = 0.01, nlast = 5, optim = "in.da") 
 {
 	cat("Selected optimization function:",optim,'\n')
