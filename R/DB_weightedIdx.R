@@ -8,12 +8,18 @@
 #' @export
 DB_weightedIdx <- function(x){
 	
-	data <- x$data
-	springs <- x$springs
-	classes <- x$classes
+	if(x$type == "Graphviz"){
+		stop("Davies-Bouldin weighted index can not be computed on radviz object of type 'graphviz'")
+	}
+		
+	data <- x$proj$data[1:(ncol(x$proj$data)-3)]
+	springs <- x$proj$plot_env$springs
+	springNames <- rownames(springs)
+	classes <- unlist(data[!(colnames(data) %in% springNames)])
+	data <- data[,springNames]
 	
-	if(is.null(classes)){
-		stop("Davies-Bouldin weighted index can only be computed on radviz object of type 'freeviz'")
+	if(length(classes) != nrow(data)){
+		stop("Class labels could not be extracted from the radviz object")
 	}
 	
 	classes <- as.integer(as.factor(classes))
