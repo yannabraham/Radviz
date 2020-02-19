@@ -2,8 +2,8 @@ Package: Radviz
 Type: Package
 Title: Project Multidimensional Data in 2D Space
 Version: 0.8.2.9100
-Authors@R: person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre'))
-           person('Nicolas','Sauwen',email='nicolas.sauwen@openanalytics.eu',role=c('aut'))
+Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
+           person('Nicolas','Sauwen',email='nicolas.sauwen@openanalytics.eu',role=c('aut')))
 Depends:
     R (>= 3.0)
 Imports:
