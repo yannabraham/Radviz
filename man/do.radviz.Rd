@@ -25,6 +25,12 @@ do.radviz(
 \item{label.color}{the color of springs for visualization}
 
 \item{label.size}{the size of labels}
+
+\item{type}{character string specifying the method used for obtaining the springs. 
+Current methods are: Radviz, Freeviz and Graphviz. When not provided, \code{type} is 
+derived from the other inputs}
+
+\item{graph}{\code{igraph} object (only relevant for result obtained from \code{\link{do.optimGraphviz}} analysis)}
 }
 \value{
 an object of class radviz with the following slots:
@@ -37,8 +43,6 @@ an object of class radviz with the following slots:
            			\item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
 					}
 				\item \code{type}: character string specifying the method used for obtaining the springs. 
-				Current methods are: Radviz, Freeviz and Graphviz. When not provided, the \code{type} is 
-				derived from the other inputs
 				\item \code{graphEdges}: when the input \code{graph} is provided (for a graphviz analysis), this slot will contain a 
 				dataframe with the graph edges
 }

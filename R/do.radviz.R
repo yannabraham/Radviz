@@ -9,6 +9,10 @@
 #' @param trans a transformation to be applied to the data before projection
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of labels
+#' @param type character string specifying the method used for obtaining the springs. 
+#' 				Current methods are: Radviz, Freeviz and Graphviz. When not provided, \code{type} is 
+#' 				derived from the other inputs
+#' @param graph \code{igraph} object (only relevant for result obtained from \code{\link{do.optimGraphviz}} analysis) 
 #' 
 #' @details The function expects that at least some of the column names in df will be matched
 #'            by row names in springs
@@ -23,8 +27,6 @@
 #'            			\item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
 #' 					}
 #' 				\item \code{type}: character string specifying the method used for obtaining the springs. 
-#' 				Current methods are: Radviz, Freeviz and Graphviz. When not provided, the \code{type} is 
-#' 				derived from the other inputs
 #' 				\item \code{graphEdges}: when the input \code{graph} is provided (for a graphviz analysis), this slot will contain a 
 #' 				dataframe with the graph edges
 #' } 

@@ -54,6 +54,10 @@ The first generation is a random sampling of all Dimensional Anchors.
            the best solution by more than a given threshold (specified by \code{lambda}).
 }
 \examples{
+data(iris)
+das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
+S <- make.S(das)
+rv <- do.radviz(iris,S)
 plot(rv,anchors.only=FALSE)
 sim.mat <- cosine(iris[,das])
 in.da(S,sim.mat) # the starting value
@@ -61,11 +65,6 @@ new <- do.optimRadviz(S,sim.mat,iter=10,n=100)
 new.S <- make.S(get.optim(new))
 new.rv <- do.radviz(iris,new.S)
 plot(new.rv,anchors.only=FALSE)
-
-data(iris)
-das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-S <- make.S(das)
-rv <- do.radviz(iris,S)
 }
 \author{
 Yann Abraham

@@ -11,7 +11,8 @@ Imports:
     dplyr,
     rlang,
     stats,
-    utils
+    utils,
+    pracma
 Suggests: 
     knitr,
     rmarkdown,

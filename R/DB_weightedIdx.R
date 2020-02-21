@@ -29,7 +29,7 @@ DB_weightedIdx <- function(x){
 	dataNormalized <- apply(data,2, do.L) 
 	projectedData <- dataNormalized%*%springs
 	
-	if(!requireNamespace("clusterSim", quietly = FALSE)) install.packages("clusterSim")	
+	if(!requireNamespace("clusterSim", quietly = FALSE)) utils::install.packages("clusterSim")	
 	DBResult <- clusterSim::index.DB(projectedData, classes)
 #	R_vals <- DBResult$r
 #	DBIdx <- sum(R_vals*clusterSizes)/sum(clusterSizes)

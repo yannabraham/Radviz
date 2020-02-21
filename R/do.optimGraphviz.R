@@ -11,8 +11,11 @@
 #' @param law Integer, specifying how forces change with distance: 0 = (inverse) linear, 1 = (inverse) square
 #' @param steps Number of iterations of the algorithm before re-considering convergence criterion
 #' @param springs Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}} 
+#' @importFrom utils install.packages
+#' @importFrom stats cutree dist hclust
+#' @useDynLib Radviz
 #' 
-#' Graphviz is a variant of Freeviz (\code{\link{do.optimFreeviz}}, applicable to a dataset for which a graph structure (i.e. \code{igraph} object) is available.
+#' @details Graphviz is a variant of Freeviz (\code{\link{do.optimFreeviz}}, applicable to a dataset for which a graph structure (i.e. \code{igraph} object) is available.
 #' Attractive forces are defined between connected nodes in the graph, and repulsive forces between all non-connected nodes.
 #' To better maintain the original graph structure after projection, spring constants between connected nodes are proportional to their edge weights.
 #' Graphviz can be used as an alternative to Freeviz when class labels are not available.
@@ -40,7 +43,7 @@ do.optimGraphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps 
 	orderInd <- order(edgesMat[,1])
 	edgesMat <- edgesMat[orderInd,]
 	edgeWeights <- edgeWeights[orderInd]
-	degreeVect <- degree(graph)
+	degreeVect <- igraph::degree(graph)
 	edgesInds <- edgesMat[,2]
 	
 	rm(list = c("edgesMat", "orderInd"))

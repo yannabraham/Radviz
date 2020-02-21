@@ -20,12 +20,7 @@ do.optimGraphviz(x, graph, attractG = 1, repelG = 1, law = 0,
 
 \item{steps}{Number of iterations of the algorithm before re-considering convergence criterion}
 
-\item{springs}{Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}} 
-
-Graphviz is a variant of Freeviz (\code{\link{do.optimFreeviz}}, applicable to a dataset for which a graph structure (i.e. \code{igraph} object) is available.
-Attractive forces are defined between connected nodes in the graph, and repulsive forces between all non-connected nodes.
-To better maintain the original graph structure after projection, spring constants between connected nodes are proportional to their edge weights.
-Graphviz can be used as an alternative to Freeviz when class labels are not available.}
+\item{springs}{Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}}}
 }
 \value{
 A matrix with 2 columns (x and y coordinates of dimensional anchors) and 1 line
@@ -35,6 +30,12 @@ A matrix with 2 columns (x and y coordinates of dimensional anchors) and 1 line
 Allows to compute the best arrangement of Dimensional Anchors so that
 visualization efficiency (i.e. maintaining graph structure) is optimized.
 The Graphviz algorithm is implemented in C++ for optimal computational efficiency.
+}
+\details{
+Graphviz is a variant of Freeviz (\code{\link{do.optimFreeviz}}, applicable to a dataset for which a graph structure (i.e. \code{igraph} object) is available.
+Attractive forces are defined between connected nodes in the graph, and repulsive forces between all non-connected nodes.
+To better maintain the original graph structure after projection, spring constants between connected nodes are proportional to their edge weights.
+Graphviz can be used as an alternative to Freeviz when class labels are not available.
 }
 \author{
 Nicolas Sauwen
