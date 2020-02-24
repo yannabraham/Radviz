@@ -99,8 +99,9 @@ do.radviz <- function(x,
                              aes_string(x='X1',y='X2',label='Channel'),
                              color=label.color,
                              size=label.size)+
-                   scale_x_continuous(expand = c(0.1,0.05))+
                    coord_equal()+
+                   xlim(c(-1.1,1.1))+
+                   ylim(c(-1,1))+
                    theme_radviz(),
 		   		type=type)
 		
