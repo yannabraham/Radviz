@@ -4,9 +4,19 @@
 \alias{do.optimFreeviz}
 \title{Optimize the Dimensional Anchors Position using the Freeviz algorithm}
 \usage{
-do.optimFreeviz(x, classes, attractG = 1, repelG = 1, law = 0,
-  steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000,
-  minTreeLevels = 3, print = TRUE)
+do.optimFreeviz(
+  x,
+  classes,
+  attractG = 1,
+  repelG = 1,
+  law = 0,
+  steps = 10,
+  springs = NULL,
+  multilevel = FALSE,
+  nClusters = 5000,
+  minTreeLevels = 3,
+  print = TRUE
+)
 }
 \arguments{
 \item{x}{Dataframe or matrix, with observations as rows and attributes as columns}
@@ -50,7 +60,12 @@ is to find the projection with minimal potential energy. For more details, see t
 \examples{
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-S <- do.optimFreeviz(x = iris[,das], classes = iris$Species)
+S <- make.S(das)
+rv <- do.radviz(iris,S)
+plot(rv,anchors.only=FALSE)
+new.S <- do.optimFreeviz(x = iris[,das], classes = iris$Species)
+new.rv <- do.radviz(iris,new.S)
+plot(new.rv,anchors.only=FALSE)
 
 }
 \author{

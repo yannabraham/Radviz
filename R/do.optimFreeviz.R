@@ -25,10 +25,12 @@
 #' @return A matrix with 2 columns (x and y coordinates of dimensional anchors) and 1 line
 #'          per dimensional anchor (so called springs).
 #'          
+#' @example examples/example-do.radviz.R
 #' @examples
-#' data(iris)
-#' das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-#' S <- do.optimFreeviz(x = iris[,das], classes = iris$Species)
+#' plot(rv,anchors.only=FALSE)
+#' new.S <- do.optimFreeviz(x = iris[,das], classes = iris$Species)
+#' new.rv <- do.radviz(iris,new.S)
+#' plot(new.rv,anchors.only=FALSE)
 #' 
 #' @author Nicolas Sauwen
 #' @export
