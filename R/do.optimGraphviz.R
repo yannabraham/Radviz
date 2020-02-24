@@ -22,6 +22,13 @@
 #' 
 #' @return A matrix with 2 columns (x and y coordinates of dimensional anchors) and 1 line
 #'          per dimensional anchor (so called springs).
+#'          
+#' @example examples/example-do.radviz.R
+#' @examples 
+#' 
+#' plot(rv,anchors.only=FALSE)
+#' 
+#' @example examples/example-graphviz.R
 #' 
 #' @author Nicolas Sauwen
 #' @export
