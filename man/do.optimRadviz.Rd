@@ -2,10 +2,30 @@
 % Please edit documentation in R/do.optimRadviz.R
 \name{do.optimRadviz}
 \alias{do.optimRadviz}
+\alias{do.optim}
 \title{Optimize the Dimensional Anchors Position for Radviz projection using a Genetic Algorithm}
 \usage{
-do.optimRadviz(springs, similarity, iter = 100, n = 1000,
-  top = round(n * 0.1), lambda = 0.01, nlast = 5, optim = "in.da")
+do.optimRadviz(
+  springs,
+  similarity,
+  iter = 100,
+  n = 1000,
+  top = round(n * 0.1),
+  lambda = 0.01,
+  nlast = 5,
+  optim = "in.da"
+)
+
+do.optim(
+  springs,
+  similarity,
+  iter = 100,
+  n = 1000,
+  top = round(n * 0.1),
+  lambda = 0.01,
+  nlast = 5,
+  optim = "in.da"
+)
 }
 \arguments{
 \item{springs}{A matrix of 2D dimensional anchor coordinates, as returned by \link{make.S}}
@@ -53,6 +73,11 @@ The first generation is a random sampling of all Dimensional Anchors.
            is reached, or when a number of generations (defined by \code{nlast}) as not improved over
            the best solution by more than a given threshold (specified by \code{lambda}).
 }
+\section{\code{do.optim}}{
+
+ \code{do.optim} is being deprecated, please use \code{\link{do.optimRadviz}}.
+}
+
 \examples{
 data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
@@ -65,6 +90,7 @@ new <- do.optimRadviz(S,sim.mat,iter=10,n=100)
 new.S <- make.S(get.optim(new))
 new.rv <- do.radviz(iris,new.S)
 plot(new.rv,anchors.only=FALSE)
+
 }
 \author{
 Yann Abraham

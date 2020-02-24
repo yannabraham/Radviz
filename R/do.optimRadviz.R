@@ -47,8 +47,8 @@
 #' 
 #' @author Yann Abraham
 #' @export
-do.optimRadviz <- function (springs, similarity, iter = 100, n = 1000, top = round(n * 
-						0.1), lambda = 0.01, nlast = 5, optim = "in.da") 
+do.optimRadviz <- function(springs, similarity, iter = 100, n = 1000,
+                           top = round(n * 0.1), lambda = 0.01, nlast = 5, optim = "in.da") 
 {
 	cat("Selected optimization function:",optim,'\n')
 	if (!exists(optim,mode='function')) {
@@ -129,4 +129,15 @@ do.optimRadviz <- function (springs, similarity, iter = 100, n = 1000, top = rou
 		i <- i + 1
 	}
 	return(list(perfs = perfs, best = best, last = seeds))
+}
+
+#' @rdname do.optimRadviz
+#' @section \code{do.optim}:
+#'  \code{do.optim} is being deprecated, please use \code{\link{do.optimRadviz}}.
+#' 
+#' @export
+do.optim <- function(springs, similarity, iter = 100, n = 1000,
+                     top = round(n * 0.1), lambda = 0.01, nlast = 5, optim = "in.da") {
+  .Deprecated('do.optimRadviz')
+  do.optimRadviz(springs, similarity, iter, n, top, lambda, nlast, optim)
 }
