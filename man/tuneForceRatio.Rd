@@ -34,6 +34,10 @@ to find the optimal force ratio. First, a logarithmic grid search is performed, 
 a suboptimal local optimum, and requires less Freeviz evaluations than direct 1D optimization
 }
 \examples{
+data(iris)
+das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
+S <- make.S(das)
+rv <- do.radviz(iris,S)
 plot(rv,anchors.only=FALSE)
 forceRatio <- tuneForceRatio(x = iris[,das], classes = iris$Species)
 new.S <- do.optimFreeviz(x = iris[,das], classes = iris$Species, attractG = forceRatio, repelG = 1)
