@@ -65,7 +65,6 @@ void computeForcesDiscrete2(TPoint *pts, const TPoint *ptse, const int *classes,
 
       if (law == 0) {
         double sumx = 0, sumy = 0;
-        const double n = classesi[1] - *classesi;
         sumClustWeights = 0;
         for(ptsi = pts + *classesi, ptsie = pts + classesi[1], clustWeightsi = clustWeights + *classesi; ptsi != ptsie; ptsi++, clustWeightsi++) {
           sumx += ptsi->x * *clustWeightsi;
@@ -124,7 +123,7 @@ void computeForcesDiscrete2(TPoint *pts, const TPoint *ptse, const int *classes,
           if (r2 < 1e-20)
             continue;
 
-          double fct;
+          double fct = 0;
           switch (law) {
             case 0:
               fct = 1 / r2;

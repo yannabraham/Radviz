@@ -37,6 +37,7 @@
 do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000, minTreeLevels = 3, print = TRUE){
 		
 	if(class(x) ==  "data.frame") x <- as.matrix(x)
+	if(!(law %in% c(0,1))) stop("Parameter 'law' not properly specified. Valid values are 0 or 1")
 	
 	# Sort data according to their classes
 	classes_orig <- classes

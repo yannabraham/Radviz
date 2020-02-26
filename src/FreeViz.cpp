@@ -117,7 +117,7 @@ void computeForcesDiscrete(TPoint *pts, const TPoint *ptse, const int *classes,
           if (r2 < 1e-20)
             continue;
 
-          double fct;
+          double fct = 0;
           switch (law) {
             case 0:
               fct = 1 / r2;

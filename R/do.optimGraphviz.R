@@ -35,6 +35,7 @@
 do.optimGraphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL){
 	
 	if(class(x) ==  "x.frame") x <- as.matrix(x)
+	if(!(law %in% c(0,1))) stop("Parameter 'law' not properly specified. Valid values are 0 or 1")
 	if(!requireNamespace("igraph", quietly = FALSE)) install.packages("igraph")	
 	
 	# Get edge info from graph

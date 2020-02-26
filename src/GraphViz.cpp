@@ -41,10 +41,10 @@ void computeForcesDiscreteGraph(TPoint *pts, TPoint *pts2, const TPoint *ptse, c
                            TPoint *Fa, TPoint *Fr, const int nEdges
                           )
 {
-  TPoint *Fai, *Fri, *Fri2, *Fai2, *Fe, *ptsi, *ptsie, *ptsi2;
+  TPoint *Fai, *Fri, *Fri2, *Fe, *ptsi, *ptsi2;
   const int *edgesIndsi;
   const double *edgeWeightsi;
-  const int *classese, *degreeVecti;
+  const int *degreeVecti;
   int i;
 
   for(Fai = Fa, Fe = Fa + (ptse-pts); Fai != Fe; Fai++)
@@ -60,7 +60,7 @@ void computeForcesDiscreteGraph(TPoint *pts, TPoint *pts2, const TPoint *ptse, c
 
 
   int count = 0;
-  int degree;
+  int degree = 0;
   int ind;
   int ind2;
   double dx, dy, dx2, dy2;
@@ -85,7 +85,7 @@ void computeForcesDiscreteGraph(TPoint *pts, TPoint *pts2, const TPoint *ptse, c
 			  if (r2 < 1e-6)
 				  continue;
 
-			  double fct;
+			  double fct = 0;
 			  switch (law) {
 			  case 0:
 				  fct = 1 / r2;
@@ -146,6 +146,8 @@ void computeForcesDiscreteGraph(TPoint *pts, TPoint *pts2, const TPoint *ptse, c
   else{
 
 	  for(ptsi = pts, Fai = Fa, degreeVecti = degreeVect, i = 0; ptsi != ptse; ptsi++, Fai++, degreeVecti++, i++) {
+
+		  degree = *degreeVecti;
 
 		  for(edgesIndsi = edgesInds+count, edgeWeightsi = edgeWeights+count; edgesIndsi < edgesInds+count+degree; edgesIndsi++, edgeWeightsi++){
 			  ind2 = *edgesIndsi - 1;
