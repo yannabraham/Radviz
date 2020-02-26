@@ -70,4 +70,3 @@ bubbleRadviz(rv, group='Species')
 \author{
 Yann Abraham
 }
-
