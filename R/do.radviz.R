@@ -38,7 +38,7 @@
 #' 
 #' @aliases do.radviz do.radviz.default
 #' 
-#' @importFrom ggplot2 ggplot aes_string geom_text scale_x_continuous coord_equal
+#' @importFrom ggplot2 ggplot aes_string geom_text xlim ylim coord_equal
 #' 
 #' @aliases do.radviz do.radviz.default
 #' @author Yann Abraham
