@@ -50,10 +50,6 @@ rv <- do.radviz(iris,S)
 hexplot(rv,color='Sepal.Length')
 
 }
-\seealso{
-\code{\link[hexbin]{grid.hexagons}} and \code{\link[hexbin]{hexbin}}
-           for original implementation
-}
 \author{
 Yann Abraham
 }
