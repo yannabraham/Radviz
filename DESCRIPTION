@@ -12,7 +12,8 @@ Imports:
     rlang,
     stats,
     utils,
-    pracma
+    pracma,
+    rcompanion
 Suggests: 
     knitr,
     rmarkdown,
