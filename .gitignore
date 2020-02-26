@@ -6,3 +6,6 @@ inst/doc
 *.project
 doc
 Meta
+*.o
+*.so
+src/symbols.rds
