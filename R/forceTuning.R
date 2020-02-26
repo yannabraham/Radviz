@@ -68,7 +68,7 @@ tuneForceRatio <- function(x, classes, law = 0, steps = 10, springs = NULL, mult
 	cat("Start 1D optimization")
 	cat("\n")
 	
-	optim <- optimize(f = checkForceRatio, interval = c(10^lowerExponent, 10^upperExponent), x = x, classes = classes, law = law, steps = steps, springs = springs, multilevel = multilevel, print = print, tol = 10^lowerExponent)
+	optim <- stats::optimize(f = checkForceRatio, interval = c(10^lowerExponent, 10^upperExponent), x = x, classes = classes, law = law, steps = steps, springs = springs, multilevel = multilevel, print = print, tol = 10^lowerExponent)
 	optimForceRatio <- optim$minimum
 	
 	return(optimForceRatio)

@@ -15,6 +15,8 @@ do.optimFreeviz(
   multilevel = FALSE,
   nClusters = 5000,
   minTreeLevels = 3,
+  subsetting = FALSE,
+  minSamples = 1000,
   print = TRUE
 )
 }
