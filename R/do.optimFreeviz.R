@@ -14,6 +14,9 @@
 #' @param multilevel Logical, indicating whether multi-level computation should be used. Setting it to TRUE can speed up computations
 #' @param nClusters Number of clusters to be used at coarsest level of hierarchical tree (only used when \code{multilevel} is set to TRUE)
 #' @param minTreeLevels Minimum number of clustering levels to consider (only used when \code{multilevel} is set to TRUE). This parameter might over-rule \code{nClusters} .
+#' @param subsetting Logical, indicating whether a subsetting procedure should be used to compute the springs. The subset size is iteratively increased until the springs 
+#' are found to be close enough to their true values, based on a confidence interval. For large datasets this option can considerably speed up computations.
+#' @param minSamples Minimum number of samples to be considered for subsetting (only used when \code{subsetting} is set to TRUE)
 #' @param print Logical, indicating whether information on the iterative procedure should be printed in the R console
 #' 
 #' @details Freeviz is an optimization method that finds the linear projection that
@@ -34,7 +37,7 @@
 #' 
 #' @author Nicolas Sauwen
 #' @export
-do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000, minTreeLevels = 3, print = TRUE){
+do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000, minTreeLevels = 3, subsetting = FALSE, minSamples = 1000, print = TRUE){
 		
 	if(class(x) ==  "data.frame") x <- as.matrix(x)
 	if(!(law %in% c(0,1))) stop("Parameter 'law' not properly specified. Valid values are 0 or 1")
@@ -47,8 +50,78 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 	classes <- classesOrdered$x
 	x <- x[classesOrdered$ix,]
 	
-	
-	if(multilevel == FALSE){
+	if(subsetting == TRUE){
+		
+		nDatapoints <- nrow(data)
+		if(nDatapoints < minSamples) stop("Number of data points is smaller than specified minimum number of samples after subsetting")
+		
+		nSamples <- minSamples/2
+		nRepeats <- 20
+		springsMeanX <- c()
+		springsMeanY <- c()
+		converged <- FALSE
+		
+		while(!converged & nSamples < nDatapoints/2){
+			
+			# Increase subset size
+			nSamples <- nSamples*2
+			
+			nClusters <- round(nSamples/10)
+			reductionRatio <- nDatapoints/nSamples
+			
+			dataReduced <- kmeans(data, centers = nClusters, iter.max = 30)
+			clusterLabels <- dataReduced$cluster
+			clusterCounts <- table(clusterLabels)
+			
+			sampleIndsMat <- matrix(1, nRepeats, nSamples)
+			springsMatX <- matrix(0, ncol(data), nRepeats)
+			springsMatY <- matrix(0, ncol(data), nRepeats)
+			
+			# Get clustered subsets and compute springs for each:
+			for(i in 1:nRepeats){
+				index <- 1
+				for(j in 1:nClusters){
+					nSamplesToAdd <- round(clusterCounts[j]/reductionRatio)
+					if(j == nClusters){
+						if(index + nSamplesToAdd > nSamples+1) nSamplesToAdd <- nSamples - index + 1
+					}
+					subsetVect <- which(clusterLabels == j)
+					sampleIndsMat[i, index:(index+nSamplesToAdd-1)] <- sample(subsetVect, nSamplesToAdd)
+					index <- index + nSamplesToAdd
+				}
+				dataSubset <- data[sampleIndsMat[i,], ]
+				classesSubset <- classes[sampleIndsMat[i,]]
+				springsTemp <- do.optimFreeviz(dataSubset, classesSubset, attractG, repelG, law, steps, multilevel = TRUE, nClusters = nClusters, minTreeLevels = minTreeLevels, print = print)
+				springsMatX[,i] <- springsTemp[,1]
+				springsMatY[,i] <- springsTemp[,2]
+			}
+			
+			# Check if converged result is obtained for current subset size:
+			springsMeanX <- apply(springsMatX, 1, mean)
+			springsMeanY <- apply(springsMatY, 1, mean)
+			springsDist <- sqrt((springsMatX - springsMeanX)^2 + (springsMatY - springsMeanY)^2)
+			springsDistRel <- springsDist/(0.5*(sqrt(springsMatX^2 + springsMatY^2)+sqrt(springsMeanX^2 + springsMeanY^2)))
+			springsDistDF <- as.data.frame(t(cbind(springsDist, -springsDist)))
+			springsDistRelDF <- as.data.frame(t(cbind(springsDistRel, -springsDistRel)))
+			
+			converged <- TRUE
+			
+			for(i in 1:ncol(springsDistDF)){
+				varName <- paste0("V", i)
+				formula <- formula(paste(varName,"~ 1"))
+				confIntervalAbs <- rcompanion::groupwiseMean(formula, data = springsDistDF)
+				confIntervalRel <- rcompanion::groupwiseMean(formula, data = springsDistRelDF)
+				if(confIntervalAbs$Trad.upper > 0.025 & confIntervalRel$Trad.upper > 0.1) converged <- FALSE
+			}
+			
+		}
+		
+		print(paste0("Converged result at subset size = ", nSamples))
+		
+		freeVizSprings <- as.matrix(data.frame(springsMeanX, springsMeanY, row.names = colnames(data)))
+		colnames(freeVizSprings) <- NULL
+		
+	} else if(multilevel == FALSE){
 		if(is.null(springs)) springs <-  make.S(colnames(x))
 		#	springs <- springs[c(2,1,4,3),] # Temporary, to compare results with Python
 		
@@ -86,7 +159,7 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 		rownames(freeVizSprings) <- rownames(springs)
 		#	colnames(freeVizSprings) <- c("x","y")
 		
-		print(paste0("# iters: ", iter))
+		if(print) print(paste0("# iters: ", iter))
 
 		if(iter == maxIters) warning("Maximum number of iterations reached without convergence")
 		
@@ -144,7 +217,7 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 		
 		# Final iteration on original dataset:
 		if(print) print(paste0("Hierarchical tree level ", treeLevelCount, ": ",  nrow(x), " data points"))
-		freeVizSprings <- do.optimFreeviz(x_orig, classes_orig, attractG, repelG, law, steps, springs, multilevel = FALSE) 		
+		freeVizSprings <- do.optimFreeviz(x_orig, classes_orig, attractG, repelG, law, steps, springs, multilevel = FALSE, subsetting = FALSE, print = print) 		
 	}
 	
 	return(freeVizSprings)
