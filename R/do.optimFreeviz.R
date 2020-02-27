@@ -35,6 +35,8 @@
 #' new.rv <- do.radviz(iris,new.S)
 #' plot(new.rv,anchors.only=FALSE)
 #' 
+#' @importFrom rcompanion groupwiseMean
+#' 
 #' @author Nicolas Sauwen
 #' @export
 do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL, multilevel = FALSE, nClusters = 5000, minTreeLevels = 3, subsetting = FALSE, minSamples = 1000, print = TRUE){
@@ -109,8 +111,8 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 			for(i in 1:ncol(springsDistDF)){
 				varName <- paste0("V", i)
 				formula <- formula(paste(varName,"~ 1"))
-				confIntervalAbs <- rcompanion::groupwiseMean(formula, data = springsDistDF)
-				confIntervalRel <- rcompanion::groupwiseMean(formula, data = springsDistRelDF)
+				confIntervalAbs <- groupwiseMean(formula, data = springsDistDF)
+				confIntervalRel <- groupwiseMean(formula, data = springsDistRelDF)
 				if(confIntervalAbs$Trad.upper > 0.025 & confIntervalRel$Trad.upper > 0.1) converged <- FALSE
 			}
 			
