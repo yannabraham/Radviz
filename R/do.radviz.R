@@ -91,6 +91,9 @@ do.radviz <- function(x,
 	  } else type <- "Radviz"
   }
   
+  # find axis range
+  lims <- range(springs)*1.1
+  
   radviz <- list(proj=ggplot(data=x,
                              aes_string(x='rx',y='ry'))+
                    geom_text(data = data.frame(springs,
@@ -100,8 +103,8 @@ do.radviz <- function(x,
                              color=label.color,
                              size=label.size)+
                    coord_equal()+
-                   xlim(c(-1.1,1.1))+
-                   ylim(c(-1,1))+
+                   xlim(lims)+
+                   ylim(lims)+
                    theme_radviz(),
 		   		type=type)
 		
