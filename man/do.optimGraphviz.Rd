@@ -69,6 +69,7 @@ w.iris <- exp(-w.iris^2/(2*median(w.iris[w.iris!=0])^2))
 w.iris[n.iris==0] <- 0
 
 ## create graph
+library(igraph)
 g.iris <- graph.adjacency(w.iris,mode='undirected',weight=TRUE,diag=FALSE)
 
 V(g.iris)$Species <- as.character(iris[,'Species'])
@@ -86,7 +87,7 @@ grv <- do.radviz(iris[,das],
                 graph=g.iris)
 
 plot(grv)+
-  geom_point(aes(color=iris[,'Species']))
+  ggplot2::geom_point(aes(color=iris[,'Species']))
 }
 \author{
 Nicolas Sauwen

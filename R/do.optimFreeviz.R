@@ -54,7 +54,7 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 	
 	if(subsetting == TRUE){
 		
-		nDatapoints <- nrow(data)
+		nDatapoints <- nrow(x)
 		if(nDatapoints < minSamples) stop("Number of data points is smaller than specified minimum number of samples after subsetting")
 		
 		nSamples <- minSamples/2
@@ -71,13 +71,13 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 			nClusters <- round(nSamples/10)
 			reductionRatio <- nDatapoints/nSamples
 			
-			dataReduced <- kmeans(data, centers = nClusters, iter.max = 30)
+			dataReduced <- stats::kmeans(x, centers = nClusters, iter.max = 30)
 			clusterLabels <- dataReduced$cluster
 			clusterCounts <- table(clusterLabels)
 			
 			sampleIndsMat <- matrix(1, nRepeats, nSamples)
-			springsMatX <- matrix(0, ncol(data), nRepeats)
-			springsMatY <- matrix(0, ncol(data), nRepeats)
+			springsMatX <- matrix(0, ncol(x), nRepeats)
+			springsMatY <- matrix(0, ncol(x), nRepeats)
 			
 			# Get clustered subsets and compute springs for each:
 			for(i in 1:nRepeats){
@@ -91,7 +91,7 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 					sampleIndsMat[i, index:(index+nSamplesToAdd-1)] <- sample(subsetVect, nSamplesToAdd)
 					index <- index + nSamplesToAdd
 				}
-				dataSubset <- data[sampleIndsMat[i,], ]
+				dataSubset <- x[sampleIndsMat[i,], ]
 				classesSubset <- classes[sampleIndsMat[i,]]
 				springsTemp <- do.optimFreeviz(dataSubset, classesSubset, attractG, repelG, law, steps, multilevel = TRUE, nClusters = nClusters, minTreeLevels = minTreeLevels, print = print)
 				springsMatX[,i] <- springsTemp[,1]
@@ -120,7 +120,7 @@ do.optimFreeviz <- function(x, classes, attractG = 1, repelG = 1, law = 0, steps
 		
 		print(paste0("Converged result at subset size = ", nSamples))
 		
-		freeVizSprings <- as.matrix(data.frame(springsMeanX, springsMeanY, row.names = colnames(data)))
+		freeVizSprings <- as.matrix(data.frame(springsMeanX, springsMeanY, row.names = colnames(x)))
 		colnames(freeVizSprings) <- NULL
 		
 	} else if(multilevel == FALSE){
