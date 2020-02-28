@@ -10,6 +10,7 @@
 #' 
 #' @example examples/example-do.radviz.R
 #' @examples
+#' library(ggplot2)
 #' plot(rv)+geom_point(aes(color=Species))
 #' new.rv <- rescalePlot(rv)
 #' plot(new.rv)+geom_point(aes(color=Species))
