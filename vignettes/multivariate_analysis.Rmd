@@ -80,7 +80,7 @@ btcells.df <- untreated.df %>%
   mutate(Cells=droplevels(Cells)) %>% 
   group_by(Cells,Treatment) %>% 
   mutate(cellID=seq(length(Cells))) %>% 
-  unite('cellID',one_of(c('Treament','Cells','cellID')),sep = '_',remove = FALSE)
+  unite('cellID',one_of(c('Treatment','Cells','cellID')),sep = '_',remove = FALSE)
 ```
 
 We end up with `r nrow(btcells.df)` cells to analyse, broken down by stimulation condition as follows:
