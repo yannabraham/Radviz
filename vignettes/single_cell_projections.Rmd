@@ -2,7 +2,9 @@
 title: "Visualizing Multivariate Data with Radviz"
 author: "Yann Abraham"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Visualizing Multivariate Data with Radviz}
   %\VignetteEngine{knitr::rmarkdown}
@@ -41,7 +43,7 @@ In Radviz, each dimension in the dataset is represented by a dimensional anchor,
 The package can be installed using the following command:
 
 ```
-devtools::install_github('yannabraham/Radviz')
+install.packages('Radviz')
 ```
 
 Once installed the package can be loaded using the standard `library` command.
@@ -130,7 +132,7 @@ The optimization procedure works as follows:
 
 ```{r}
 optim.ct <- do.optimRadviz(ct.S,ct.sim,iter=100,n=1000)
-ct.S <- make.S(tail(optim.ct$best,1)[[1]])
+ct.S <- make.S(get.optim(optim.ct))
 ```
 
 The original anchor position corresponds to the order of the columns in the matrix:
@@ -367,10 +369,3 @@ tcells.df %>%
   theme_light()+
   theme(axis.text.x=element_text(angle=45,hjust=1))
 ```
-
-# Future directions
-
-Radviz is an efficient visualization for multivariate datasets that allow for direct interpretation of results. This package provides a starting point to apply radviz to several datasets with minimal effort. Future developments include:
-
- * Visualization of SPADE trees in radviz space
- * Implement vectorized radviz as described in [Sharko *et al* 2008](http://www.ncbi.nlm.nih.gov/pubmed/18988995)
