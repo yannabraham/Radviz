@@ -212,7 +212,7 @@ Freeviz will optimize the order of channels as well as their weights based on pr
 ```{r}
 btcells.df <- btcells.df %>% 
   unite('Condition',c('Treatment','Cells'),sep='_',remove = FALSE)
-treat.S <- do.optimFreeviz(as.matrix(btcells.df[,btcells.channels]),
+treat.S <- do.optimFreeviz(btcells.df[,btcells.channels],
                            classes = btcells.df$Condition)
 btcells.fv <- do.radviz(btcells.df, treat.S)
 ```
@@ -363,7 +363,7 @@ Compared to Freeviz, where anchors are optimized based on classes, in Graphviz t
 As with Radviz and Freeviz we start with optimizing the anchors: 
 
 ```{r}
-btcells.S <- do.optimGraphviz(as.matrix(btcells.df[,btcells.channels]),btcells.graph)
+btcells.S <- do.optimGraphviz(btcells.df[,btcells.channels],btcells.graph)
 btcells.gv <- do.radviz(btcells.df, btcells.S,
                        graph = btcells.graph)
 ```
