@@ -30,17 +30,19 @@
 #' 
 #' @example examples/example-graphviz.R
 #' 
+#' @importFrom igraph E ends degree
+#' 
 #' @author Nicolas Sauwen
 #' @export
 do.optimGraphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL){
 	
-	if(class(x) ==  "x.frame") x <- as.matrix(x)
+	if(any(class(x) ==  "x.frame")) x <- as.matrix(x)
 	if(!(law %in% c(0,1))) stop("Parameter 'law' not properly specified. Valid values are 0 or 1")
 	if(!requireNamespace("igraph", quietly = FALSE)) install.packages("igraph")	
 	
 	# Get edge info from graph
-	edges <- igraph::E(graph)
-	edgesMat <- igraph::ends(graph, edges, names = FALSE)
+	edges <- E(graph)
+	edgesMat <- ends(graph, edges, names = FALSE)
 	mode(edgesMat) <- "integer"
 	edgeWeights <- edges$weight
 	
@@ -51,7 +53,7 @@ do.optimGraphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps 
 	orderInd <- order(edgesMat[,1])
 	edgesMat <- edgesMat[orderInd,]
 	edgeWeights <- edgeWeights[orderInd]
-	degreeVect <- igraph::degree(graph)
+	degreeVect <- degree(graph)
 	edgesInds <- edgesMat[,2]
 	
 	rm(list = c("edgesMat", "orderInd"))
