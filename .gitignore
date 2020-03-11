@@ -8,4 +8,5 @@ doc
 Meta
 *.o
 *.so
+*.dll
 src/symbols.rds
