@@ -12,13 +12,14 @@ Imports:
     rlang,
     stats,
     utils,
+    igraph,
+    clusterSim,
     pracma
 Suggests: 
     knitr,
     rmarkdown,
     bodenmiller,
     tidyr,
-    igraph,
     clusterSim,
     RColorBrewer,
     cytofan,

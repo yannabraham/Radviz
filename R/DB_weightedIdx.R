@@ -4,6 +4,8 @@
 #' @param x an object of class Radviz, as returned by \code{\link{do.radviz}}.
 #' @return weighted DB index value
 #' 
+#' @importFrom clusterSim index.DB
+#' 
 #' @author Nicolas Sauwen
 #' @export
 DB_weightedIdx <- function(x){
@@ -29,8 +31,7 @@ DB_weightedIdx <- function(x){
 	dataNormalized <- apply(data,2, do.L) 
 	projectedData <- dataNormalized%*%springs
 	
-	if(!requireNamespace("clusterSim", quietly = FALSE)) utils::install.packages("clusterSim")	
-	DBResult <- clusterSim::index.DB(projectedData, classes)
+	DBResult <- index.DB(projectedData, classes)
 #	R_vals <- DBResult$r
 #	DBIdx <- sum(R_vals*clusterSizes)/sum(clusterSizes)
 	meanRVect <- unlist(lapply(1:nClasses, function(k) mean(DBResult$R[k,][-k])))
