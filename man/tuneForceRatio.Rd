@@ -4,8 +4,15 @@
 \alias{tuneForceRatio}
 \title{Method to compute optimal ratio between repulsive and attractive forces for Freeviz.}
 \usage{
-tuneForceRatio(x, classes, law = 0, steps = 10, springs = NULL,
-  multilevel = TRUE, print = TRUE)
+tuneForceRatio(
+  x,
+  classes,
+  law = 0,
+  steps = 10,
+  springs = NULL,
+  multilevel = TRUE,
+  print = TRUE
+)
 }
 \arguments{
 \item{x}{Dataframe or matrix, with observations as rows and attributes as columns}
@@ -44,10 +51,6 @@ new.S <- do.optimFreeviz(x = iris[,das], classes = iris$Species, attractG = forc
 new.rv <- do.radviz(iris,new.S)
 plot(new.rv,anchors.only=FALSE)
 
-data(iris)
-das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-S <- make.S(das)
-rv <- do.radviz(iris,S)
 }
 \author{
 Nicolas Sauwen

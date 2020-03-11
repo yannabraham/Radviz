@@ -27,14 +27,11 @@ data(iris)
 das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
 rv <- do.radviz(iris,S)
+library(ggplot2)
 plot(rv)+geom_point(aes(color=Species))
 new.rv <- rescalePlot(rv)
 plot(new.rv)+geom_point(aes(color=Species))
 
-data(iris)
-das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
-S <- make.S(das)
-rv <- do.radviz(iris,S)
 }
 \author{
 Nicolas Sauwen

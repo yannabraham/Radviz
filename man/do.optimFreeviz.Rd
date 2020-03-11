@@ -41,7 +41,8 @@ do.optimFreeviz(
 
 \item{minTreeLevels}{Minimum number of clustering levels to consider (only used when \code{multilevel} is set to TRUE). This parameter might over-rule \code{nClusters} .}
 
-\item{subsetting}{Logical, indicating whether a subsetting procedure should be used to compute the springs. The subset size is iteratively increased until the springs are found to be close enough to their true values, based on a confidence interval. For large datasets this option can considerably speed up computations.}
+\item{subsetting}{Logical, indicating whether a subsetting procedure should be used to compute the springs. The subset size is iteratively increased until the springs 
+are found to be close enough to their true values, based on a confidence interval. For large datasets this option can considerably speed up computations.}
 
 \item{minSamples}{Minimum number of samples to be considered for subsetting (only used when \code{subsetting} is set to TRUE)}
 
