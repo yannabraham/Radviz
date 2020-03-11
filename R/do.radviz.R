@@ -9,17 +9,27 @@
 #' @param trans a transformation to be applied to the data before projection
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of labels
+#' @param type character string specifying the method used for obtaining the springs. 
+#' 				Current methods are: Radviz, Freeviz and Graphviz. When not provided, \code{type} is 
+#' 				derived from the other inputs
+#' @param graph \code{igraph} object (only relevant for result obtained from \code{\link{do.optimGraphviz}} analysis) 
 #' 
 #' @details The function expects that at least some of the column names in df will be matched
 #'            by row names in springs
 #' 
-#' @return a ggplot2 object of class radviz with a single geom_text layer corresponding to springs.
-#'            the \code{data} slot of the ggplot2 corresponds to the input parameter \code{x}
-#'            with the following extra columns
-#'          \itemize{
-#'            \item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
-#'            \item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
-#'          }
+#' @return an object of class radviz with the following slots:
+#'			\itemize{
+#' 				\item \code{proj}: a ggplot2 object with a single geom_text layer corresponding to springs.
+#'            	the \code{data} slot of the ggplot2 corresponds to the input parameter \code{x}
+#'            	with the following extra columns:
+#'          		\itemize{
+#'            			\item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
+#'            			\item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
+#' 					}
+#' 				\item \code{type}: character string specifying the method used for obtaining the springs. 
+#' 				\item \code{graphEdges}: when the input \code{graph} is provided (for a graphviz analysis), this slot will contain a 
+#' 				dataframe with the graph edges
+#' } 
 #' 
 #' @example examples/example-do.radviz.R
 #' @examples
@@ -28,15 +38,19 @@
 #' 
 #' @aliases do.radviz do.radviz.default
 #' 
-#' @importFrom ggplot2 ggplot aes_string geom_text scale_x_continuous coord_equal
+#' @importFrom ggplot2 ggplot aes_string geom_text xlim ylim coord_equal
 #' 
+#' @aliases do.radviz do.radviz.default
 #' @author Yann Abraham
 #' @export
 do.radviz <- function(x,
                       springs,
                       trans=do.L,
                       label.color='orangered4',
-                      label.size=NA) {
+                      label.size=NA,
+					  type=NULL,
+					  graph=NULL
+					  ) {
   ## check all springs are there
   if(!all(rownames(springs) %in% colnames(x))) {
     stop('The following springs are missing in the input:\n',
@@ -69,6 +83,17 @@ do.radviz <- function(x,
   x[,'ry'] <- ry
   x[,'rvalid'] <- rvd
   
+  # automatic check for type of method:
+  if(is.null(type))	{
+	  springLengths <-  diag(springs%*%t(springs))
+	  if(any(springLengths < 0.99)){
+		  type <- "Freeviz"
+	  } else type <- "Radviz"
+  }
+  
+  # find axis range
+  lims <- range(springs)*1.1
+  
   radviz <- list(proj=ggplot(data=x,
                              aes_string(x='rx',y='ry'))+
                    geom_text(data = data.frame(springs,
@@ -77,9 +102,17 @@ do.radviz <- function(x,
                              aes_string(x='X1',y='X2',label='Channel'),
                              color=label.color,
                              size=label.size)+
-                   scale_x_continuous(expand = c(0.1,0.05))+
                    coord_equal()+
-                   theme_radviz())
+                   xlim(lims)+
+                   ylim(lims)+
+                   theme_radviz(),
+		   		type=type)
+		
+		if(!is.null(graph)){
+			radviz$graphEdges <- igraph::as_data_frame(graph)
+			radviz$type <- "Graphviz"
+		}
+
   class(radviz) <- 'radviz'
   return(radviz)
 }
