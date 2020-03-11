@@ -32,5 +32,6 @@ grv <- do.radviz(iris[,das],
                 new.S,
                 graph=g.iris)
 
+library(ggplot2)
 plot(grv)+
-  ggplot2::geom_point(aes(color=iris[,'Species']))
+  geom_point(aes(color=iris[,'Species']))
