@@ -7,7 +7,7 @@
 get.optim(opt, n = NULL)
 }
 \arguments{
-\item{opt}{the result of the optimization operation performed by \code{\link{do.optim}}}
+\item{opt}{the result of the optimization operation performed by \code{\link{do.optimRadviz}}}
 
 \item{n}{the optimized order of anchors to return; defaults to NULL, 
 which returns the best identified combination}
@@ -17,7 +17,7 @@ a character vector of the anchor names, ordered as in the n^th^ step of
 the optimization
 }
 \description{
-Once the order of anchors has been optimized using \code{\link{do.optim}}
+Once the order of anchors has been optimized using \code{\link{do.optimRadviz}}
 this function can be used to recover the optimized anchors or any intermediate step
 }
 \examples{
@@ -26,7 +26,7 @@ das <- c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width')
 S <- make.S(das)
 sim.mat <- cosine(iris[,das])
 in.da(S,sim.mat) # the starting value
-new <- do.optim(S,sim.mat,iter=10,n=100)
+new <- do.optimRadviz(S,sim.mat,iter=10,n=100)
 get.optim(new) # the optimal order
 get.optim(new,2) # the second step of the optimization
 

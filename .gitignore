@@ -3,5 +3,10 @@
 .Rproj.user
 *.Rproj
 inst/doc
+*.project
 doc
 Meta
+*.o
+*.so
+*.dll
+src/symbols.rds

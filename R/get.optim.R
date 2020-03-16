@@ -1,9 +1,9 @@
 #' Get the Result of the Optimization Operation
 #' 
-#' Once the order of anchors has been optimized using \code{\link{do.optim}}
+#' Once the order of anchors has been optimized using \code{\link{do.optimRadviz}}
 #' this function can be used to recover the optimized anchors or any intermediate step
 #' 
-#' @param opt the result of the optimization operation performed by \code{\link{do.optim}}
+#' @param opt the result of the optimization operation performed by \code{\link{do.optimRadviz}}
 #' @param n the optimized order of anchors to return; defaults to NULL, 
 #' which returns the best identified combination
 #' 
@@ -16,7 +16,7 @@
 #' S <- make.S(das)
 #' sim.mat <- cosine(iris[,das])
 #' in.da(S,sim.mat) # the starting value
-#' new <- do.optim(S,sim.mat,iter=10,n=100)
+#' new <- do.optimRadviz(S,sim.mat,iter=10,n=100)
 #' get.optim(new) # the optimal order
 #' get.optim(new,2) # the second step of the optimization
 #' 

@@ -9,6 +9,10 @@
 #' @param trans a transformation to be applied to the data before projection
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of labels
+#' @param type character string specifying the method used for obtaining the springs. 
+#' 				Current methods are: Radviz, Freeviz and Graphviz. When not provided, \code{type} is 
+#' 				derived from the other inputs
+#' @param graph \code{igraph} object (only relevant for result obtained from \code{\link{do.optimGraphviz}} analysis) 
 #' 
 #' @details The function expects that at least some of the column names in df will be matched
 #'            by row names in springs
@@ -21,7 +25,10 @@
 #'          		\itemize{
 #'            			\item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
 #'            			\item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
-#' 					}
+#' 				}
+#' 				\item \code{type}: character string specifying the method used for obtaining the springs.
+#'        \item \code{graphEdges}: when the input \code{graph} is provided (for a graphviz analysis),
+#'              this slot will contain a dataframe with the graph edges
 #' } 
 #' 
 #' @example examples/example-do.radviz.R
@@ -40,8 +47,9 @@ do.radviz <- function(x,
                       springs,
                       trans=do.L,
                       label.color='orangered4',
-                      label.size=NA
-                      ) {
+                      label.size=NA,
+                      type=NULL,
+                      graph=NULL) {
   ## check all springs are there
   if(!all(rownames(springs) %in% colnames(x))) {
     stop('The following springs are missing in the input:\n',
@@ -74,6 +82,14 @@ do.radviz <- function(x,
   x[,'ry'] <- ry
   x[,'rvalid'] <- rvd
   
+  # automatic check for type of method:
+  if(is.null(type))	{
+	  springLengths <-  diag(springs%*%t(springs))
+	  if(any(springLengths < 0.99)){
+		  type <- "Freeviz"
+	  } else type <- "Radviz"
+  }
+  
   # find axis range
   lims <- range(springs)*1.1
   
@@ -88,8 +104,13 @@ do.radviz <- function(x,
                    coord_equal()+
                    xlim(lims)+
                    ylim(lims)+
-                   theme_radviz())
-  
+                   theme_radviz(),
+		   		type=type)
+		
+		if(!is.null(graph)){
+			radviz$graphEdges <- igraph::as_data_frame(graph)
+			radviz$type <- "Graphviz"
+		}
   class(radviz) <- 'radviz'
   return(radviz)
 }

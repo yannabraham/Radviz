@@ -1,0 +1,402 @@
+---
+title: "Multivariate Functional analysis"
+author: "Yann Abraham"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Multivariate Functional analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup,echo=FALSE,include=FALSE}
+library(knitr)
+library(bodenmiller)
+library(ggplot2)
+library(cytofan)
+library(dplyr)
+library(tidyr)
+library(RColorBrewer)
+library(scales)
+library(igraph)
+library(Radviz)
+
+knitr::opts_chunk$set(warning=FALSE,
+                      fig.keep='high',
+                      fig.align='center',
+                      fig.height = 5,
+                      fig.width = 6)
+```
+
+# Multiplexed mass cytometry profiling of cellular states perturbed by small-molecule regulators
+
+Single cell analysis is a powerful method that allows for the deconvolution of the effect of treatments on complex populations containing different cell types, that may or may not respond to specific treatments. Depending on the technology used, the analytes can be genes, transcripts, proteins or metabolites. Using mass cytometry, [bodenmiller *et al*](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) measured  the level of 9 proteins and 14 post-translational modifications. After using signal intensity from the 9 proteins (so called phenotypic markers) to define 14 sub-populations, they monitored the effect of several treatments using the 14 post-translational modifications.
+
+Modeling and visualization of these type of data is challenging: the large number of events measured combined to the complexity of each samples is making the modelling complex, while the high dimensionality of the data precludes the use of standard visualizations.
+
+The goal of this package is to enable the development of new methods by providing a curated set of data for testing and benchmarking.
+
+# Data acquisition and preparation
+
+For details on data acquisition please refer to [Bodenmiller *et al* Nat Biotech 2012](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html). Briefly, after treatment cells where profiled using a [CyTOF](https://www.fluidigm.com/products/helios), dead cells and debris were excluded and live cells were assigned to 1 of the 14 sub-populations using signal intensity from 9 phenotypic markers.
+
+Samples corresponding to untreated cells, stimulated with BCR/FcR-XL, PMA/Ionomycin or vanadate or unstimulated, were downloaded from [CytoBank](http://reports.cytobank.org/105/v2) as FCS files. Data was extracted and normalized using the `arcsinh` function with a cofactor of 5.
+
+# Effects of stimulation on B and T cells
+
+## Collecting single cell data
+
+We begin by assembling a full dataset from the `bodenmiller` package, before filtering down to T cells:
+
+```{r}
+data(refPhenoMat)
+data(refFuncMat)
+data(refAnnots)
+ref.df <- data.frame(refAnnots,
+                     refPhenoMat,
+                     refFuncMat)
+
+data(untreatedPhenoMat)
+data(untreatedFuncMat)
+data(untreatedAnnots)
+untreated.df <- bind_rows(ref.df %>% 
+                            mutate(Treatment='unstimulated',
+                                   Source=as.character(Source),
+                                   Cells=as.character(Cells)),
+                          data.frame(untreatedAnnots,
+                                     untreatedPhenoMat,
+                                     untreatedFuncMat) %>% 
+                            mutate(Treatment=as.character(Treatment),
+                                   Source=as.character(Source),
+                                   Cells=as.character(Cells))) %>% 
+  mutate(Treatment=factor(Treatment),
+         Treatment=relevel(Treatment,'unstimulated'),
+         Cells=factor(Cells))
+
+btcells.df <- untreated.df %>% 
+  filter(Cells %in% c('cd8+','igm+')) %>% 
+  mutate(Cells=droplevels(Cells)) %>% 
+  group_by(Cells,Treatment) %>% 
+  mutate(cellID=seq(length(Cells))) %>% 
+  unite('cellID',one_of(c('Treatment','Cells','cellID')),sep = '_',remove = FALSE)
+```
+
+We end up with `r nrow(btcells.df)` cells to analyse, broken down by stimulation condition as follows:
+
+```{r}
+left_join(btcells.df %>% 
+  count(Cells,Treatment),
+  untreated.df %>% 
+    count(Treatment,name = 'Total'),
+  by=c('Treatment')) %>% 
+  mutate(Fraction=round(100*n/Total,1))
+```
+
+The *Vanadate* condition seems to contain less cells, and the fraction of CD4^+^ T cells is roughly 25% of the unstimulated sample. There is also a drop in the fraction of CD8^+^ T cells.
+
+To simplify processing we will sample 1000 cells from each condition, with replacement where appropriate:
+
+```{r}
+btcells.df <- btcells.df %>% 
+  group_by(Cells,Treatment) %>% 
+  sample_n(500,replace = TRUE)
+```
+
+## CD8^+^ T and IgM^+^ B cells profile {.tabset}
+
+We used fan plots to visualize the phenotypic and functional profiles of CD8^+^ T cells and IgM^+^ B cells. As expected there is no change in phenotype while stimulation is changing the functional profile of each population.
+
+### Phenotypic
+
+```{r,fig.width=8,fig.height=8}
+btcells.df %>% 
+  gather('Channel','value',
+         one_of(colnames(refPhenoMat),colnames(refFuncMat))) %>% 
+  filter(Channel %in% colnames(refPhenoMat)) %>% 
+  ggplot(aes(x=Channel,y=value))+
+  geom_fan()+
+  facet_grid(Treatment~Cells)+
+  theme_light(base_size = 16)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+### Functional
+
+```{r,fig.width=8,fig.height=8}
+btcells.df %>% 
+  gather('Channel','value',
+         one_of(colnames(refPhenoMat),colnames(refFuncMat))) %>% 
+  filter(Channel %in% colnames(refFuncMat)) %>% 
+  ggplot(aes(x=Channel,y=value))+
+  geom_fan()+
+  facet_grid(Treatment~Cells)+
+  theme_light(base_size = 16)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Selecting channels relevant to T cells
+
+We select channels for analysis where 20% of cells from any treatment, any cell type, have a recorded intensity of at least 1 unit:
+
+```{r}
+btcells.channels <- btcells.df %>% 
+  gather('Channel','value',
+         one_of(colnames(refPhenoMat),colnames(refFuncMat))) %>% 
+  group_by(Channel,Treatment,Cells) %>% 
+  summarize(value=quantile(value,0.8)) %>% 
+  group_by(Channel) %>% 
+  summarise(value=max(value)) %>% 
+  filter(value>1) %>% 
+  .$Channel
+```
+
+The following `r length(btcells.channels)` were selected out of `r ncol(refPhenoMat)+ncol(refFuncMat)`:
+
+```{r,results='asis'}
+ksink <- lapply(btcells.channels,function(x) cat(' -',x,'\n'))
+```
+
+# Using Radviz to visualize the effects of stimulation
+
+We start by projecting cells using the classical Radviz algorithm:
+
+```{r}
+sim.mat <- cosine(as.matrix(btcells.df[,btcells.channels]))
+classic.S <- make.S(btcells.channels)
+classic.optim <- do.optimRadviz(classic.S,sim.mat)
+classic.S <- make.S(get.optim(classic.optim))
+btcells.rv <- do.radviz(btcells.df,classic.S)
+```
+
+Next we visualize the projection, coloring individual cells by their treatment of origin:
+
+```{r}
+plot(btcells.rv)+
+  geom_point(aes(color=Treatment))
+```
+
+Because of the spring paradigm used by Radviz the cells are concentrated to the center of the plot. Using the `rescalePlot` function we can zoom inside the circle :
+
+```{r}
+btcells.rv <- rescalePlot(btcells.rv)
+plot(btcells.rv)+
+  geom_point(aes(color=Treatment))
+```
+
+We see a clear effect of Vanadate, and 2 separate groups of points. We confirm with the next plot that those points actually correspond to B and T cells:
+
+```{r}
+plot(btcells.rv)+
+  geom_point(aes(color=Cells))
+```
+
+One can facet the display by population to visualize the effects of stimulation:
+
+```{r,fig.width=9,fig.height=4}
+plot(btcells.rv)+
+  geom_point(aes(color=Treatment))+
+  facet_wrap(~Cells)+
+  theme_radviz(base_size = 16)
+```
+
+We can now visualize the effects of Vanadate and Ionomycine stimulations compared to unstimulated, but the contributions of individual channels are unclear and the effects of BCR/FcR-XL on B cells are unclear.
+
+Moreover, the visualization depends on the optimized order of channels, which in turn depends on the relative amount of the different conditions. To address these challenges we implemented the Freeviz algorithm described in the next section.
+
+# Using Freeviz to visualize the effects of stimulation
+
+Freeviz will optimize the order of channels as well as their weights based on predefined classes in the data. In that example we use stimulation and cell type :
+
+```{r}
+btcells.df <- btcells.df %>% 
+  unite('Condition',c('Treatment','Cells'),sep='_',remove = FALSE)
+treat.S <- do.optimFreeviz(btcells.df[,btcells.channels],
+                           classes = btcells.df$Condition)
+btcells.fv <- do.radviz(btcells.df, treat.S)
+```
+
+The final projection is shown below, with cells colored by stimulation:
+
+```{r}
+plot(btcells.fv)+
+  geom_point(aes(color=Treatment))
+```
+
+Compared to Radviz, where the contribution of each channel is fixed through its position on the circle, in Freeviz the channels with the largest contribution to the difference between classes are the furthest away from the center of the projection. It is therefore easier to differentiate B cells from T cells, and to identify the channels that are affected the most by stimulation.
+
+```{r,fig.width=9,fig.height=4}
+plot(btcells.fv)+
+  geom_point(aes(color=Treatment))+
+  facet_wrap(~Cells)+
+  theme_radviz(base_size = 16)
+```
+
+```{r}
+contour(btcells.fv,
+        color='Treatment')
+```
+
+# Building a functional T cells graph
+
+## Building a cell-level distance matrix
+
+We compute the cosine distance between cells based on all available channels:
+
+```{r}
+btcells.dist <- as.matrix(btcells.df[,btcells.channels])
+rownames(btcells.dist) <- btcells.df$cellID
+btcells.dist <- btcells.dist%*% t(btcells.dist)
+btcells.dist <- btcells.dist/(sqrt(diag(btcells.dist)) %*% t(sqrt(diag(btcells.dist))))
+btcells.dist[btcells.dist>1] <- 1
+btcells.dist[btcells.dist<0] <- 0
+btcells.dist <- 2*acos(btcells.dist)/pi
+
+diag(btcells.dist) <- NA # avoid self loops
+```
+
+## Extracting an adjacency matrix
+
+Next we build an adjacency matrix, selecting the `r floor(nrow(btcells.df)^0.5)` nearest neighbors foreach cell:
+
+```{r}
+K <- floor(nrow(btcells.df)^0.5)
+btcells.adj <- apply(btcells.dist,1,rank,na.last = TRUE)
+btcells.adj[btcells.adj<=K] <- btcells.dist[btcells.adj<=K]
+btcells.adj[btcells.adj>K] <- 0
+```
+
+For `r nrow(btcells.df)` vertices (cells) `r sum(btcells.adj!=0)` edges are recovered. We can compare the distribution of distances overall with that of selected nearest neighbors:
+
+```{r}
+bind_rows(data.frame(value=btcells.dist[sample(1000)],
+                     Type='Overall'),
+          data.frame(value=btcells.adj[btcells.adj!=0][sample(1000)],
+                     Type='Nearest Neighbors')) %>% 
+  mutate(Type=factor(Type),
+         Type=relevel(Type,'Overall')) %>% 
+  ggplot(aes(x=value))+
+  geom_histogram(aes(fill=Type),
+                 position = 'identity',
+                 bins=50,
+                 alpha=0.5)+
+  theme_light(base_size=16)
+```
+
+We enriched for cells that are closer together than the average population.
+
+## Computing edge weights from adjacency matrix
+
+Next we turn the distances into weights using a gaussian kernel:
+
+```{r}
+btcells.weights <- btcells.adj
+btcells.weights <- exp(-btcells.weights^2/(2*median(btcells.weights[btcells.weights!=0])^2))
+btcells.weights[btcells.adj==0] <- 0
+```
+
+## Building a kNN graph
+
+Next we build a kNN graph based on weights:
+
+```{r}
+btcells.graph <- graph_from_adjacency_matrix(btcells.weights,
+                                            mode='undirected',
+                                            weighted = TRUE,
+                                            diag = FALSE)
+```
+
+## Extracting communities as functional states
+
+We use the Louvain algorithm to identify groups in the weighted T cells graph:
+
+```{r}
+btcells.groups <- cluster_louvain(btcells.graph)
+btcells.df <- btcells.df %>% 
+  ungroup() %>% 
+  mutate(Group=membership(btcells.groups),
+         Group=as.numeric(Group),
+         Group=factor(Group))
+```
+
+`r length(btcells.groups)` communities were identified.
+
+# From communities to functional states
+
+```{r,fig.height=12, fig.width=9}
+btcells.df %>% 
+  gather('Channel','value',
+         one_of(colnames(refPhenoMat),colnames(refFuncMat))) %>% 
+  filter(Channel %in% btcells.channels) %>% 
+  ggplot(aes(x=Channel,y=value))+
+  geom_fan()+
+  facet_grid(Group~.)+
+  theme_light(base_size = 16)+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Each community captures a specific population and a specific functional state, as illustrated in the following tables:
+
+```{r}
+btcells.df %>% 
+  count(Group,Cells) %>% 
+  group_by(Group) %>% 
+  mutate(n=n/sum(n)) %>% 
+  spread(Cells, n)
+```
+
+And with respect to treatment:
+
+```{r}
+btcells.df %>% 
+  count(Group,Treatment) %>% 
+  group_by(Group) %>% 
+  mutate(n=n/sum(n)) %>% 
+  spread(Treatment, n)
+```
+
+# Using Graphviz to visualize functional graph
+
+Compared to Freeviz, where anchors are optimized based on classes, in Graphviz the anchors are optimized after the structure of the graph itself, similar to a force-directed layout with the context provided by anchors.
+
+As with Radviz and Freeviz we start with optimizing the anchors: 
+
+```{r}
+btcells.S <- do.optimGraphviz(btcells.df[,btcells.channels],btcells.graph)
+btcells.gv <- do.radviz(btcells.df, btcells.S,
+                       graph = btcells.graph)
+```
+
+We can then plot the graph in the context of the selected channels, colored by community : 
+
+```{r}
+plot(btcells.gv)+
+  geom_point(aes(color=Group))
+```
+
+This plot is to be compared to the classical force directed layout used to visualize weighted graphs:
+
+```{r}
+btcells.graph$layout <- layout_with_drl(btcells.graph)
+community.cols <- hue_pal()(length(btcells.groups))
+plot(btcells.graph,
+     vertex.label=NA,
+     vertex.color=community.cols[membership(btcells.groups)])
+```
+
+Points can be colored by cell assignment:
+
+```{r}
+plot(btcells.gv)+
+  geom_point(aes(color=Cells),alpha=0.5)
+```
+
+Or treatment:
+
+```{r}
+plot(btcells.gv)+
+  geom_point(aes(color=Treatment))
+```
+
+Confirming previous observations made with fan plots. Compared to classical visualization, one can quickly identify   channels associated with specific communities.

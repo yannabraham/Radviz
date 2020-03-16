@@ -1,4 +1,4 @@
-#' Optimize the Dimensional Anchors Position using a Genetic Algorithm
+#' Optimize the Dimensional Anchors Position for Radviz projection using a Genetic Algorithm
 #' 
 #' Allows to compute the best arrangement of Dimensional Anchors so that
 #' visualization efficiency is maximized.
@@ -40,15 +40,15 @@
 #' plot(rv,anchors.only=FALSE)
 #' sim.mat <- cosine(iris[,das])
 #' in.da(S,sim.mat) # the starting value
-#' new <- do.optim(S,sim.mat,iter=10,n=100)
+#' new <- do.optimRadviz(S,sim.mat,iter=10,n=100)
 #' new.S <- make.S(get.optim(new))
 #' new.rv <- do.radviz(iris,new.S)
 #' plot(new.rv,anchors.only=FALSE)
 #' 
 #' @author Yann Abraham
 #' @export
-do.optim <- function (springs, similarity, iter = 100, n = 1000, top = round(n * 
-						0.1), lambda = 0.01, nlast = 5, optim = "in.da") 
+do.optimRadviz <- function(springs, similarity, iter = 100, n = 1000,
+                           top = round(n * 0.1), lambda = 0.01, nlast = 5, optim = "in.da") 
 {
 	cat("Selected optimization function:",optim,'\n')
 	if (!exists(optim,mode='function')) {
@@ -129,4 +129,15 @@ do.optim <- function (springs, similarity, iter = 100, n = 1000, top = round(n *
 		i <- i + 1
 	}
 	return(list(perfs = perfs, best = best, last = seeds))
+}
+
+#' @rdname do.optimRadviz
+#' @section \code{do.optim}:
+#'  \code{do.optim} is being deprecated, please use \code{\link{do.optimRadviz}}.
+#' 
+#' @export
+do.optim <- function(springs, similarity, iter = 100, n = 1000,
+                     top = round(n * 0.1), lambda = 0.01, nlast = 5, optim = "in.da") {
+  .Deprecated('do.optimRadviz')
+  do.optimRadviz(springs, similarity, iter, n, top, lambda, nlast, optim)
 }
