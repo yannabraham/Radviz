@@ -13,8 +13,15 @@ env:
   global:
     - NOT_CRAN=true
 
+addons:
+  apt:
+    packages:
+      - libgdal-dev
+      - libproj-dev
+
 before_install:
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" > ~/.Rprofile
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libcgal-dev libglu1-mesa-dev mesa-common-dev; fi
 
 r-packages:
   - knitr
