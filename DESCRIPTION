@@ -31,7 +31,7 @@ Description: An implementation of the radviz projection in R. It enables the vis
     (<http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.68.1811>) for original implementation, 
     see Di Caro *et al* (2012) (<http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13>) 
     for the original method for dimensional anchor arrangements, see Demsar *et al.* (2007) 
-    (<http://dx.doi.org/10.1016/j.jbi.2007.03.010>) for the original Freeviz implementation.
+    (<doi:10.1016/j.jbi.2007.03.010>) for the original Freeviz implementation.
 License: CC BY-NC-SA 4.0
 URL: http://github.com/yannabraham/Radviz
 BugReports: http://github.com/yannabraham/Radviz/issues
