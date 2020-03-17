@@ -19,6 +19,8 @@ After some testing the following enhancements have been made to the code:
  - Fixed a bug in do.L where NA is returned if the column contains a single value after transformation
  - Fixed a bug in do.radviz where creating Radviz objects from tbl_df could throw an error
 
-# next release
+# 2020-03-17
 
  - subset now can be used directly on column names from the Radviz object
+ - optimization of anchor position using the Freeviz method from [Demsar **et al**](http://dx.doi.org/10.1016/j.jbi.2007.03.010) has been implemented by Nicolas Sauwen
+ - extended the optimization of anchor position from classes (Freeviz) to graphs (Graphviz)
