@@ -34,7 +34,7 @@ knitr::opts_chunk$set(warning=FALSE,
 
 Single cell analysis is a powerful method that allows for the deconvolution of the effect of treatments on complex populations containing different cell types, that may or may not respond to specific treatments. Depending on the technology used, the analytes can be genes, transcripts, proteins or metabolites. Using mass cytometry, [bodenmiller *et al*](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) measured  the level of 9 proteins and 14 post-translational modifications. After using signal intensity from the 9 proteins (so called phenotypic markers) to define 14 sub-populations, they monitored the effect of several treatments using the 14 post-translational modifications.
 
-Modeling and visualization of these type of data is challenging: the large number of events measured combined to the complexity of each samples is making the modelling complex, while the high dimensionality of the data precludes the use of standard visualizations.
+Modeling and visualization of these type of data is challenging: the large number of events measured combined to the complexity of each samples is making the modeling complex, while the high dimensionality of the data precludes the use of standard visualizations.
 
 The goal of this package is to enable the development of new methods by providing a curated set of data for testing and benchmarking.
 
@@ -201,7 +201,7 @@ plot(btcells.rv)+
   theme_radviz(base_size = 16)
 ```
 
-We can now visualize the effects of Vanadate and Ionomycine stimulations compared to unstimulated, but the contributions of individual channels are unclear and the effects of BCR/FcR-XL on B cells are unclear.
+We can now visualize the effects of Vanadate and Ionomycin stimulations compared to unstimulated, but the contributions of individual channels are unclear and the effects of BCR/FcR-XL on B cells are unclear.
 
 Moreover, the visualization depends on the optimized order of channels, which in turn depends on the relative amount of the different conditions. To address these challenges we implemented the Freeviz algorithm described in the next section.
 

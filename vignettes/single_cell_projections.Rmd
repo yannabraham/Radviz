@@ -34,7 +34,7 @@ Several such tools exist that rely on projection into lower number of dimensions
 
 Radviz provides an elegant solution to this problem, by projecting a N-dimensional data set into a simple 2D space where the influence of each dimension can be interpreted as a balance between the influence of all dimensions.
 
-## Building a radviz projection
+## Building a Radviz projection
 
 In Radviz, each dimension in the dataset is represented by a dimensional anchor, and each dimensional anchor is distributed evenly on a unit circle. Each line in the data set corresponds to a point in the projection, that is linked to every dimensional anchor by a spring. Each spring's stiffness corresponds to the value for that particular *thing* in that particular dimension. The position of the point is defined as the point in the 2D space where the spring's tension is minimum.
 
@@ -112,21 +112,21 @@ ct.S <- make.S(dimnames(refPhenoMat)[[2]])
 
 The position of dimensional anchors on the circle is critical: the best projection (as judged by the separation of points in the display) is achieved when dimensional anchors that correspond to highly correlated dimensions in the data are placed closer on the unit circle.
 
-Optimization of the position of dimensional anchors is discussed in [Di Caro *et al* 2012](http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13), where the authors suggest 2 metrics that can be used in an optimization process. Both methods start with a similarity matrix where every value represents the similarity between any 2 dimensions. The first method assumes that dimensional anchors corresponding to similar dimensions should be close on the circle (radviz-independent); the second method uses a projection of the similarity matrix in radviz and computes the distance of the dimensional anchors to the projected dimensions they represent
+Optimization of the position of dimensional anchors is discussed in [Di Caro *et al* 2012](http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13), where the authors suggest 2 metrics that can be used in an optimization process. Both methods start with a similarity matrix where every value represents the similarity between any 2 dimensions. The first method assumes that dimensional anchors corresponding to similar dimensions should be close on the circle (radviz-independent); the second method uses a projection of the similarity matrix in Radviz and computes the distance of the dimensional anchors to the projected dimensions they represent
 (radviz-dependent) [Di Caro *et al* 2012](http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13).
 
-The radviz-dependent and independent methods have been implemented in the `Radviz` package, as well as the recommended cosine similarity measure.
+The Radviz-dependent and independent methods have been implemented in the `Radviz` package, as well as the recommended cosine similarity measure.
 
 ```{r}
 ## compute the similarity matrix
 ct.sim <- cosine(as.matrix(ref.df[,row.names(ct.S)]))
-## the current radviz-independent measure of projection efficiency
+## the current Radviz-independent measure of projection efficiency
 in.da(ct.S,ct.sim)
-## the current radviz-independent measure of projection efficiency
+## the current Radviz-independent measure of projection efficiency
 rv.da(ct.S,ct.sim)
 ```
 
-The radviz-independent score should be maximal when the dimensional anchor positions are optimal. The radviz-dependent score should be minimal when the dimensional anchor positions are optimal.
+The Radviz-independent score should be maximal when the dimensional anchor positions are optimal. The Radviz-dependent score should be minimal when the dimensional anchor positions are optimal.
 
 The optimization procedure works as follows:
 
@@ -171,7 +171,7 @@ ct.rv <- do.radviz(ref.df,ct.S,trans=trans)
 
 ## Visualizing the results
 
-Internally the radviz projection is a `ggplot` object. Details about the data and corresponding projection are available through radviz-specific versions of `S3` generic functions:  
+Internally the Radviz projection is a `ggplot` object. Details about the data and corresponding projection are available through Radviz-specific versions of `S3` generic functions:  
 
 ```{r}
 summary(ct.rv)
@@ -357,7 +357,7 @@ plot(func.rv)+
   facet_grid(~Cells)
 ```
 
-Where one can see that *BCR/FcR-XL* has no effect and overlaps with *unstimulated* while *PMA/Ionomycine* increases pS6 and *vanadate* increases pSlp76:
+Where one can see that *BCR/FcR-XL* has no effect and overlaps with *unstimulated* while *PMA/Ionomycin* increases pS6 and *vanadate* increases pSlp76:
 
 ```{r}
 tcells.df %>% 

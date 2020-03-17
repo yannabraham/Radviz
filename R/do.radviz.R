@@ -27,7 +27,7 @@
 #'            			\item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
 #' 				}
 #' 				\item \code{type}: character string specifying the method used for obtaining the springs.
-#'        \item \code{graphEdges}: when the input \code{graph} is provided (for a graphviz analysis),
+#'        \item \code{graphEdges}: when the input \code{graph} is provided (for a Graphviz analysis),
 #'              this slot will contain a dataframe with the graph edges
 #' } 
 #' 

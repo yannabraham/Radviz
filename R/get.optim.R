@@ -28,7 +28,7 @@ get.optim <- function(opt,n=NULL) {
     n <- N
   }
   if (n>N) {
-    stop(n,'th optimal anchor requested, only',N,'available\n')
+    stop(n,'the optimal anchor requested, only',N,'available\n')
   } else {
     return(opt$best[[n]])
   }
