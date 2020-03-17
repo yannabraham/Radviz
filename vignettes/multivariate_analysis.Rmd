@@ -271,11 +271,14 @@ For `r nrow(btcells.df)` vertices (cells) `r sum(btcells.adj!=0)` edges are reco
 
 ```{r}
 bind_rows(data.frame(value=btcells.dist[sample(1000)],
-                     Type='Overall'),
+                     Type='Overall',
+                     stringsAsFactors = FALSE),
           data.frame(value=btcells.adj[btcells.adj!=0][sample(1000)],
-                     Type='Nearest Neighbors')) %>% 
+                     Type='Nearest Neighbors',
+                     stringsAsFactors = FALSE)) %>% 
   mutate(Type=factor(Type),
          Type=relevel(Type,'Overall')) %>% 
+  filter(!is.na(value)) %>% 
   ggplot(aes(x=value))+
   geom_histogram(aes(fill=Type),
                  position = 'identity',
