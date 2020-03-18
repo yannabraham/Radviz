@@ -36,8 +36,8 @@ tuneForceRatio <- function(x, classes, law = 0, steps = 10, springs = NULL, mult
 	
 	for(i in 1:length(initGrid)){
 		springs <- do.optimFreeviz(x, classes, attractG = initGrid[i], repelG = 1, law = law, steps = steps, springs = springs, multilevel = multilevel, print = print)
-		rv <- do.radviz(cbind(x, classes), springs)
-		initDBVect[i] <- DB_weightedIdx(rv)
+		rv <- do.radviz(cbind(x, Class=classes), springs)
+		initDBVect[i] <- DB_weightedIdx(rv,className='Class')
 	}
 	
 	bestInd <- which.min(initDBVect)
