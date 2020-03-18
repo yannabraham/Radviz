@@ -13,7 +13,6 @@ Imports:
     stats,
     utils,
     igraph,
-    clusterSim,
     pracma
 Suggests: 
     knitr,
