@@ -9,8 +9,6 @@
 #' 
 #' @return weighted DB index value
 #' 
-#' @importFrom clusterSim index.DB
-#' 
 #' @author Nicolas Sauwen
 #' @export
 DB_weightedIdx <- function(x,className=NULL){
