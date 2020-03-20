@@ -29,3 +29,7 @@ devtools::install_github('yannabraham/Radviz',build_vignettes = TRUE)
 [![CRAN version](http://www.r-pkg.org/badges/version/Radviz)](https://cran.r-project.org/package=Radviz)
 
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/Radviz)](https://cran.r-project.org/package=Radviz)
+
+## DOI (via [Zenodo](https://zenodo.org/))
+
+[![DOI](https://zenodo.org/badge/46946711.svg)](https://zenodo.org/badge/latestdoi/46946711)
