@@ -19,19 +19,13 @@
 #' @export
 rescalePlot <- function(x, fraction=0.9){
 	
-	# Extract relevant data back from Radviz object
+	## Extract relevant data back from Radviz object
 	springs <- x$proj$plot_env$springs
 	data <- x$proj$data
-	data <- data[,-c((ncol(data)-2):ncol(data))]
 	
-	## extract the matrix
-	mat <- as.matrix(data[,rownames(springs)])
-	mat <- apply(mat, 2, do.L)
-	
-	## Compute projection
-	rx <- mat%*%springs[,1]
-	ry <- mat%*%springs[,2]
-	rvd <- apply(cbind(rx,ry),1,function(x) any(is.na(x)))
+	rx <- unlist(data[['rx']])
+	ry <- unlist(data[['ry']])
+	rvd <- unlist(data[['rvalid']])
 	
 	## Amplitude-based rescaling projected data
 	ampl <- sqrt(rx^2+ry^2)
