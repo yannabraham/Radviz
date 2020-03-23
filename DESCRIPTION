@@ -13,7 +13,8 @@ Imports:
     stats,
     utils,
     igraph,
-    pracma
+    pracma,
+    hexbin
 Suggests: 
     knitr,
     rmarkdown,
