@@ -20,7 +20,10 @@ Rescaling of projected data for plotting
 \details{
 A different rescaling is used here for plotting the projected data as compared to \code{\link{do.radviz}}. 
 Only feature-wise rescaling is applied to the original data (through \code{\link{do.L}}), in accordance with the rescaling used in 
-\code{\link{do.optimFreeviz}} and \code{\link{do.optimGraphviz}}. The projected data is then rescaled based on amplitude, to cover a pre-specified fraction of the unit circle
+\code{\link{do.optimFreeviz}} and \code{\link{do.optimGraphviz}}. The projected data is then rescaled based on amplitude, 
+to cover a pre-specified fraction of the unit circle.
+For \code{Freeviz} and \code{Graphviz} objects, the rescaling will issue a warning if some points extend beyond the some anchors: 
+in that case only the direction of the anchor can be interpreted but not the magnitude represented by the anchor's position.
 }
 \examples{
 data(iris)
