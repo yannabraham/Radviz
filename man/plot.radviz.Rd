@@ -8,6 +8,7 @@
   x,
   main = NULL,
   anchors.only = TRUE,
+  anchors.filter = NULL,
   label.color = NULL,
   label.size = NULL,
   point.color,
@@ -23,6 +24,8 @@
 \item{main}{[Optional] a title to the graph, displayed on top}
 
 \item{anchors.only}{by default only plot the anchors so that other methods can easily be chained}
+
+\item{anchors.filter}{}
 
 \item{label.color}{the color of springs for visualization}
 
