@@ -236,7 +236,7 @@ plot(btcells.fv)+
 Freeviz plots can also be rescaled : if after rescaling the points extend beyond a particular anchor, the exact contribution of this anchor to the projection is lost except for the direction. The function will issue a warning whenever this occurs.
 
 ```{r}
-btcells.fv <- rescalePlot(btcells.fv,fraction=0.6)
+btcells.fv <- rescalePlot(btcells.fv,fraction=0.5)
 ```
 
 ```{r}
@@ -249,6 +249,14 @@ After rescaling it is clear that a subset of B and T cells is not responding to 
 ```{r}
 contour(btcells.fv,
         color='Treatment')
+```
+
+In any case, it is possible to filter out the channels that have low influence on the projection:
+
+```{r}
+plot(btcells.fv,
+     anchors.filter = 0.5)+
+  geom_point(aes(color=Treatment))
 ```
 
 # Building a functional T cells graph
