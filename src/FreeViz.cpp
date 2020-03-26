@@ -421,21 +421,6 @@ symmetricTransformation(anc, ance, mirrorSymmetry != 0);
 //    pts++;
 //    pointsReal[1] = pts->y;
 
-//   // Free up memory
-   free(X);
-//   free(anc);
-////   free(ll);
-////   if (contClass < 2)
-//   free(classes);
-//
-//   free(danc);
-   free(pts);
-   free(Fa);
-//   free(Fr);
-////   xfree(Fr);
-////   xfree(sum);
-////   xfree(rad);
-
 //   return anchors;
 //
 //// PyCATCH;
@@ -461,6 +446,21 @@ for(anci = anc, i = 0; i < nAttrs; i++, anci++) {
 	newAnchors(i,0) = anci->x;
 	newAnchors(i,1) = anci->y;
 }
+
+//   // Free up memory
+   free(X);
+   free(anc);
+////   free(ll);
+////   if (contClass < 2)
+   free(classes);
+//
+   free(danc);
+   free(pts);
+   free(Fa);
+   free(Fr);
+////   xfree(Fr);
+////   xfree(sum);
+////   xfree(rad);
 
 	return(newAnchors);
 }
