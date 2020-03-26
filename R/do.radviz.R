@@ -105,7 +105,8 @@ do.radviz <- function(x,
                    xlim(lims)+
                    ylim(lims)+
                    theme_radviz(),
-		   		type=type)
+		   		type=type,
+		   		trans=trans)
 		
 		if(!is.null(graph)){
 			radviz$graphEdges <- igraph::as_data_frame(graph)
