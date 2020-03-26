@@ -113,7 +113,7 @@ void computeForcesDiscrete2(TPoint *pts, const TPoint *ptse, const int *classes,
 
     /**** Repulsive forces ****/
 
-    if ((repelG != 0.0) && classesi[2]) {
+	if ((repelG != 0.0) && *classesi < classese[-1]) {
 
       for(ptsi = pts + *classesi, ptsie = pts + classesi[1], Fri = Fr + *classesi, clustWeightsi = clustWeights + *classesi; ptsi != ptsie; ptsi++, Fri++, clustWeightsi++) {
         for(ptsi2 = ptsie, Fri2 = Fr + classesi[1], clustWeightsi2 = clustWeights + classesi[1]; ptsi2 != ptse; ptsi2++, Fri2++, clustWeightsi2++) {
