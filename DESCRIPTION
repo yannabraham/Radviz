@@ -1,7 +1,7 @@
 Package: Radviz
 Type: Package
 Title: Project Multidimensional Data in 2D Space
-Version: 0.9.0.9000
+Version: 0.9.1
 Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
              person('Nicolas','Sauwen',email='nicolas.sauwen@openanalytics.eu',role=c('aut')))
 Depends:

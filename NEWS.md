@@ -24,3 +24,10 @@ After some testing the following enhancements have been made to the code:
  - subset now can be used directly on column names from the Radviz object
  - optimization of anchor position using the Freeviz method from [Demsar **et al**](http://dx.doi.org/10.1016/j.jbi.2007.03.010) has been implemented by Nicolas Sauwen
  - extended the optimization of anchor position from classes (Freeviz) to graphs (Graphviz)
+
+# 2020-03-27
+
+ - fixed hexbin import for hexplot
+ - rescalePlot will now issue a warning when some anchors cannot be interpreted after rescaling
+ - added a filtering option to plot.radviz to remove short anchors in Freeviz and Graphviz plots
+ - fixed some memory issues related to Freeviz & Graphviz C++ code
