@@ -1,13 +1,9 @@
 ## New release of Radviz package
 
-This is release 0.9.1 of Radviz, where we have made the following changes
+This is release 0.9.2 of Radviz, where we have made the following changes
 
- * fixed compilation errors for C++ code
+ * fixed testing errors for C++ code
  * import hexbin package to support ggplot2-driven geom_hex
- * anchors can now be filtered based on length
- * rescaling will issue a warning if points extend beyond some anchors
- * rescaling uses projected coordinates rather than trying to compute them again
- * Radviz object will include the transformation used in the creation of the object
 
 ## Test environments
 
