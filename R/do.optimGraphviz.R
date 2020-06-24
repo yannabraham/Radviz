@@ -31,6 +31,7 @@
 #' @example examples/example-graphviz.R
 #' 
 #' @importFrom igraph E ends degree
+#' @importFrom Rcpp evalCpp
 #' 
 #' @author Nicolas Sauwen
 #' @export

@@ -36,6 +36,7 @@
 #' plot(new.rv,anchors.only=FALSE)
 #' 
 #' @importFrom stats t.test
+#' @importFrom Rcpp evalCpp
 #' 
 #' @author Nicolas Sauwen
 #' @export
