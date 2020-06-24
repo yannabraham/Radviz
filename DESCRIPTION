@@ -14,7 +14,8 @@ Imports:
     utils,
     igraph,
     pracma,
-    hexbin
+    hexbin,
+    Rcpp
 Suggests: 
     knitr,
     rmarkdown,
