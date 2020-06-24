@@ -31,3 +31,10 @@ After some testing the following enhancements have been made to the code:
  - rescalePlot will now issue a warning when some anchors cannot be interpreted after rescaling
  - added a filtering option to plot.radviz to remove short anchors in Freeviz and Graphviz plots
  - fixed some memory issues related to Freeviz & Graphviz C++ code
+
+# 2020-06-24
+
+ - fixed hexbin import for hexplot in the hexplot function
+ - fixed Rcpp import in do.optimFreeviz and do.optimGraphviz
+ - springs()` now returns the spring matrix rather than simply the channel names
+
