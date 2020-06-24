@@ -62,5 +62,8 @@ print.radviz <- function(x,...) {
 #' @rdname summary.radviz
 #' @export
 springs <- function(x) {
-  return(levels(x$proj$layers[[1]]$data$Channel))
+  df <- x$proj$layers[[1]]$data
+  springs <- as.matrix(df[,c('X1','X2')])
+  rownames(springs) <- as.character(df$Channel)
+  return(springs)
 }
