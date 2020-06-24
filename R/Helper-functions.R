@@ -2,6 +2,8 @@
 #' 
 #' Provides a summary for Radviz objects
 #' 
+#' @method summary radviz
+#' 
 #' @param x an object of class Radviz, as returned by \code{\link{do.radviz}}
 #' @param object an object of class Radviz, as returned by \code{\link{do.radviz}}
 #' @param n the number of lines from each slots in the Radviz object to display (defaults to 6)
@@ -35,12 +37,14 @@ summary.radviz <- function(object,...,n=6) {
 }
 
 #' @rdname summary.radviz
+#' @method head radviz
 #' @export
 head.radviz <- function(x,n=6,...) {
   print(head(x$proj$data,n=n))
 }
 
 #' @rdname summary.radviz
+#' @method dim radviz
 #' @export
 dim.radviz <- function(x) {
   return(c(nrow(x$proj$data),
@@ -48,6 +52,7 @@ dim.radviz <- function(x) {
 }
 
 #' @rdname summary.radviz
+#' @method print radviz
 #' @export
 print.radviz <- function(x,...) {
   print(x$proj)

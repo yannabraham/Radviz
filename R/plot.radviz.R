@@ -2,6 +2,8 @@
 #' 
 #' Plots the Dimensional Anchors and projected data points in a 2D space.
 #' 
+#' @method plot radviz
+#' 
 #' @param x a radviz object as produced by \code{\link{do.radviz}}
 #' @param main [Optional] a title to the graph, displayed on top
 #' @param anchors.only by default only plot the anchors so that other methods can easily be chained
