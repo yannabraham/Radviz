@@ -21,8 +21,11 @@
 #' @examples
 #' hexplot(rv,color='Sepal.Length')
 #' 
-#' @author Yann Abraham
 #' @importFrom ggplot2 ggtitle aes_string scale_fill_gradient geom_hex stat_summary_hex
+#' @import hexbin
+#' 
+#' @author Yann Abraham
+#' 
 #' @export
 hexplot <- function(x,
                     main=NULL,
