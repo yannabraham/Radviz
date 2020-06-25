@@ -33,9 +33,9 @@
 
 \item{size}{[Logical] if \code{TRUE} labels are sized after the number of points they correspond to}
 
-\item{label.color}{deprecated, see \code{\link{do.radviz}}}
+\item{label.color}{the color of springs for visualization}
 
-\item{label.size}{deprecated, see \code{\link{do.radviz}}}
+\item{label.size}{the size of labels}
 
 \item{adj}{deprecated, see \code{\link{geom_text}} instead}
 

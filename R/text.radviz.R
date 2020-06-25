@@ -7,8 +7,8 @@
 #' @param labels the name of the variable used for labeling (see details)
 #' @param size [Logical] if \code{TRUE} labels are sized after the number of points they correspond to
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
-#' @param label.color deprecated, see \code{\link{do.radviz}}
-#' @param label.size deprecated, see \code{\link{do.radviz}}
+#' @param label.color the color of springs for visualization
+#' @param label.size the size of labels
 #' @param adj deprecated, see \code{\link{geom_text}} instead
 #' @param pos deprecated, see \code{\link{geom_text}} instead
 #' @param offset deprecated, see \code{\link{geom_text}} instead
@@ -45,10 +45,6 @@ text.radviz <- function (x,...,
                          font,
                          add) {
   ## check for deprecated arguments
-  if(!missing(label.color))
-    warning('label.color is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
-  if(!missing(label.size))
-    warning('label.size is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
   if(!missing(adj))
     warning('adj is a deprecated argument, use plot(x)+geom_text() and custom data and mappings to change plot.',call. = FALSE)
   if(!missing(pos))
@@ -80,6 +76,16 @@ text.radviz <- function (x,...,
   
   p <- x$proj+
     ggtitle(main)
+  
+  if(!is.null(label.color) | !is.null(label.size)) {
+    if(is.null(label.size)) label.size <- NA
+    if(is.null(label.color)) label.color <- 'orangered4'
+    if(!is.numeric(label.size)) label.size <- as.numeric(label.size)
+    p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
+                               aes_string(x='X1',y='X2',label='Channel'),
+                               color=label.color,
+                               size=label.size)
+  }
   
   dims <- c('rx','ry')
   
