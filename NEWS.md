@@ -38,3 +38,7 @@ After some testing the following enhancements have been made to the code:
  - fixed Rcpp import in do.optimFreeviz and do.optimGraphviz
  - springs()` now returns the spring matrix rather than simply the channel names
 
+# 2020-11-13
+
+ - reinstated the label options in `text.radviz`
+ - implemented anchor filtering for `freeviz` as a separate function

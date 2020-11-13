@@ -7,7 +7,6 @@
 #' @param x a radviz object as produced by \code{\link{do.radviz}}
 #' @param main [Optional] a title to the graph, displayed on top
 #' @param anchors.only by default only plot the anchors so that other methods can easily be chained
-#' @param anchors.filter filter out anchors with low contributions to the projection
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of labels
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
@@ -17,8 +16,6 @@
 #' @param add deprecated, use \code{\link{geom_point}} instead
 #' 
 #' @details by default the plot function only shows the anchors. Extra geoms are required to display the data.
-#' When \code{anchors.filter} is a number and type is not Radviz, any springs whose length is lower than this number will be filtered out 
-#' of the visualization. This has no effect on the projection itself. 
 #' 
 #' @return the internal ggplot2 object, allowing for extra geoms to be added
 #' 
@@ -38,7 +35,6 @@
 plot.radviz <- function(x,
                         main=NULL,
                         anchors.only=TRUE,
-                        anchors.filter=NULL,
                         label.color=NULL,
                         label.size=NULL,
                         point.color,
@@ -72,18 +68,8 @@ plot.radviz <- function(x,
   if(!is.numeric(label.size)){
     label.size <- as.numeric(label.size)
   }
-  if(!is.null(anchors.filter) & x$type!='Radviz') {
-    r <- rowSums(x$proj$plot_env$springs^2)^0.5
-    df <- p$layers[[1]]$data %>% 
-      subset(r>=anchors.filter)
-  } else if(!is.null(anchors.filter) & x$type=='Radviz') {
-    warning('`anchors.filter` is not relevant for Radviz plots\n')
-    df <- p$layers[[1]]$data
-  } else {
-    df <- p$layers[[1]]$data
-  }
-  if(!is.null(label.color) | !is.null(label.size) | !is.null(anchors.filter)) {
-    p$layers[[1]] <- geom_text(data = df,
+  if(!is.null(label.color) | !is.null(label.size)) {
+    p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
                                aes_string(x='X1',y='X2',label='Channel'),
                                color=label.color,
                                size=label.size)
