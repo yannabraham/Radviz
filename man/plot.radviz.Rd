@@ -8,7 +8,6 @@
   x,
   main = NULL,
   anchors.only = TRUE,
-  anchors.filter = NULL,
   label.color = NULL,
   label.size = NULL,
   point.color,
@@ -24,8 +23,6 @@
 \item{main}{[Optional] a title to the graph, displayed on top}
 
 \item{anchors.only}{by default only plot the anchors so that other methods can easily be chained}
-
-\item{anchors.filter}{filter out anchors with low contributions to the projection}
 
 \item{label.color}{the color of springs for visualization}
 
@@ -49,8 +46,6 @@ Plots the Dimensional Anchors and projected data points in a 2D space.
 }
 \details{
 by default the plot function only shows the anchors. Extra geoms are required to display the data.
-When \code{anchors.filter} is a number and type is not Radviz, any springs whose length is lower than this number will be filtered out 
-of the visualization. This has no effect on the projection itself.
 }
 \examples{
 data(iris)
