@@ -11,7 +11,8 @@ do.optimGraphviz(
   repelG = 1,
   law = 0,
   steps = 10,
-  springs = NULL
+  springs = NULL,
+  weight = "weight"
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ do.optimGraphviz(
 \item{steps}{Number of iterations of the algorithm before re-considering convergence criterion}
 
 \item{springs}{Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}}}
+
+\item{weight}{the name of the attribute containing the edge weights to use for optimization}
 }
 \value{
 A matrix with 2 columns (x and y coordinates of dimensional anchors) and 1 line

@@ -10,7 +10,9 @@
 #' @param repelG Number specifying the weight of the repulsive forces
 #' @param law Integer, specifying how forces change with distance: 0 = (inverse) linear, 1 = (inverse) square
 #' @param steps Number of iterations of the algorithm before re-considering convergence criterion
-#' @param springs Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}} 
+#' @param springs Numeric matrix with initial anchor coordinates. When \code{NULL} (=default), springs are initialized by \code{\link{make.S}}
+#' @param weight the name of the attribute containing the edge weights to use for optimization
+#' 
 #' @importFrom utils install.packages
 #' @importFrom stats cutree dist hclust
 #' @useDynLib Radviz
@@ -30,12 +32,14 @@
 #' 
 #' @example examples/example-graphviz.R
 #' 
-#' @importFrom igraph E ends degree
+#' @importFrom igraph E ends degree get.edge.attribute
 #' @importFrom Rcpp evalCpp
 #' 
 #' @author Nicolas Sauwen
 #' @export
-do.optimGraphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps = 10, springs = NULL){
+do.optimGraphviz <- function(x, graph, attractG = 1, repelG = 1, 
+                             law = 0, steps = 10, springs = NULL,
+                             weight = "weight"){
 	
 	if(any(class(x) ==  "x.frame")) x <- as.matrix(x)
 	if(!(law %in% c(0,1))) stop("Parameter 'law' not properly specified. Valid values are 0 or 1")
@@ -45,7 +49,7 @@ do.optimGraphviz <- function(x, graph, attractG = 1, repelG = 1, law = 0, steps 
 	edges <- E(graph)
 	edgesMat <- ends(graph, edges, names = FALSE)
 	mode(edgesMat) <- "integer"
-	edgeWeights <- edges$weight
+	edgeWeights <- get.edge.attribute(graph,weight)
 	
 	rm(list = c("edges"))
 	
