@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // optimizeAnchors
 arma::mat optimizeAnchors(arma::mat scaledData, NumericVector Rclasses, arma::mat anchors, double attractG, double repelG, int law, int steps, bool normalizeExamples);
 RcppExport SEXP _Radviz_optimizeAnchors(SEXP scaledDataSEXP, SEXP RclassesSEXP, SEXP anchorsSEXP, SEXP attractGSEXP, SEXP repelGSEXP, SEXP lawSEXP, SEXP stepsSEXP, SEXP normalizeExamplesSEXP) {
