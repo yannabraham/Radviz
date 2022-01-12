@@ -17,16 +17,14 @@
 #' plot(anchors.filter(new.rv,0.2))
 #' 
 #' @author Yann Abraham
-#' @importFrom dplyr `%>%` .data mutate filter
 #' @export
 anchors.filter <- function(x,
                            lim=0) {
   if(x$type=='Radviz') {
     warning('`anchors.filter` is not relevant for Radviz plots\n')
   } else {
-    x$proj$layers[[1]]$data <- x$proj$layers[[1]]$data %>% 
-      mutate(weight=(.data$X1^2+.data$X2^2)^0.5) %>% 
-      filter(.data$weight>=lim)
+    weight <- rowSums(x$springs^2)^0.5
+    x$springs <- x$springs[weight>=lim,]
   }
   return(x)
 }

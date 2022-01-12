@@ -29,7 +29,7 @@ using colors in the \code{hexcols} slot}
 
 \item{label.color}{the color of springs for visualization}
 
-\item{label.size}{the size of labels}
+\item{label.size}{the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)}
 
 \item{mincnt}{deprecated, see \code{\link{stat_summary_hex}} instead}
 

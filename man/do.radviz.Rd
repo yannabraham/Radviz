@@ -22,9 +22,9 @@ do.radviz(
 
 \item{trans}{a transformation to be applied to the data before projection}
 
-\item{label.color}{the color of springs for visualization}
+\item{label.color}{deprecated, use \code{\link{plot.radviz}} instead}
 
-\item{label.size}{the size of labels}
+\item{label.size}{deprecated, use \code{\link{plot.radviz}} instead}
 
 \item{type}{character string specifying the method used for obtaining the springs. 
 Current methods are: Radviz, Freeviz and Graphviz. When not provided, \code{type} is 

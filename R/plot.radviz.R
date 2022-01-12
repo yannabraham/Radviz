@@ -8,7 +8,7 @@
 #' @param main [Optional] a title to the graph, displayed on top
 #' @param anchors.only by default only plot the anchors so that other methods can easily be chained
 #' @param label.color the color of springs for visualization
-#' @param label.size the size of labels
+#' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
 #' @param point.color deprecated, use \code{\link{geom_point}} instead
 #' @param point.shape deprecated, use \code{\link{geom_point}} instead
@@ -30,7 +30,7 @@
 #' plot(rv)+geom_point(aes(color=Species))
 #' 
 #' @author Yann Abraham
-#' @importFrom ggplot2 ggtitle geom_point
+#' @importFrom ggplot2 ggtitle geom_point geom_text GeomLabel
 #' @export
 plot.radviz <- function(x,
                         main=NULL,
@@ -53,14 +53,9 @@ plot.radviz <- function(x,
     warning('add is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
   ## plot
   p <- x$proj
-  if(!is.null(main)) {
-    p <- p + ggtitle(main)
-  } 
-  if(!anchors.only) { 
-    p <- p + geom_point()
-  }
+  
   if(is.null(label.size)) {
-    label.size <- NA
+    label.size <- GeomLabel$default_aes$size
   }
   if(is.null(label.color)) {
     label.color <- 'orangered4'
@@ -68,12 +63,21 @@ plot.radviz <- function(x,
   if(!is.numeric(label.size)){
     label.size <- as.numeric(label.size)
   }
-  if(!is.null(label.color) | !is.null(label.size)) {
-    p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
-                               aes_string(x='X1',y='X2',label='Channel'),
-                               color=label.color,
-                               size=label.size)
+  
+  if(!is.null(main)) {
+    p <- p + ggtitle(main)
+  } 
+  if(!anchors.only) { 
+    p <- p + geom_point()
   }
+  
+  p <- p+
+    geom_text(data = data.frame(x$springs,
+                                Channel=factor(rownames(x$springs),
+                                               levels=rownames(x$springs))),
+              aes_string(x='X1',y='X2',label='Channel'),
+              color=label.color,
+              size=label.size)
   
   return(p)
 }

@@ -9,7 +9,7 @@
 #' @param nbin the number of equally spaced grid points for the density estimation (see \link[ggplot2]{geom_density_2d}
 #'          for details)
 #' @param label.color the color of springs for visualization
-#' @param label.size the size of labels
+#' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
 #' @param smooth.color deprecated, see \code{\link{stat_density2d}} instead
 #' @param max.dens deprecated, see \code{\link{stat_density2d}} instead
 #' @param transformation deprecated, see \code{\link{stat_density2d}} instead
@@ -24,7 +24,7 @@
 #' smoothRadviz(rv)
 #' 
 #' @author Yann Abraham
-#' @importFrom ggplot2 ggtitle stat_density2d aes_string scale_fill_continuous guides
+#' @importFrom ggplot2 stat_density2d aes_string scale_fill_continuous guides 
 #' @export
 smoothRadviz <- function (x, 
                           main = NULL,
@@ -52,20 +52,13 @@ smoothRadviz <- function (x,
   if(!missing(bandwidth))
     warning("bandwidth is a deprecated argument, use plot(x)+stat_density2d(geom='tile') and custom aes() to change plot.",call. = FALSE)
   ## plot
-  p <- x$proj+
-    ggtitle(main)+
+  p <- plot.radviz(x,
+                   main = main,
+                   label.color = label.color,
+                   label.size = label.size)
+  p <- p+
     scale_fill_continuous(low = "white", high = color)+
-    guides(fill=FALSE)
-  
-  if(!is.null(label.color) | !is.null(label.size)) {
-    if(is.null(label.size)) label.size <- NA
-    if(is.null(label.color)) label.color <- 'orangered4'
-    if(!is.numeric(label.size)) label.size <- as.numeric(label.size)
-    p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
-                               aes_string(x='X1',y='X2',label='Channel'),
-                               color=label.color,
-                               size=label.size)
-  }
+    guides(fill = "none")
   
   slayer <- stat_density2d(aes_string(fill = "..density..^0.25"),
                            geom = "tile",

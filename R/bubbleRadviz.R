@@ -8,7 +8,7 @@
 #' @param color [Optional] the name of the variable used to color the points
 #' @param size the size range for the plot
 #' @param label.color the color of springs for visualization
-#' @param label.size the size of labels
+#' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
 #' @param bubble.color deprecated, use \code{\link{geom_point}} instead
 #' @param bubble.fg deprecated, use \code{\link{geom_point}} instead
 #' @param bubble.size deprecated, use \code{\link{geom_point}} instead
@@ -32,7 +32,7 @@
 #' @importFrom stats median reorder
 #' @importFrom dplyr `%>%` filter select mutate group_by summarise_at count left_join .data sym
 #' @importFrom rlang `:=` 
-#' @importFrom ggplot2 ggtitle aes_string geom_point scale_color_gradient scale_size
+#' @importFrom ggplot2 aes_string geom_point scale_color_gradient scale_size 
 #' 
 #' @export
 bubbleRadviz <-
@@ -75,18 +75,10 @@ bubbleRadviz <-
       }
     }
     
-    p <- x$proj+
-      ggtitle(main)
-    
-    if(!is.null(label.color) | !is.null(label.size)) {
-      if(is.null(label.size)) label.size <- NA
-      if(is.null(label.color)) label.color <- 'orangered4'
-      if(!is.numeric(label.size)) label.size <- as.numeric(label.size)
-      p$layers[[1]] <- geom_text(data = p$layers[[1]]$data,
-                                 aes_string(x='X1',y='X2',label='Channel'),
-                                 color=label.color,
-                                 size=label.size)
-    }
+    p <- plot.radviz(x,
+                     main = main,
+                     label.color = label.color,
+                     label.size = label.size)
     
     dims <- c(color,'rx','ry')
     

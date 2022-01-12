@@ -7,12 +7,12 @@
 #' @param x a data.frame or matrix to be projected, with column names matching row names in springs
 #' @param springs a matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}
 #' @param trans a transformation to be applied to the data before projection
-#' @param label.color the color of springs for visualization
-#' @param label.size the size of labels
 #' @param type character string specifying the method used for obtaining the springs. 
 #' 				Current methods are: Radviz, Freeviz and Graphviz. When not provided, \code{type} is 
 #' 				derived from the other inputs
 #' @param graph \code{igraph} object (only relevant for result obtained from \code{\link{do.optimGraphviz}} analysis) 
+#' @param label.color deprecated, use \code{\link{plot.radviz}} instead
+#' @param label.size deprecated, use \code{\link{plot.radviz}} instead
 #' 
 #' @details The function expects that at least some of the column names in df will be matched
 #'            by row names in springs
@@ -39,7 +39,7 @@
 #' 
 #' @aliases do.radviz do.radviz.default
 #' 
-#' @importFrom ggplot2 ggplot aes_string geom_text xlim ylim coord_equal
+#' @importFrom ggplot2 ggplot aes_string geom_text xlim ylim coord_equal GeomLabel
 #' 
 #' @aliases do.radviz do.radviz.default
 #' @author Yann Abraham
@@ -85,10 +85,10 @@ do.radviz <- function(x,
   
   # automatic check for type of method:
   if(is.null(type))	{
-	  springLengths <-  diag(springs%*%t(springs))
-	  if(any(springLengths < 0.99)){
-		  type <- "Freeviz"
-	  } else type <- "Radviz"
+    springLengths <-  diag(springs%*%t(springs))
+    if(any(springLengths < 0.99)){
+      type <- "Freeviz"
+    } else type <- "Radviz"
   }
   
   # find axis range
@@ -96,23 +96,19 @@ do.radviz <- function(x,
   
   radviz <- list(proj=ggplot(data=x,
                              aes_string(x='rx',y='ry'))+
-                   geom_text(data = data.frame(springs,
-                                               Channel=factor(rownames(springs),
-                                                              levels=rownames(springs))),
-                             aes_string(x='X1',y='X2',label='Channel'),
-                             color=label.color,
-                             size=label.size)+
                    coord_equal()+
                    xlim(lims)+
                    ylim(lims)+
                    theme_radviz(),
-		   		type=type,
-		   		trans=trans)
-		
-		if(!is.null(graph)){
-			radviz$graphEdges <- igraph::as_data_frame(graph)
-			radviz$type <- "Graphviz"
-		}
+                 springs = springs,
+                 type=type,
+                 trans=trans)
+  
+  if(!is.null(graph)){
+    radviz$graphEdges <- igraph::as_data_frame(graph)
+    radviz$type <- "Graphviz"
+  }
+  
   class(radviz) <- 'radviz'
   return(radviz)
 }
