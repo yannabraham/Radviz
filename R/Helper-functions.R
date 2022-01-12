@@ -28,7 +28,7 @@ summary.radviz <- function(object,...,n=6) {
   if(any(object$proj$data$rvalid)) {
     cat(sum(object$proj$data$rvalid),'point(s) could not be projected\n')
   }
-  das <- springs(object)
+  das <- rownames(springs(object))
   if(length(das)>n) {
     das <- das[seq(1,n)]
     das <- c(das,'...')
