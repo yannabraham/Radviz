@@ -5,7 +5,8 @@
 #' 
 #' @param mat A matrix or data.frame
 #' 
-#' @details implementation by David Ruau (see \url{https://gist.github.com/bobthecat/2903031} for details)
+#' @details implementation by \href{https://stackoverflow.com/users/4288660/ekstroem}{ekstroem}
+#'            (see \url{https://stackoverflow.com/a/45382926} for details)
 #' 
 #' @return A symmetrical matrix with as many rows as there are columns in input
 #' 
@@ -25,7 +26,6 @@ cosine <- function(mat) {
   if(!is.matrix(mat)) {
     mat <- as.matrix(mat)
   }
-  dotmat <- t(mat) %*% mat
-  res <- dotmat / (sqrt(diag(dotmat)) %*% t(sqrt(diag(dotmat))))
+  res <- crossprod(mat)/(sqrt(tcrossprod(colSums(mat^2))))
   return(res)
 }

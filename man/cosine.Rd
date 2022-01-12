@@ -17,7 +17,8 @@ Given a dataset, compute the cosine similarity between to columns for use
 in optimization of Dimensional Anchors
 }
 \details{
-implementation by David Ruau (see \url{https://gist.github.com/bobthecat/2903031} for details)
+implementation by \href{https://stackoverflow.com/users/4288660/ekstroem}{ekstroem}
+           (see \url{https://stackoverflow.com/a/45382926} for details)
 }
 \examples{
 data(iris)
