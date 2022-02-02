@@ -1,6 +1,6 @@
 # Radviz
 
-[![Travis-CI Build Status](https://travis-ci.org/yannabraham/Radviz.svg?branch=master)](https://travis-ci.org/yannabraham/Radviz)
+[![R-CMD-check](https://github.com/yannabraham/Radviz/workflows/R-CMD-check/badge.svg)](https://github.com/yannabraham/Radviz/actions)
 [![CRAN version](http://www.r-pkg.org/badges/version/Radviz)](https://cran.r-project.org/package=Radviz)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/Radviz)](https://cran.r-project.org/package=Radviz)
 [![DOI](https://zenodo.org/badge/46946711.svg)](https://zenodo.org/badge/latestdoi/46946711)
