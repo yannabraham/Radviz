@@ -6,6 +6,7 @@
 #' 
 #' @param x a data.frame or matrix to be projected, with column names matching row names in springs
 #' @param springs a matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}
+#' @param scaling a scaling factor applied to data before the projection.
 #' @param trans a transformation to be applied to the data before projection
 #' @param type character string specifying the method used for obtaining the springs. 
 #' 				Current methods are: Radviz, Freeviz and Graphviz. When not provided, \code{type} is 
@@ -14,8 +15,13 @@
 #' @param label.color deprecated, use \code{\link{plot.radviz}} instead
 #' @param label.size deprecated, use \code{\link{plot.radviz}} instead
 #' 
-#' @details The function expects that at least some of the column names in df will be matched
-#'            by row names in springs
+#' @details The function expects that at least some of the column names in x 
+#' will be matched by all row names in springs.
+#' The scaling factor can be used to increase the distance between points, 
+#' making it useful in situations where all points are pulled together either 
+#' because of similar values or large number of channels.
+#' The scaling is applied **after** the transformation by \code{trans}.
+#' The scaling idea is taken from [Artur & Minghim 2019](https://doi.org/10.1016/j.cag.2019.08.015).
 #' 
 #' @return an object of class radviz with the following slots:
 #'			\itemize{
@@ -26,6 +32,7 @@
 #'            			\item \code{rx} and \code{ry} the X and Y coordinates of the radviz projection of \code{x} over \code{springs}
 #'            			\item \code{rvalid} an index of points corresponding to an invalid projection (any \code{rx} or \code{ry} is NA)
 #' 				}
+#' 				\item \code{springs}: the matrix containing the spring coordinates.
 #' 				\item \code{type}: character string specifying the method used for obtaining the springs.
 #' 				\item \code{trans}: the function used to transform the data.
 #'        \item \code{graphEdges}: when the input \code{graph} is provided (for a Graphviz analysis),
@@ -46,6 +53,7 @@
 #' @export
 do.radviz <- function(x,
                       springs,
+                      scaling=1,
                       trans=do.L,
                       label.color='orangered4',
                       label.size=NA,
@@ -69,7 +77,10 @@ do.radviz <- function(x,
   if(!is.null(trans)) {
     mat <- apply(mat, 2, trans)
   }
-  weights <- mat/matrix(rep(rowSums(mat),each=ncol(mat)),nrow=nrow(mat),byrow=T)
+  weights <- mat/matrix(rep(rowSums(mat^scaling),
+                            each=ncol(mat)),
+                        nrow=nrow(mat),
+                        byrow=T)
   rx <- colSums(t(weights)*springs[,1])
   ry <- colSums(t(weights)*springs[,2])
   rvd <- apply(cbind(rx,ry),1,function(x) any(is.na(x)))
