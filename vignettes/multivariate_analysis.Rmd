@@ -254,8 +254,8 @@ contour(btcells.fv,
 In any case, it is possible to filter out the channels that have low influence on the projection:
 
 ```{r}
-plot(anchors.filter(btcells.fv,
-                    lim=0.5))+
+plot(anchor.filter(btcells.fv,
+                   lim=0.5))+
   geom_point(aes(color=Treatment))
 ```
 
