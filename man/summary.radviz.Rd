@@ -31,7 +31,9 @@ springs(x)
 Provides a summary for Radviz objects
 }
 \details{
-\code{dim} returns the number of points and the number of dimensions used for the projection
+\code{dim} returns the number of points and the number of dimensions 
+used for the projection.
+\code{print} returns invisibly the data, including the projected coordinates
 }
 \examples{
 data(iris)

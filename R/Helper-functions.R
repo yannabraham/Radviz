@@ -9,7 +9,9 @@
 #' @param n the number of lines from each slots in the Radviz object to display (defaults to 6)
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
 #' 
-#' @details \code{dim} returns the number of points and the number of dimensions used for the projection
+#' @details \code{dim} returns the number of points and the number of dimensions 
+#' used for the projection.
+#' \code{print} returns invisibly the data, including the projected coordinates
 #' 
 #' @example examples/example-do.radviz.R
 #' @examples
