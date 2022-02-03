@@ -21,7 +21,7 @@
 #' When \code{anchors.filter} is a number and type is not Radviz, any springs 
 #' whose length is lower than this number will be filtered out 
 #' of the visualization. This has no effect on the projection itself. Please note
-#' that this parameter is being superseded by the \code{\link{anchors.filter}} 
+#' that this parameter is being superseded by the \code{\link{anchor.filter}} 
 #' function.
 #' 
 #' @return the internal ggplot2 object, allowing for extra geoms to be added
