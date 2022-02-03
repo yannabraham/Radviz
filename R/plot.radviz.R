@@ -7,6 +7,7 @@
 #' @param x a radviz object as produced by \code{\link{do.radviz}}
 #' @param main [Optional] a title to the graph, displayed on top
 #' @param anchors.only by default only plot the anchors so that other methods can easily be chained
+#' @param anchors.filter filter out anchors with low contributions to the projection (superseded)
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
@@ -15,7 +16,13 @@
 #' @param point.size deprecated, use \code{\link{geom_point}} instead
 #' @param add deprecated, use \code{\link{geom_point}} instead
 #' 
-#' @details by default the plot function only shows the anchors. Extra geoms are required to display the data.
+#' @details by default the plot function only shows the anchors. Extra geoms are 
+#' required to display the data.
+#' When \code{anchors.filter} is a number and type is not Radviz, any springs 
+#' whose length is lower than this number will be filtered out 
+#' of the visualization. This has no effect on the projection itself. Please note
+#' that this parameter is being superseded by the \code{\link{anchors.filter}} 
+#' function.
 #' 
 #' @return the internal ggplot2 object, allowing for extra geoms to be added
 #' 
@@ -35,6 +42,7 @@
 plot.radviz <- function(x,
                         main=NULL,
                         anchors.only=TRUE,
+                        anchors.filter = NULL,
                         label.color=NULL,
                         label.size=NULL,
                         point.color,
@@ -51,6 +59,12 @@ plot.radviz <- function(x,
     warning('point.size is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
   if(!missing(add))
     warning('add is a deprecated argument, use plot(x)+geom_point() and custom aes() to change plot.',call. = FALSE)
+  if(!is.null(anchors.filter)) {
+    warning('anchors.filter is a deprecated argument, use anchor.filter(x)',call. = FALSE)
+    ## apply anchor.filter if argument has been used
+    x <- anchor.filter(x,lim = anchors.filter)
+  }
+  
   ## plot
   p <- x$proj
   
@@ -66,7 +80,8 @@ plot.radviz <- function(x,
   
   if(!is.null(main)) {
     p <- p + ggtitle(main)
-  } 
+  }
+  
   if(!anchors.only) { 
     p <- p + geom_point()
   }
