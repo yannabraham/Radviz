@@ -62,7 +62,7 @@ Freeviz is an optimization method that finds the linear projection that
 best separates instances of different classes, based on a physical metaphor. Observations are considered as physical particles,
 that exert forces onto each other. Attractive forces occur between observations of the same class, and repulsive forces between
 observations of different classes, with the force strength depending on the distance between observations. The goal of Freeviz
-is to find the projection with minimal potential energy. For more details, see the original Freeviz paper: \url{http://dx.doi.org/10.1016/j.jbi.2007.03.010}
+is to find the projection with minimal potential energy. For more details, see the original Freeviz paper: \doi{10.1016/j.jbi.2007.03.010}
 }
 \examples{
 data(iris)
