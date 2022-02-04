@@ -6,8 +6,8 @@
 #' 
 #' @param x a data.frame or matrix to be projected, with column names matching row names in springs
 #' @param springs a matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}
-#' @param scaling a scaling factor applied to data before the projection.
 #' @param trans a transformation to be applied to the data before projection
+#' @param scaling a scaling factor applied to data before the projection.
 #' @param type character string specifying the method used for obtaining the springs. 
 #' 				Current methods are: Radviz, Freeviz and Graphviz. When not provided, \code{type} is 
 #' 				derived from the other inputs
@@ -53,8 +53,8 @@
 #' @export
 do.radviz <- function(x,
                       springs,
-                      scaling=1,
                       trans=do.L,
+                      scaling=1,
                       label.color='orangered4',
                       label.size=NA,
                       type=NULL,

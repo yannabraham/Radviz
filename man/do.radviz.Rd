@@ -8,8 +8,8 @@
 do.radviz(
   x,
   springs,
-  scaling = 1,
   trans = do.L,
+  scaling = 1,
   label.color = "orangered4",
   label.size = NA,
   type = NULL,
@@ -21,9 +21,9 @@ do.radviz(
 
 \item{springs}{a matrix of 2D dimensional anchor coordinates, as returned by \code{\link{make.S}}}
 
-\item{scaling}{a scaling factor applied to data before the projection.}
-
 \item{trans}{a transformation to be applied to the data before projection}
+
+\item{scaling}{a scaling factor applied to data before the projection.}
 
 \item{label.color}{deprecated, use \code{\link{plot.radviz}} instead}
 
