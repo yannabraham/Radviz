@@ -6,7 +6,7 @@
 #' @param mat A matrix or data.frame
 #' 
 #' @details implementation by \href{https://stackoverflow.com/users/4288660/ekstroem}{ekstroem}
-#'            (see \url{https://stackoverflow.com/a/45382926} for details)
+#'            (see \href{https://stackoverflow.com/a/45382926}{StackOverflow} for details)
 #' 
 #' @return A symmetrical matrix with as many rows as there are columns in input
 #' 

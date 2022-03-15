@@ -18,7 +18,7 @@ in optimization of Dimensional Anchors
 }
 \details{
 implementation by \href{https://stackoverflow.com/users/4288660/ekstroem}{ekstroem}
-           (see \url{https://stackoverflow.com/a/45382926} for details)
+           (see \href{https://stackoverflow.com/a/45382926}{StackOverflow} for details)
 }
 \examples{
 data(iris)
