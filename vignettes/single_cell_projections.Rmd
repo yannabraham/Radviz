@@ -22,7 +22,7 @@ knitr::opts_chunk$set(warning=FALSE,
 
 # Abstract
 
-The Radviz package implements the concept of dimensional anchors to visualize multivariate datasets in a 2D projection, as originally described in [Hoffman *et al* 1999](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.135.889). Additional work for ordering of dimensional anchor is taken from [Di Caro *et al* 2012](http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13).
+The Radviz package implements the concept of dimensional anchors to visualize multivariate datasets in a 2D projection, as originally described in [Hoffman *et al* 1999](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.135.889). Additional work for ordering of dimensional anchor is taken from [Di Caro *et al* 2012](https://link.springer.com/chapter/10.1007/978-3-642-13672-6_13).
 
 # Introduction
 
@@ -62,7 +62,7 @@ library(tidyr)
 
 # Visualizing High Dimensional Data: the `bodenmiller` dataset
 
-We will use data from the [Bodenmiller *et al* 2012](http://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) publication. The [bodenmiller](https://github.com/yannabraham/bodenmiller) package contains a subset of the data that can be used for testing purpose. The package can be installed by running the following command:
+We will use data from the [Bodenmiller *et al* 2012](https://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) publication. The [bodenmiller](https://github.com/yannabraham/bodenmiller) package contains a subset of the data that can be used for testing purpose. The package can be installed by running the following command:
 
 ```
 install.packages('bodenmiller')
@@ -112,8 +112,8 @@ ct.S <- make.S(dimnames(refPhenoMat)[[2]])
 
 The position of dimensional anchors on the circle is critical: the best projection (as judged by the separation of points in the display) is achieved when dimensional anchors that correspond to highly correlated dimensions in the data are placed closer on the unit circle.
 
-Optimization of the position of dimensional anchors is discussed in [Di Caro *et al* 2012](http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13), where the authors suggest 2 metrics that can be used in an optimization process. Both methods start with a similarity matrix where every value represents the similarity between any 2 dimensions. The first method assumes that dimensional anchors corresponding to similar dimensions should be close on the circle (radviz-independent); the second method uses a projection of the similarity matrix in Radviz and computes the distance of the dimensional anchors to the projected dimensions they represent
-(radviz-dependent) [Di Caro *et al* 2012](http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13).
+Optimization of the position of dimensional anchors is discussed in [Di Caro *et al* 2012](https://link.springer.com/chapter/10.1007/978-3-642-13672-6_13), where the authors suggest 2 metrics that can be used in an optimization process. Both methods start with a similarity matrix where every value represents the similarity between any 2 dimensions. The first method assumes that dimensional anchors corresponding to similar dimensions should be close on the circle (radviz-independent); the second method uses a projection of the similarity matrix in Radviz and computes the distance of the dimensional anchors to the projected dimensions they represent
+(radviz-dependent) [Di Caro *et al* 2012](https://link.springer.com/chapter/10.1007/978-3-642-13672-6_13).
 
 The Radviz-dependent and independent methods have been implemented in the `Radviz` package, as well as the recommended cosine similarity measure.
 
