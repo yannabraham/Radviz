@@ -2,7 +2,7 @@
 #' 
 #' Visual efficiency of Radviz plots depends heavily on the correct arrangement of Dimensional Anchors.
 #' These functions implement the optimization strategies described in
-#' \href{http://link.springer.com/chapter/10.1007/978-3-642-13672-6_13}{Di Caro et al 2012}
+#' \href{https://link.springer.com/chapter/10.1007/978-3-642-13672-6_13}{Di Caro et al 2012}
 #' 
 #' @usage in.da(springs, similarity)
 #' rv.da(springs, similarity)
