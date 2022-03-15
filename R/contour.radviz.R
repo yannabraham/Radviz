@@ -8,15 +8,15 @@
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
-#' @param contour.color deprecated, see \code{\link{geom_density2d}} instead
-#' @param contour.size deprecated, see \code{\link{geom_density2d}} instead
-#' @param point.color deprecated, see \code{\link{geom_density2d}} instead
-#' @param point.shape deprecated, see \code{\link{geom_density2d}} instead
-#' @param point.size deprecated, see \code{\link{geom_density2d}} instead
-#' @param n deprecated, see \code{\link{geom_density2d}} instead
-#' @param drawlabels deprecated, see \code{\link{geom_density2d}} instead
-#' @param drawpoints deprecated, see \code{\link{geom_density2d}} instead
-#' @param add deprecated, see \code{\link{geom_density2d}} instead
+#' @param contour.color deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
+#' @param contour.size deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
+#' @param point.color deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
+#' @param point.shape deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
+#' @param point.size deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
+#' @param n deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
+#' @param drawlabels deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
+#' @param drawpoints deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
+#' @param add deprecated, see \code{\link[ggplot2]{geom_density2d}} instead
 #' 
 #' @return the internal ggplot2 object plus added layers, allowing for extra geoms to be added
 #'  

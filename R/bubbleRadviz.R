@@ -9,12 +9,12 @@
 #' @param size the size range for the plot
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
-#' @param bubble.color deprecated, use \code{\link{geom_point}} instead
-#' @param bubble.fg deprecated, use \code{\link{geom_point}} instead
-#' @param bubble.size deprecated, use \code{\link{geom_point}} instead
-#' @param scale deprecated, use \code{\link{geom_point}} instead
-#' @param decreasing deprecated, use \code{\link{geom_point}} instead
-#' @param add deprecated, use \code{\link{geom_point}} instead
+#' @param bubble.color deprecated, use \code{\link[ggplot2]{geom_point}} instead
+#' @param bubble.fg deprecated, use \code{\link[ggplot2]{geom_point}} instead
+#' @param bubble.size deprecated, use \code{\link[ggplot2]{geom_point}} instead
+#' @param scale deprecated, use \code{\link[ggplot2]{geom_point}} instead
+#' @param decreasing deprecated, use \code{\link[ggplot2]{geom_point}} instead
+#' @param add deprecated, use \code{\link[ggplot2]{geom_point}} instead
 #' 
 #' @details This function allows for the projection of clusters in Radviz (for example results of
 #'            the SPADE algorithm), where the cluster size is derived from the number of events

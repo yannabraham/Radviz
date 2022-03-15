@@ -38,23 +38,23 @@
 
 \item{label.size}{the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)}
 
-\item{contour.color}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{contour.color}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 
-\item{contour.size}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{contour.size}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 
-\item{point.color}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{point.color}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 
-\item{point.shape}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{point.shape}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 
-\item{point.size}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{point.size}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 
-\item{n}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{n}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 
-\item{drawlabels}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{drawlabels}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 
-\item{drawpoints}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{drawpoints}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 
-\item{add}{deprecated, see \code{\link{geom_density2d}} instead}
+\item{add}{deprecated, see \code{\link[ggplot2]{geom_density2d}} instead}
 }
 \value{
 the internal ggplot2 object plus added layers, allowing for extra geoms to be added

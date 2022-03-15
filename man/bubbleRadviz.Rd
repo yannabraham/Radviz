@@ -35,17 +35,17 @@ bubbleRadviz(
 
 \item{label.size}{the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)}
 
-\item{bubble.color}{deprecated, use \code{\link{geom_point}} instead}
+\item{bubble.color}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
-\item{bubble.fg}{deprecated, use \code{\link{geom_point}} instead}
+\item{bubble.fg}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
-\item{bubble.size}{deprecated, use \code{\link{geom_point}} instead}
+\item{bubble.size}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
-\item{scale}{deprecated, use \code{\link{geom_point}} instead}
+\item{scale}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
-\item{decreasing}{deprecated, use \code{\link{geom_point}} instead}
+\item{decreasing}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
-\item{add}{deprecated, use \code{\link{geom_point}} instead}
+\item{add}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 }
 \value{
 the internal ggplot2 object plus added layers, allowing for extra geoms to be added
