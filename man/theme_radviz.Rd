@@ -28,7 +28,7 @@ A complete Radviz theme based on `ggplot2::theme_light`
 }
 \details{
 on top of `ggplot2::theme_light` this theme removes axis title, text and ticks, 
-as well as the reference grid. See \link[ggplot2]{theme} for details.
+as well as the reference grid. See \code{\link[ggplot2]{theme}} for details.
 }
 \examples{
 data(iris)

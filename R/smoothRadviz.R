@@ -6,18 +6,19 @@
 #' @param x a radviz object as produced by \code{\link{do.radviz}}
 #' @param main [Optional] a title to the graph, displayed on top
 #' @param color the gradient will be generated from \code{white} to \code{color}
-#' @param nbin the number of equally spaced grid points for the density estimation (see \link[ggplot2]{geom_density_2d}
-#'          for details)
+#' @param nbin the number of equally spaced grid points for the density 
+#' estimation (see \code{\link[ggplot2]{geom_density_2d}} for details)
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
-#' @param smooth.color deprecated, see \code{\link{stat_density2d}} instead
-#' @param max.dens deprecated, see \code{\link{stat_density2d}} instead
-#' @param transformation deprecated, see \code{\link{stat_density2d}} instead
-#' @param nrpoints deprecated, see \code{\link{stat_density2d}} instead
-#' @param ncols deprecated, see \code{\link{stat_density2d}} instead
-#' @param bandwidth deprecated, see \code{\link{stat_density2d}} instead
+#' @param smooth.color deprecated, see \code{\link[ggplot2]{stat_density2d}} instead
+#' @param max.dens deprecated, see \code{\link[ggplot2]{stat_density2d}} instead
+#' @param transformation deprecated, see \code{\link[ggplot2]{stat_density2d}} instead
+#' @param nrpoints deprecated, see \code{\link[ggplot2]{stat_density2d}} instead
+#' @param ncols deprecated, see \code{\link[ggplot2]{stat_density2d}} instead
+#' @param bandwidth deprecated, see \code{\link[ggplot2]{stat_density2d}} instead
 #' 
-#' @return the internal ggplot2 object plus added layers, allowing for extra geoms to be added
+#' @return the internal ggplot2 object plus added layers, allowing for extra 
+#' geoms to be added
 #' 
 #' @example examples/example-do.radviz.R
 #' @examples

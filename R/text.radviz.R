@@ -9,14 +9,14 @@
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
-#' @param adj deprecated, see \code{\link{geom_text}} instead
-#' @param pos deprecated, see \code{\link{geom_text}} instead
-#' @param offset deprecated, see \code{\link{geom_text}} instead
-#' @param vfont deprecated, see \code{\link{geom_text}} instead
-#' @param cex deprecated, see \code{\link{geom_text}} instead
-#' @param col deprecated, see \code{\link{geom_text}} instead
-#' @param font deprecated, see \code{\link{geom_text}} instead
-#' @param add deprecated, see \code{\link{geom_text}} instead
+#' @param adj deprecated, see \code{\link[ggplot2]{geom_text}} instead
+#' @param pos deprecated, see \code{\link[ggplot2]{geom_text}} instead
+#' @param offset deprecated, see \code{\link[ggplot2]{geom_text}} instead
+#' @param vfont deprecated, see \code{\link[ggplot2]{geom_text}} instead
+#' @param cex deprecated, see \code{\link[ggplot2]{geom_text}} instead
+#' @param col deprecated, see \code{\link[ggplot2]{geom_text}} instead
+#' @param font deprecated, see \code{\link[ggplot2]{geom_text}} instead
+#' @param add deprecated, see \code{\link[ggplot2]{geom_text}} instead
 #' 
 #' @example examples/example-do.radviz.R
 #' @examples

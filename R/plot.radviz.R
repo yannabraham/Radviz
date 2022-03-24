@@ -11,10 +11,10 @@
 #' @param label.color the color of springs for visualization
 #' @param label.size the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)
 #' @param ...	further arguments to be passed to or from other methods (not implemented)
-#' @param point.color deprecated, use \code{\link{geom_point}} instead
-#' @param point.shape deprecated, use \code{\link{geom_point}} instead
-#' @param point.size deprecated, use \code{\link{geom_point}} instead
-#' @param add deprecated, use \code{\link{geom_point}} instead
+#' @param point.color deprecated, use \code{\link[ggplot2]{geom_point}} instead
+#' @param point.shape deprecated, use \code{\link[ggplot2]{geom_point}} instead
+#' @param point.size deprecated, use \code{\link[ggplot2]{geom_point}} instead
+#' @param add deprecated, use \code{\link[ggplot2]{geom_point}} instead
 #' 
 #' @details by default the plot function only shows the anchors. Extra geoms are 
 #' required to display the data.

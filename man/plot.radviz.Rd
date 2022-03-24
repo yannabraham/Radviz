@@ -31,13 +31,13 @@
 
 \item{label.size}{the size of the anchors (see \href{https://ggplot2.tidyverse.org/articles/articles/faq-customising.html}{customizing ggplot2} for details on default value)}
 
-\item{point.color}{deprecated, use \code{\link{geom_point}} instead}
+\item{point.color}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
-\item{point.shape}{deprecated, use \code{\link{geom_point}} instead}
+\item{point.shape}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
-\item{point.size}{deprecated, use \code{\link{geom_point}} instead}
+\item{point.size}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
-\item{add}{deprecated, use \code{\link{geom_point}} instead}
+\item{add}{deprecated, use \code{\link[ggplot2]{geom_point}} instead}
 
 \item{...}{further arguments to be passed to or from other methods (not implemented)}
 }

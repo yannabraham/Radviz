@@ -3,7 +3,8 @@
 #' @param x a radviz object as produced by \code{\link{do.radviz}}
 #' @param lim the minimum length of an anchor
 #' 
-#' @details When \code{anchor.filter} is a number and type is not Radviz, any springs whose length is lower than this number will be filtered out 
+#' @details When \code{anchor.filter} is a number and type is not Radviz, 
+#' any springs whose length is lower than this number will be filtered out 
 #' of the visualization. This has no effect on the projection itself.
 #' 
 #' @return a radviz object as produced by \code{\link{do.radviz}}

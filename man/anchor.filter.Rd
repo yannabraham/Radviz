@@ -18,7 +18,8 @@ a radviz object as produced by \code{\link{do.radviz}}
 Filtering out anchors with low contributions to the projection
 }
 \details{
-When \code{anchor.filter} is a number and type is not Radviz, any springs whose length is lower than this number will be filtered out 
+When \code{anchor.filter} is a number and type is not Radviz, 
+any springs whose length is lower than this number will be filtered out 
 of the visualization. This has no effect on the projection itself.
 }
 \examples{
