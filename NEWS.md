@@ -48,3 +48,4 @@ After some testing the following enhancements have been made to the code:
  - changed some defaults in the plotting function to enable interactive visualitations through `plotly`
  - added a scaling factor to the `do.radviz` function to counteract the compressing effect of a large number of springs
  - plotting functions now use `plot.radviz` internally to avoid code duplication
+ - cleaned up links in the documentation
