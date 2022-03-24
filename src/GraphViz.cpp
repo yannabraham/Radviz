@@ -3,7 +3,7 @@
 //#include "symmatrix.hpp"
 //#include "pnn.hpp"
 //#include "../orange/px/externs.px"
-#include "RcppArmadillo.h"
+#include <RcppArmadillo.h>
 
 using namespace Rcpp;
 
