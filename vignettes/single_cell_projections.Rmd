@@ -62,7 +62,7 @@ library(tidyr)
 
 # Visualizing High Dimensional Data: the `bodenmiller` dataset
 
-We will use data from the [Bodenmiller *et al* 2012](https://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html) publication. The [bodenmiller](https://github.com/yannabraham/bodenmiller) package contains a subset of the data that can be used for testing purpose. The package can be installed by running the following command:
+We will use data from the [Bodenmiller *et al* 2012](https://www.nature.com/articles/nbt.2317) publication. The [bodenmiller](https://github.com/yannabraham/bodenmiller) package contains a subset of the data that can be used for testing purpose. The package can be installed by running the following command:
 
 ```
 install.packages('bodenmiller')
