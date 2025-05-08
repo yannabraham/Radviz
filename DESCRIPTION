@@ -1,7 +1,7 @@
 Package: Radviz
 Type: Package
 Title: Project Multidimensional Data in 2D Space
-Version: 0.9.3
+Version: 0.9.4
 Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
              person('Nicolas','Sauwen',email='nicolas.sauwen@openanalytics.eu',role=c('aut')))
 Depends:
@@ -29,10 +29,10 @@ Description: An implementation of the radviz projection in R. It enables the vis
     multidimensional data while maintaining the relation to the original dimensions.
     This package provides functions to create and plot radviz projections, and a number of summary
     plots that enable comparison and analysis. For reference see Hoffman *et al.* (1999) 
-    (<https://doi.org/10.1145/331770.331775>) for original implementation, 
-    see Di Caro *et al* (2012) (<https://doi.org/10.1007/978-3-642-13672-6_13>), 
+    (<doi:10.1145/331770.331775>) for original implementation, 
+    see Di Caro *et al* (2012) (<doi:10.1007/978-3-642-13672-6_13>), 
     for the original method for dimensional anchor arrangements, see Demsar *et al.* (2007) 
-    (<https://doi.org/10.1016/j.jbi.2007.03.010>) for the original Freeviz implementation.
+    (<doi:10.1016/j.jbi.2007.03.010>) for the original Freeviz implementation.
 License: CC BY-NC-SA 4.0
 URL: https://github.com/yannabraham/Radviz
 BugReports: https://github.com/yannabraham/Radviz/issues
