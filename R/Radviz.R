@@ -1,3 +1,6 @@
+#' @keywords internal 
+"_PACKAGE"
+
 #' Radviz Projection of Multidimensional Data
 #'
 #' Radviz uses Dimensional Anchors and the spring paradigm to project a multidimensional space in 2D.
@@ -7,7 +10,7 @@
 #' @examples
 #' plot(rv,anchors.only=FALSE)
 #' 
-#' @docType package
+#' @aliases Radviz-package
 #' @name Radviz
 NULL
 
