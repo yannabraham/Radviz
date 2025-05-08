@@ -32,7 +32,7 @@ knitr::opts_chunk$set(warning=TRUE,
 
 # Multiplexed mass cytometry profiling of cellular states perturbed by small-molecule regulators
 
-Single cell analysis is a powerful method that allows for the deconvolution of the effect of treatments on complex populations containing different cell types, that may or may not respond to specific treatments. Depending on the technology used, the analytes can be genes, transcripts, proteins or metabolites. Using mass cytometry, [bodenmiller *et al*](https://www.nature.com/articles/nbt.2317) measured  the level of 9 proteins and 14 post-translational modifications. After using signal intensity from the 9 proteins (so called phenotypic markers) to define 14 sub-populations, they monitored the effect of several treatments using the 14 post-translational modifications.
+Single cell analysis is a powerful method that allows for the deconvolution of the effect of treatments on complex populations containing different cell types, that may or may not respond to specific treatments. Depending on the technology used, the analytes can be genes, transcripts, proteins or metabolites. Using mass cytometry, [bodenmiller *et al*](https://doi.org/10.1038/nbt.2317) measured  the level of 9 proteins and 14 post-translational modifications. After using signal intensity from the 9 proteins (so called phenotypic markers) to define 14 sub-populations, they monitored the effect of several treatments using the 14 post-translational modifications.
 
 Modeling and visualization of these type of data is challenging: the large number of events measured combined to the complexity of each samples is making the modeling complex, while the high dimensionality of the data precludes the use of standard visualizations.
 
@@ -40,7 +40,7 @@ The goal of this package is to enable the development of new methods by providin
 
 # Data acquisition and preparation
 
-For details on data acquisition please refer to [Bodenmiller *et al* Nat Biotech 2012](https://www.nature.com/articles/nbt.2317). Briefly, after treatment cells where profiled using a [CyTOF](https://www.fluidigm.com/products/helios), dead cells and debris were excluded and live cells were assigned to 1 of the 14 sub-populations using signal intensity from 9 phenotypic markers.
+For details on data acquisition please refer to [Bodenmiller *et al* Nat Biotech 2012](https://doi.org/10.1038/nbt.2317). Briefly, after treatment cells where profiled using a [CyTOF](https://www.fluidigm.com/products/helios), dead cells and debris were excluded and live cells were assigned to 1 of the 14 sub-populations using signal intensity from 9 phenotypic markers.
 
 Cells from samples samples corresponding to untreated cells, stimulated with BCR/FcR-XL, PMA/Ionomycin or vanadate or unstimulated, were extracted and data was transformed using the `arcsinh` function with a cofactor of 5.
 

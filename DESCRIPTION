@@ -28,11 +28,11 @@ LinkingTo: Rcpp, RcppArmadillo
 Description: An implementation of the radviz projection in R. It enables the visualization of
     multidimensional data while maintaining the relation to the original dimensions.
     This package provides functions to create and plot radviz projections, and a number of summary
-    plots that enable comparison and analysis. For reference see Ankerst *et al.* (1996) 
-    (<https://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.68.1811>) for original implementation, 
-    see Di Caro *et al* (2012) (<https://link.springer.com/chapter/10.1007/978-3-642-13672-6_13>) 
+    plots that enable comparison and analysis. For reference see Hoffman *et al.* (1999) 
+    (<https://doi.org/10.1145/331770.331775>) for original implementation, 
+    see Di Caro *et al* (2012) (<https://doi.org/10.1007/978-3-642-13672-6_13>), 
     for the original method for dimensional anchor arrangements, see Demsar *et al.* (2007) 
-    (<doi:10.1016/j.jbi.2007.03.010>) for the original Freeviz implementation.
+    (<https://doi.org/10.1016/j.jbi.2007.03.010>) for the original Freeviz implementation.
 License: CC BY-NC-SA 4.0
 URL: https://github.com/yannabraham/Radviz
 BugReports: https://github.com/yannabraham/Radviz/issues
