@@ -10,14 +10,5 @@
 #' @examples
 #' plot(rv,anchors.only=FALSE)
 #' 
-#' @aliases Radviz-package
-#' @name Radviz
-NULL
-
-#' Defunct Functions
-#'
-#' These functions are Defunct in this release of Radviz, they will be
-#' marked as Defunct and removed in a future version.
-#' @name Radviz-deprecated
-#' @keywords internal
+#' @name Radviz-package
 NULL
