@@ -1,27 +1,16 @@
 ## New release of Radviz package
 
-This is release 0.9.3 of Radviz, where we have made the following changes
+This is release 0.9.4 of Radviz, where we have made the following changes
 
- * fixed the plotting function to enable use of interactive frameworks eg plotly
- * added a scaling option to do.radviz following Artur & Minghim 2019
- * implemented anchor.filter as a separate function to make it easier to use in
- different plots
- * updated plot functions to avoid code duplication
- * updated the cosine function to make it faster
  * minor corrections to documentation and default values
 
 ## Test environments
 
- * local windows 10, R 4.1.2
- * On GitHub
-     * windows-latest (R-release)
-     * macos-latest (R-release)
-     * ubuntu-latest (R-release, R-devel)
- * Through R-hub
-     * Windows Server 2022, R-devel, 64 bit
-     * Ubuntu Linux 20.04.1 LTS, R-release, GCC
-     * Fedora Linux, R-devel, clang, gfortran
-     * Debian Linux, R-devel, GCC ASAN/UBSAN
+* aarch64-apple-darwin20, R 4.4.3
+* macosx.latest (release) (github actions)
+* ubuntu.latest (devel, release and oldrel-1) (github actions)
+* windows.latest (release) (github actions)
+* win-builder (devel and release)
      
 ## R CMD check results
 
