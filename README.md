@@ -3,7 +3,7 @@
 [![R-CMD-check](https://github.com/yannabraham/Radviz/workflows/R-CMD-check/badge.svg)](https://github.com/yannabraham/Radviz/actions)
 [![CRAN version](https://www.r-pkg.org/badges/version/Radviz)](https://cran.r-project.org/package=Radviz)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/Radviz)](https://cran.r-project.org/package=Radviz)
-[![DOI](https://zenodo.org/badge/46946711.svg)](https://zenodo.org/badge/latestdoi/46946711)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15387219.svg)](https://doi.org/10.5281/zenodo.15387219)
 
 The Radviz package implements the concept of dimensional anchors to visualize multivariate datasets in a 2D projection, as originally described in [Hoffman *et al* 1999](https://doi.org/10.1145/331770.331775). It implements 3 optimization method for the order of anchors:
 
