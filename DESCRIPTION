@@ -7,7 +7,7 @@ Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut'
 Depends:
     R (>= 3.0)
 Imports:
-    ggplot2,
+    ggplot2 (>= 3.5.2),
     dplyr,
     rlang,
     stats,
