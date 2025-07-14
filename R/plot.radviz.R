@@ -37,7 +37,7 @@
 #' plot(rv)+geom_point(aes(color=Species))
 #' 
 #' @author Yann Abraham
-#' @importFrom ggplot2 ggtitle geom_point geom_text GeomLabel
+#' @importFrom ggplot2 ggtitle geom_point geom_text GeomLabel get_geom_defaults
 #' @export
 plot.radviz <- function(x,
                         main=NULL,
@@ -69,7 +69,7 @@ plot.radviz <- function(x,
   p <- x$proj
   
   if(is.null(label.size)) {
-    label.size <- GeomLabel$default_aes$size
+    label.size <- get_geom_defaults(GeomLabel)$size
   }
   if(is.null(label.color)) {
     label.color <- 'orangered4'
