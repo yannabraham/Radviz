@@ -1,8 +1,8 @@
 ## New release of Radviz package
 
-This is release 0.9.4 of Radviz, where we have made the following changes
+This is release 0.9.5 of Radviz, where we have made the following changes
 
- * minor corrections to documentation and default values
+ * corrections to match changes in the new ggplot version
 
 ## Test environments
 
